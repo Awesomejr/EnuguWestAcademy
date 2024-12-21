@@ -1,0 +1,6 @@
+{% load static %}
+
+<a href="{% url link object_id %}?page={{page|default:'none'}}" class="flex flex-row items-center gap-1 mx-2 text-xs font-bold text-blue-600 underline dark:text-blue-500 hover:underline">
+    <img src="{% static 'images/icons/icons8_eye.ico' %}" alt="view-icon" class="w-5 h-5">
+    {{ title|default:"View" }}
+</a>

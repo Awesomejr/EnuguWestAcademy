@@ -1,0 +1,422 @@
+{% extends "./baseExam.html" %}
+{% block title %} Take CBT Examination {% endblock title %}
+{% load static %}
+{% load option_filters %}
+
+{% block examContent %}
+<style>
+    .question-nav-btn {
+        padding: 5px;
+        margin: 3px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .unanswered { background-color: gray; color: white; }
+    .current { background-color: yellow; color: white; }
+    .skipped { background-color: red; color: black; }
+    .answered { background-color: green; color: white; }
+
+    .submitting {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+</style>
+
+
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title=exam.getExamName current_session=" " %}
+    </header>
+    <section class="flex flex-col gap-4">
+        <!-- Status Indicators -->
+        <div id="question-status" class="font-bold">
+            <span id="unanswered">Unanswered</span>
+            <span id="current">Current</span>
+            <span id="skipped">Skipped</span>
+            <span id="answered">Answered</span>
+        </div>
+    
+        <!-- Question Numbers Navigation -->
+        <div id="question-navigation" class="flex flex-row self-start w-full flex-start">
+            <ul id="question-list" class="flex flex-wrap gap-0">
+                {% for question in questions %}
+                <li id="question_nav_{{ question.id }}">
+                    <button type="button" class="question-nav-btn unanswered" data-question="{{ question.id }}">
+                        {{ forloop.counter }}
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Timer -->
+    <div id="timer">Time Left: 00:00:00</div>
+    
+    <!-- Exam Questions -->
+    <form method="POST" action="{% url 'student:takeCBTExamination' cbtCategoryId=category.id %}" id="exam-form">
+        {% csrf_token %}
+        <div id="question-container">
+            {% for question in questions %}
+            <div class="flex flex-col gap-4 question-section" id="question_section_{{ question.id }}" style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-base font-extrabold text-blackText">Question {{ forloop.counter }} | {{ question.subject.name }}</h2>
+                    <p class="text-base">{{ question.content|safe }}</p>
+                    <br>
+                    {% if question.image %}
+                    <a href="{{ question.image.url }}" class="self-center w-full md:w-1/5">
+                        <img src="{{ question.image.url }}" alt="">
+                    </a>
+                    {% endif %}
+                </div>
+                <ul class="grid grid-cols-1 my-4 md:grid-cols-2 md:gap-4">
+                    {% for option in question.options.all %}
+                    <li class="text-base">
+                        <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}" id="option_{{ option.id }}">
+                        <label for="option_{{ option.id }}"><strong>{{ option_labels|index:forloop.counter0 }}.</strong> {{ option.content|safe }}</label>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="my-4">
+                    <!-- Toggle Answer Button -->
+                    <!-- <button type="button" class="underline toggle-answer-btn underline-offset-1" data-question-id="{{ question.id }}">View Answer</button> -->
+                    <!-- Answer Section -->
+                    <!-- <div class="flex flex-col justify-start gap-4 text-xs answer-section" id="answer_{{ question.id }}" style="display: none;">
+                        <div class="flex flex-col gap-2 mb-2">
+                            <h3 class="font-extrabold">Correct Answer:</h3>
+                            <p>{{ question.correct_answer.content|safe }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2 mb-2">
+                            <h3 class="font-extrabold">Explanation:</h3>
+                            <p>{{ question.explanation|safe }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2 mb-2">
+                            <h3 class="font-extrabold">Topic:</h3>
+                            <p>{{ question.topic.name }}</p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <!-- Navigation Buttons -->
+        <div id="navigation-buttons" class="flex flex-row gap-4 font-bold">
+            <button type="button" id="previous-btn" class="px-2 py-1 transition-colors duration-200 ease-in bg-gray-500 rounded-md hover:bg-gray-600" disabled>Previous</button>
+            <button type="button" id="skip-btn" class="px-4 py-1 transition-colors duration-200 ease-in bg-yellow-300 rounded-md hover:bg-gray-600">Skip</button>
+            <button type="button" id="next-btn" class="px-4 py-1 transition-colors duration-200 ease-in rounded-md hover:bg-gray-600 bg-myGreen">Next</button>
+            <button type="submit" id="submit-btn" class="px-2 py-1 transition-colors duration-200 ease-in bg-gray-500 rounded-md hover:bg-gray-600" style="display: none;">Submit Exam</button>
+        </div>
+    </form>
+</section>
+
+<script>
+    // Fullscreen function and window load event
+function enterFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    }
+}
+
+window.onload = function() {
+    enterFullscreen();
+    initializeTimer();
+};
+
+// Question navigation setup
+const questionSections = document.querySelectorAll('.question-section');
+const questionNavButtons = document.querySelectorAll('.question-nav-btn');
+let currentQuestionIndex = 0;
+const questionStatus = Array.from(questionNavButtons).map(() => 'unanswered'); // Initial status for all questions
+
+// Function to check if the current question has an option selected
+function isOptionSelected(index) {
+    const questionSection = questionSections[index];
+    const options = questionSection.querySelectorAll('input[type="radio"]');
+    return Array.from(options).some(option => option.checked);
+}
+
+// Update the question display and navigation button styles
+function updateQuestionDisplay() {
+    questionSections.forEach((section, index) => {
+        section.style.display = index === currentQuestionIndex ? 'block' : 'none';
+    });
+    
+    questionNavButtons.forEach((button, index) => {
+        button.classList.remove('current');
+        if (index === currentQuestionIndex) {
+            button.classList.add('current');
+            questionStatus[index] = 'current';
+        }
+    });
+
+    document.getElementById('previous-btn').disabled = currentQuestionIndex === 0;
+    document.getElementById('next-btn').style.display = currentQuestionIndex === questionSections.length - 1 ? 'none' : 'inline-block';
+    document.getElementById('submit-btn').style.display = currentQuestionIndex === questionSections.length - 1 ? 'inline-block' : 'none';
+}
+
+// Navigation Button Click Events
+questionNavButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        handleQuestionNavigation(index);
+    });
+});
+
+// Handle question navigation with status update
+function handleQuestionNavigation(nextIndex) {
+    // Mark current question based on whether an option was selected
+    if (isOptionSelected(currentQuestionIndex)) {
+        markAnswered(currentQuestionIndex);
+    } else {
+        markSkipped(currentQuestionIndex);
+    }
+    
+    currentQuestionIndex = nextIndex;
+    updateQuestionDisplay();
+}
+
+// Next, Previous, and Skip Button Events
+document.getElementById('next-btn').addEventListener('click', () => {
+    handleQuestionNavigation(currentQuestionIndex + 1);
+});
+document.getElementById('previous-btn').addEventListener('click', () => {
+    handleQuestionNavigation(currentQuestionIndex - 1);
+});
+document.getElementById('skip-btn').addEventListener('click', () => {
+    markSkipped(currentQuestionIndex);
+    handleQuestionNavigation(currentQuestionIndex + 1);
+});
+
+// Mark question as answered
+function markAnswered(index) {
+    questionStatus[index] = 'answered';
+    updateButtonStatus(index);
+}
+
+// Mark question as skipped
+function markSkipped(index) {
+    questionStatus[index] = 'skipped';
+    updateButtonStatus(index);
+}
+
+// Update button color based on the status
+function updateButtonStatus(index) {
+    questionNavButtons[index].classList.remove('unanswered', 'current', 'skipped', 'answered');
+    questionNavButtons[index].classList.add(questionStatus[index]);
+}
+
+// Initialize the display
+updateQuestionDisplay();
+
+// Timer Functionality
+function initializeTimer() {
+    const duration = {{ duration }}; // Total duration in seconds
+
+    // Clear previous timer if this is a new exam
+    const currentExamId = "{{ category.id }}";
+    const savedExamId = localStorage.getItem('exam_id');
+
+    if (savedExamId !== currentExamId) {
+        localStorage.removeItem('exam_end_time'); // Clear previous end time
+        localStorage.setItem('exam_id', currentExamId); // Save current exam ID
+    }
+
+    let endTime = localStorage.getItem('exam_end_time');
+    if (!endTime) {
+        endTime = Date.now() + duration * 1000;
+        localStorage.setItem('exam_end_time', endTime);
+    } else {
+        endTime = parseInt(endTime);
+    }
+
+    function updateTimer() {
+        const now = Date.now();
+        const remainingTime = Math.floor((endTime - now) / 1000); // in seconds
+
+        if (remainingTime <= 0) {
+            document.getElementById('timer').innerText = "Time Left: 00:00:00";
+            submitExam();
+            clearInterval(timerInterval);
+            return;
+        }
+
+        const hours = Math.floor(remainingTime / 3600);
+        const minutes = Math.floor((remainingTime % 3600) / 60);
+        const seconds = remainingTime % 60;
+
+        document.getElementById('timer').innerText = 
+            `Time Left: ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    function pad(number) {
+        return number < 10 ? '0' + number : number;
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer(); // Initial call
+
+    // Function to submit the exam automatically
+    function submitExam() {
+        alert("Time is up! The exam will now be submitted.");
+        document.getElementById('exam-form').submit();
+
+        // Clear the timer from localStorage
+        localStorage.removeItem('exam_end_time');
+        localStorage.removeItem('exam_id');
+        clearInterval(timerInterval);
+        return;
+    }
+    
+    // Auto-submit on tab visibility change
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') {
+            alert("You left the exam tab. The exam will now be submitted.");
+            document.getElementById('exam-form').submit();
+            localStorage.removeItem('exam_end_time');
+            localStorage.removeItem('exam_id');
+        }
+    });
+
+    // Disable right-click
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        alert("Right-click is disabled during the exam.");
+    });
+
+    // Back navigation prevention
+    window.addEventListener("beforeunload", (e) => {
+        e.preventDefault();
+        return "Back navigation is not allowed during the exam. Submitting your exam.";
+    });
+
+    // Block certain keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (
+            (e.ctrlKey && e.key === 'r') || // Refresh
+            (e.ctrlKey && e.shiftKey && e.key === 'I') || // Developer Tools
+            (e.key === 'F12') // Developer Tools
+        ) {
+            e.preventDefault();
+            alert("Keyboard shortcuts are disabled during the exam.");
+        }
+    });
+}
+
+/*
+// Auto-submit on tab visibility change
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        alert("You left the exam tab. The exam will now be submitted.");
+        document.getElementById('exam-form').submit();
+    }
+});
+
+// Back navigation prevention
+window.onbeforeunload = function() {
+    return "Are you sure you want to leave this page? Your exam progress will be lost.";
+};
+*/
+</script>
+{% endblock examContent %}
+
+// Back navigation prevention
+window.addEventListener("beforeunload", (e) => {
+    e.preventDefault();
+    return "Back navigation is not allowed during the exam. Submitting your exam.";
+});
+
+// Disable right-click
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    alert("Right-click is disabled during the exam.");
+});
+
+<!-- <script>
+    // Timer Functionality
+    function initializeTimer() {
+        const duration = {{ duration }}; // Total duration in seconds
+
+        // Clear previous timer if this is a new exam
+        const currentExamId = "{{ category.id }}";
+        const savedExamId = localStorage.getItem('exam_id');
+
+        if (savedExamId !== currentExamId) {
+            localStorage.removeItem('exam_end_time'); // Clear previous end time
+            localStorage.removeItem('exam_id'); // Clear previous exam id: TODO
+            localStorage.setItem('exam_id', currentExamId); // Save current exam ID
+        }
+
+        let endTime = localStorage.getItem('exam_end_time');
+        if (!endTime) {
+            endTime = Date.now() + duration * 1000;
+            localStorage.setItem('exam_end_time', endTime);
+        } else {
+            endTime = parseInt(endTime);
+        }
+
+        function updateTimer() {
+            const now = Date.now();
+            const remainingTime = Math.floor((endTime - now) / 1000); // in seconds
+
+            if (remainingTime <= 0) {
+                document.getElementById('timer').innerText = "Time Left: 00:00:00";
+                alert("Time is up! The exam will now be submitted.");
+
+                submitExam();
+                clearInterval(timerInterval);
+                return;
+            }
+
+            const hours = Math.floor(remainingTime / 3600);
+            const minutes = Math.floor((remainingTime % 3600) / 60);
+            const seconds = remainingTime % 60;
+
+            document.getElementById('timer').innerText = 
+                Time Left: ${pad(hours)}:${pad(minutes)}:${pad(seconds)};
+        }
+
+        function pad(number) {
+            return number < 10 ? '0' + number : number;
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call
+
+        // Function to submit the exam automatically
+        function submitExam() {
+            // Clear the timer from localStorage
+            document.getElementById('exam-form').classList.add('submitting');
+            alert("Submitting your exam...");
+            document.getElementById('exam-form').submit();
+
+            localStorage.removeItem('exam_end_time');
+            localStorage.removeItem('exam_id'); // Clear previous exam id: TODO
+
+            clearInterval(timerInterval);
+            return;
+        }
+    }
+
+    // Auto-submit on tab visibility change
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') {
+            submitExam();
+            alert("Opps! You left the examination browser tab. The exam will now be submitted.");
+        }
+    });
+
+    // Back navigation prevention
+    window.onbeforeunload = function() {
+        return "Opps! You pressed the brower's 'back button'. Your exam progress will be lost.";
+        submitExam();
+    }; 
+</script> -->

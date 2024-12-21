@@ -1,0 +1,164 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} Student Dashboard  {% endblock title %}
+
+{% block content %}
+<style>
+    #sidebar{
+        background-color: rgb(24, 23, 23);
+    }
+
+    #teacher-dashboard-area::-webkit-scrollbar{
+        display: none;
+    }
+
+    #teacher-dashboard-area{
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
+
+
+<section id="teacher-dashboard-area" class="overflow-scroll md:max-h-screen">
+    <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" class="inline-flex items-center p-2 mt-2 text-sm text-gray-500 rounded-lg ms-3 md:hidden sm:block hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        </svg>
+    </button>
+    <aside id="sidebar-multi-level-sidebar" class="absolute top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto text-sm bg-green-900 dark:bg-green-900">
+           <ul class="space-y-2 font-medium">
+              <li>
+                 <a href="{% url 'base:dashboard' %}" class="flex items-center p-2 transition-colors duration-300 ease-in rounded-lg text-boneWhite dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-black group">
+                    <img src="{% static 'images/icons/ic_dashboard_128_28270.ico' %}" alt="" class="w-6 h-6">
+                    <span class="ms-3">Dashboard</span>
+                 </a>
+              </li>
+              <li>
+                <a href="{% url 'student:viewAttendance' %}" class="flex items-center p-2 transition-colors duration-300 ease-in rounded-lg text-boneWhite dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-black group">
+                   <img src="{% static 'images/icons/iconfinder-document03-1622833_121957.svg' %}" alt="" class="w-6 h-6">
+                   </svg>
+                   <span class="flex-1 ms-3 whitespace-nowrap">Attendance</span>
+                </a>
+             </li>
+              <li>
+                <a href="{% url 'student:viewClass' %}" class="flex items-center p-2 transition-colors duration-300 ease-in rounded-lg text-boneWhite dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-black group">
+                   <img src="{% static 'images/icons/ic_assignment_ind_128_28218.ico' %}" alt="" class="w-6 h-6">
+                   <span class="flex-1 ms-3 whitespace-nowrap">Class</span>
+                </a>
+             </li>
+              <li>
+                 <button type="button" class="flex items-center w-full p-2 text-sm transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black"aria-controls="dropdown-examination" data-collapse-toggle="dropdown-examination">
+                        <img src="{% static 'images/icons/exam_sheet_test_school_study_icon_209259.svg' %}" alt="" class="w-6 h-6">
+                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Examination</span>
+                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                       </svg>
+                 </button>
+                 <ul id="dropdown-examination" class="hidden py-2 pl-4 ml-6 space-y-2">
+                    <li>
+                       <a href="{% url 'student:viewCBTExamination' %}" class="flex items-center w-full p-2 pl-5 transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black">CBT</a>
+                    </li>
+                     <li>
+                        <a href="" class="flex items-center w-full p-2 pl-5 transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black">Practice</a>
+                     </li>
+                 </ul>
+              </li>
+              <li>
+               <button type="button" class="flex items-center w-full p-2 text-sm transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black"aria-controls="dropdown-calendar" data-collapse-toggle="dropdown-calendar">
+                     <img src="{% static 'images/icons/1492616989-17-calender-schedule-time-management-control-day_83408.svg' %}" alt="" class="w-6 h-6">
+                     <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Calendar</span>
+                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                     </svg>
+               </button>
+               <ul id="dropdown-calendar" class="hidden py-2 pl-4 ml-6 space-y-2">
+                     <li>
+                        <a href="" class="flex items-center w-full p-2 pl-5 transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black">School Calendar</a>
+                     </li>
+                     <li>
+                        <a href="" class="flex items-center w-full p-2 pl-5 transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black">Class Schedules</a>
+                     </li>
+               </ul>
+            </li>
+            <li>
+               <button type="button" class="flex items-center w-full p-2 text-sm transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black"aria-controls="dropdown-you" data-collapse-toggle="dropdown-you">
+                        <img src="{% static 'images/icons/iconfinder-3-avatar-2754579_120516.svg' %}" alt="" class="w-6 h-6">
+                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">You</span>
+                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                     </svg>
+               </button>
+               <ul id="dropdown-you" class="hidden py-2 pl-4 ml-6 space-y-2">
+                     <li>
+                        <a href="{% url 'base:userAccount' %}" class="flex items-center w-full p-2 pl-5 transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black">Account</a>
+                     </li>
+                     <li>
+                        <a href="#" class="flex items-center w-full p-2 pl-5 transition duration-300 ease-in rounded-lg text-boneWhite group hover:bg-gray-100 dark:text-boneWhite dark:hover:bg-gray-100 hover:text-black">Profile</a>
+                     </li>
+               </ul>
+            </li>
+            <li>
+                <a href="{% url 'student:viewParent' %}" class="flex items-center p-2 transition-colors duration-300 ease-in rounded-lg text-boneWhite dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-black group">
+                   <img src="{% static 'images/icons/rotation_102346.svg' %}" alt="" class="w-6 h-6">
+                   <span class="flex-1 ms-3 whitespace-nowrap">Parent</span>
+                </a>
+             </li>
+            <!-- <li>
+               <a href="" class="flex items-center p-2 transition-colors duration-300 ease-in rounded-lg text-boneWhite dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-black group">
+                  <img src="{% static 'images/icons/rotation_102346.svg' %}" alt="" class="w-6 h-6">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Study Room</span>
+               </a>
+            </li> -->
+            <li>
+               <a href="" class="flex items-center p-2 transition-colors duration-300 ease-in rounded-lg text-boneWhite dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-black group">
+                  <img src="{% static 'images/icons/award_115276.svg' %}" alt="" class="w-6 h-6">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Awards/Honours</span>
+               </a>
+            </li>
+            <li>
+               <a href="{% url 'library:books' %}" class="flex items-center p-2 transition-colors duration-300 ease-in rounded-lg text-boneWhite dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-black group">
+                  <img src="{% static 'images/icons/bookshelf_icon-icons.com_54414.png' %}" alt="" class="w-6 h-6">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Library</span>
+               </a>
+            </li>
+              <br>
+              <hr>
+              <br>
+              {% if request.user.is_authenticated %}
+              <li>
+                  <a href="{% url 'base:logoutConfirmation' %}" class="flex items-center p-2 text-red-500 transition-colors duration-300 ease-in rounded-lg dark:text-boneWhite hover:bg-gray-100 dark:hover:bg-gray-100 hover:text-red-500 group">
+                     <svg class="flex-shrink-0 w-6 h-6 text-red-500 transition duration-75 dark:text-red-500 group-hover:text-red-900 dark:group-hover:text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
+                        <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
+                        <path d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z"/>
+                     </svg>
+                     <span class="flex-1 ms-3 whitespace-nowrap">Sign out</span>
+                  </a>
+               </li>
+              {% endif %}
+           </ul>
+        </div>
+    </aside>
+     
+    <div class="px-2 py-4 sm:ml-64">
+         {% block techsupportDashboardHeader %}
+         {% include "main/components/miniProfile.html" %}
+         <br>
+         <hr>
+         {% endblock techsupportDashboardHeader %}
+         <main>
+            {% block main %}
+            <!-- Some content here -->
+            {% endblock main %}
+         </main>
+    </div>
+</section>
+{% endblock content %}
+
+{% block footer %}
+{% include "main/components/backToTop.html" %}
+{% endblock footer %}
+
+

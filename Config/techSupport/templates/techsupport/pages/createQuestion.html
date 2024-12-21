@@ -1,0 +1,125 @@
+{% extends "./question.html" %}
+{% block title %} Create Question {% endblock title %}
+
+{% block createQuestionTabContent %}
+<section class="flex flex-col gap-4 p-2 bg-gray-100 md:p-4">
+    <form action="" method="post" enctype="multipart/form-data" class="form-col-layout">
+        {% csrf_token %}
+        {{ form.media }}
+        {% include "main/components/pageHeader.html" with title="Create Question" current_session=" " text_align="center" %}
+        <section class="relative flex flex-col w-full gap-2 md:flex-row">
+            {% include "main/components/spinner.html" %}
+            <div class="flex flex-col justify-around w-full form-col-child">
+                <label for="exam" class="font-bold">{{ form.question_type.label }} <span class="text-red-600">*</span></label>
+                <span class="helptext">{{ form.question_type.help_text }}</span>
+                <span class="errorlist">{{ form.question_type.errors }}</span>
+                {{ form.question_type }}
+            </div>
+            <div class="relative flex flex-col justify-around w-full form-col-child">
+                <label for="subject" class="font-bold">{{ form.subject.label }} <span class="text-red-600">*</span></label>
+                <span class="helptext">{{ form.subject.help_text }}</span>
+                <span class="errorlist">{{ form.subject.errors }}</span>
+                {{ form.subject }}
+            </div>
+            <div class="relative flex flex-col justify-around w-full form-col-child">
+                <label for="topic" class="font-bold">{{ form.topic.label }} <span class="text-red-600"></span></label>
+                <span class="helptext">{{ form.topic.help_text }}</span>
+                <span class="errorlist">{{ form.topic.errors }}</span>
+                {{ form.topic }}
+            </div>
+        </section>
+        <section class="relative flex flex-col w-full gap-2 md:flex-row">
+            <div class="flex flex-col justify-around w-full form-col-child">
+                <label for="exam" class="font-bold">{{ form.year.label }} <span class="text-red-600">*</span></label>
+                <span class="helptext">{{ form.year.help_text }}</span>
+                <span class="errorlist">{{ form.year.errors }}</span>
+                {{ form.year }}
+            </div>
+            <!-- <div class="flex flex-col justify-around w-full form-col-child">
+                <label for="exam" class="font-bold">{{ form.number.label }} <span class="text-red-600">*</span></label>
+                <span class="helptext">{{ form.number.help_text }}</span>
+                <span class="errorlist">{{ form.number.errors }}</span>
+                {{ form.number }}
+            </div> -->
+            <div class="relative flex flex-col justify-around w-full form-col-child">
+                <label for="mark" class="font-bold">{{ form.mark.label }}s <span class="text-red-600"></span></label>
+                <span class="helptext">{{ form.mark.help_text }}</span>
+                <span class="errorlist">{{ form.mark.errors }}</span>
+                {{ form.mark }}
+            </div>
+        </section>
+        <section class="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
+            <div class="relative flex flex-col justify-around w-full form-col-child">
+                <label for="level" class="font-bold">{{ form.level.label }} <span class="text-red-600"></span></label>
+                <span class="helptext">{{ form.level.help_text }}</span>
+                <span class="errorlist">{{ form.level.errors }}</span>
+                {{ form.level }}
+            </div>
+            <div class="flex flex-col justify-around w-full form-col-child">
+                <label for="q-image" class="font-bold">{{ form.image.label }} <span class="text-red-600"></span></label>
+                <span class="helptext">{{ form.image.help_text }}</span>
+                <span class="errorlist">{{ form.image.errors }}</span>
+                {{ form.image }}
+            </div>
+        </section>
+        <section class="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
+            <div class="flex flex-col justify-around w-full form-col-child">
+                <label for="" class="font-bold">{{ form.content.label }} <span class="text-red-600">*</span></label>
+                <span class="helptext">{{ form.content.help_text }}</span>
+                <span class="errorlist">{{ form.content.errors }}</span>
+                <div>
+                    {{ form.content|safe }}
+                </div>
+            </div>
+            <div class="flex flex-col justify-around w-full form-col-child">
+                <label for="" class="font-bold">{{ form.explanation.label }} <span class="text-red-600"></span></label>
+                <span class="helptext">{{ form.explanation.help_text }}</span>
+                <span class="errorlist">{{ form.explanation.errors }}</span>
+                <div>
+                    {{ form.explanation|safe }}
+                </div>
+            </div>
+        </section>
+        <br>
+        {% include "main/components/pageHeader.html" with title="Create Options" current_session=" " text_align="center" font_size="xs" %}
+        <section class="grid w-full grid-cols-1 gap-6 mb-4 md:grid-cols-2">
+            {{ option_formset.management_form }}
+            {% for form in option_formset %}
+            {{ form.media }}
+            <div class="flex flex-col justify-around w-full mt-4 form-col-child">
+                <label for="o-text" class="font-bold">{{ form.content.label|title }} {{forloop.counter}} <span class="text-red-600">*</span></label>
+                <span class="helptext">{{ form.content.help_text }}</span>
+                <span class="errorlist">{{ form.content.errors }}</span>
+                <div class="min-h-24">
+                    {{ form.content|safe }}
+                </div>
+                <div class="flex flex-row items-start gap-2">
+                    <div class="flex flex-col justify-around w-1/2 form-col-child">
+                        <label for="is-correct" class="font-bold">{{ form.is_correct.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ form.is_correct.help_text }}</span>
+                        <span class="errorlist">{{ form.is_correct.errors }}</span>
+                        {{ form.is_correct }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="optionImageInput" class="font-bold">{{ form.image.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ form.image.help_text }}</span>
+                        <span class="errorlist">{{ form.image.errors }}</span>
+                        {{ form.image }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+        <div class="self-center w-1/2 my-4 md:w-1/3">
+            {% include "main/components/saveButton.html" with title="Create Question" %}
+        </div>
+    </form>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-create-question");
+        button.style.color = "white";
+    });
+</script>
+{% endblock createQuestionTabContent %}

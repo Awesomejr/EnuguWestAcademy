@@ -1,0 +1,20 @@
+{% extends "./baseTS.html" %}
+{% block title %} Preview Question {% endblock title %}
+{% load static %}
+
+{% block main %}
+<section class="h-full p-4 rounded-lg bg-gray-50">
+    {% include "main/components/pageHeader.html" with title="Preview Question" current_session=" " %}
+    <hr>
+    <br>
+    <div class="flex flex-row flex-wrap gap-4">
+        {% include "main/components/edit.html" with title="Edit Question" link="techsupport:editQuestion" object_id=question.id page="viewquestionspage" %}
+        {% include "main/components/edit.html" with title="Edit Options" link="techsupport:editQuestionOptions" object_id=question.id page="viewquestionspage" %}
+        {% include "main/components/delete.html" with title="Delete Question" link="techsupport:deleteQuestion" object_id=question.id %}
+    </div>
+    <br>
+    <hr>
+    {% include "techsupport/components/viewQuestionCard.html" %}
+    <br>
+</section>
+{% endblock main %}

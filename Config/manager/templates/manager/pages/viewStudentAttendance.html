@@ -1,0 +1,6 @@
+{% extends "./baseMG.html" %}
+{% block title %} View Student Attendance {% endblock title %}
+
+{% block main %}
+{% include "techsupport/components/studentAttendance.html" with link="manager:viewStudentAttendance" object_id=student.id %}
+{% endblock main %}

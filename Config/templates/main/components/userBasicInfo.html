@@ -1,0 +1,64 @@
+<form method="post" enctype="multipart/form-data" class="space-y-4 text-sm font-bold text-gray-500 dark:text-gray-400">
+    {% csrf_token %}
+    {{form}}
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">First Name:</label>
+        <p>{{ request.user.first_name }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Last Name:</label>
+        <p>{{ request.user.last_name }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Middle Name:</label>
+        <p>{{ request.user.middle_name }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Gender:</label>
+        <p>{{ request.user.gender }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Date of Birth:</label>
+        <p>{{ request.user.date_of_birth }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Town:</label>
+        <p>{{ request.user.town }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Local Government Area:</label>
+        <p>{{ request.user.local_government_area }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">State:</label>
+        <p>{{ request.user.state }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Country:</label>
+        <p>{{ request.user.nationality }}</p>
+    </div>
+    <div class="flex flex-row gap-2">
+        <label class="font-extrabold text-black" for="">Religion:</label>
+        <p>{{ request.user.religion }}</p>
+    </div>
+    <section class="w-full flex flex-row justify-between items-center">
+        <div>
+            {% include "main/components/saveButton.html" with title="Save Changes" %}
+        </div>
+    </section>
+</form>
+<button onclick="toggleEdit()">Edit Info</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    });
+    function toggleEdit(){
+        let first_name = document.getElementById("firt-name");
+        if (first_name.disabled == true){
+            first_name.disabled == false;
+        }else {
+            first_name.disabled == true;
+        }
+
+    }
+</script>

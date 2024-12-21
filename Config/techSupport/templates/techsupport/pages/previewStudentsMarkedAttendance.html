@@ -1,0 +1,29 @@
+{% extends "./studentsAttendance.html" %}
+{% block title %} Preview Student Marked Attendance {% endblock title %}
+
+{% block attendanceTabContent %}
+<header>
+    <div class="w-full">
+        {% include "main/components/pageHeader.html" with title="Recently Added" text_align="center" %}
+    </div>
+    <div class="my-4">
+        <form hx-get="{% url 'techsupport:previewStudentsMarkedAttendance' %}" hx-target="#preview-student-marked-attendance-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="flex flex-col items-center self-start mx-auto sm:gap-4 md:flex-row md:gap-0 sm:w-full md:w-3/5">
+            <div class="relative flex flex-col w-full gap-4 md:gap-1 md:flex-row">
+                {{ student_attendance_search_form.school_branch }}
+                {{ student_attendance_search_form.assigned_class }}
+                {{ student_attendance_search_form.date }}
+            </div>
+            {% include "main/components/searchButton.html" %}
+            <a href="{% url 'techsupport:previewStudentsMarkedAttendance' %}" class="text-xs italic font-semibold text-center underline cursor-pointer underline-offset-2"> Reset All</a>
+        </form>
+    </div>
+</header>
+{% include "techsupport/components/previewStudentsMarkedAttendanceTable.html" %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-preview-marked-attendance");
+        button.style.color = "white";
+    });
+</script>
+{% endblock attendanceTabContent %}

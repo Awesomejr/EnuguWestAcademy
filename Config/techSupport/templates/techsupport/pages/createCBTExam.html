@@ -1,0 +1,70 @@
+{% extends "./cbt.html" %}
+{% block title %} Created CBT {% endblock title %}
+
+
+{% block cbtTabContent %}
+<style>
+    #subjects {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        justify-content: space-around;
+
+        margin-block: 0.5rem;
+
+        font-size: smaller;
+    }
+</style>
+
+
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title="Create CBT" text_align="center" %}
+    </header>
+    <section class="flex flex-row justify-center">
+        <form action="" method="post" class="w-full p-4 rounded-lg form-col-layout bg-gray-50 md:w-4/5">
+            {% csrf_token %}
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.cbt_category.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.cbt_category.help_text }}</span>
+                    <span class="errorlist">{{ form.cbt_category.errors }}</span>
+                    {{ form.cbt_category }}
+                </div>
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.session.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.session.help_text }}</span>
+                    <span class="errorlist">{{ form.session.errors }}</span>
+                    {{ form.session }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.subjects.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.subjects.help_text }}</span>
+                    <span class="errorlist">{{ form.subjects.errors }}</span>
+                    {{ form.subjects }}
+                </div>
+            </section>
+            <!-- <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.supervisor.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.supervisor.help_text }}</span>
+                    <span class="errorlist">{{ form.supervisor.errors }}</span>
+                    {{ form.supervisor }}
+                </div>
+            </section> -->
+            <div class="self-center w-1/2 my-6">
+                {% include "main/components/saveButton.html" with title="Create CBT" %}
+            </div>
+        </form>
+    </section>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-create-cbt-exam");
+        button.style.color = "white";
+    });
+</script>
+{% endblock cbtTabContent %}

@@ -1,0 +1,12 @@
+{% load static %}
+
+<section class="flex flex-col items-center justify-start gap-4 px-2">
+    {% include "main/components/pageHeader.html" with title=attendance.student.user.getFullName current_session="Attendance" %}
+    <form action="" method="post" class="w-full md:w-4/5 px-2 flex flex-col gap-4 bg-gray-100 md:p-4 rounded-md shadow-xl shadow-black">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <div class="self-center my-4 w-full md:w-1/2">
+            {% include "main/components/saveButton.html" with title="Save changes" %}
+        </div>
+    </form>
+</section>

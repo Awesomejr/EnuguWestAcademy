@@ -1,0 +1,131 @@
+{% load static %}
+
+<section class="p-2 bg-gray-200 md:p-4">
+    <section class="space-y-4">
+        <section class="grid grid-cols-2 gap-4">
+            <div class="flex flex-row items-center col-span-2 gap-4 my-4 place-self-start">
+                {% include "main/components/userAvatar.html" with width="40" height="40" %}
+                <div class="flex flex-col gap-4 text-sm md:text-base">
+                    <h2><strong>{{parent_profile.teacher_subject}}</strong></span>
+                    <h2><strong>School Branch - {{parent_profile.school_branch.name}}</strong></span>
+                    <h2><strong>Session - {{session.getSessionName}}</strong></span>
+                    <h2><strong>Role - {{parent.role|title}}</strong></span>
+                </div>
+            </div>
+            <section class="flex flex-col gap-2 text-sm md:gap-4 md:text-base">
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">First Name: </label>
+                    <span>{{parent.first_name}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Last Name: </label>
+                    <span>{{parent.last_name}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Middle Name: </label>
+                    <span>{{parent.middle_name}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Username: </label>
+                    <span>{{parent.username}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Role: </label>
+                    <span>{{parent.role|title}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Email: </label>
+                    <span>{{parent.email}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Suspended: </label>
+                    <span>{{parent.is_suspended}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Town: </label>
+                    <span>{{parent_profile.town}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">LGA: </label>
+                    <span>{{parent_profile.local_government_area}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">State: </label>
+                    <span>{{parent_profile.state}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Nationality: </label>
+                    <span>{{parent_profile.nationality}}</span>
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 text-sm md:gap-4 md:text-base">
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Idenfication type: </label>
+                    <span>{{parent_profile.identification_type}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Identification Number: </label>
+                    <span>{{parent_profile.identification_number}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Address: </label>
+                    <span>{{parent_profile.address}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Phone Number: </label>
+                    <span>{{parent_profile.phone_number}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Sec. Phone Number: </label>
+                    <span>{{parent_profile.secondary_phone_number}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Father Occupation: </label>
+                    <span>{{parent_profile.father_occupation}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Mother Occupation: </label>
+                    <span>{{parent_profile.mother_occupation}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Father Work Address: </label>
+                    <span>{{parent_profile.father_work_address}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Mother Work Address: </label>
+                    <span>{{parent_profile.mother_work_address}}</span>
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <label for="" class="font-bold">Children: </label>
+                    <div class="flex flex-col gap-2 font-bold text-blue-700 underline cursor-pointer md:flex-row underline-offset-2">
+                        {% if request.user.role == "tech_support" or request.user.role == "mini_tech_support" %}
+                            {% if parent_profile.children.count == 1 %}
+                                <a href="{% url 'techsupport:viewStudentAttendance' parent_profile.children.first.user.id %}">{{parent_profile.children.first.user.getFullName}}</a>
+                            {% else %}
+                                {% for child in parent_profile.children.all %}
+                                    <a href="{% url 'techsupport:viewStudentAttendance' child.user.id %}">{{child.user.getFullName}}, </a>
+                                {% endfor %}
+                            {% endif %}
+                        {% elif request.user.role == "manager" or request.user.role == "mini_manager" %}
+                            {% if parent_profile.children.count == 1 %}
+                                <a href="{% url 'manager:viewStudentAttendance' parent_profile.children.first.user.id %}">{{parent_profile.children.first.user.getFullName}}</a>
+                            {% else %}
+                                {% for child in parent_profile.children.all %}
+                                    <a href="{% url 'manager:viewStudentAttendance' child.user.id %}">{{child.user.getFullName}}, </a>
+                                {% endfor %}
+                            {% endif %}
+                        {% else %}
+                            {% if parent_profile.children.count == 1 %}
+                                <span>{{parent_profile.children.first.user.getFullName}}</span>
+                            {% else %}
+                                {% for child in parent_profile.children.all %}
+                                    <span>{{child.user.getFullName}}, </span>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</section>

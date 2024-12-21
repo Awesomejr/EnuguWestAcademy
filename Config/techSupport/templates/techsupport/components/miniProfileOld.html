@@ -1,0 +1,22 @@
+{% load static %}
+
+<style>
+    #teacher-profile-area section{
+        background-image: url("{% static 'images/pexels-pixabay-301926.jpg' %}");
+        background-size: 100% 100%; 
+    }
+</style>
+
+<section class="flex flex-row items-center justify-between mb-4">
+    <div class="flex flex-row items-center justify-start gap-4">
+        <div>
+            <img src="{{ teacher_profile.displayAvatar }}" alt="profile picture" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-20 h-20 border-green-700">
+        </div>
+        <div>
+            <h1 class="text-sm font-medium">Welcome</h1>
+            <h2 class="text-lg font-extrabold capitalize">{{ teacher_profile.getFullName }}</h2>
+            <p class="text-sm">{{ teacher_class }}</p>
+            <p class="text-sm font-medium">{{ session.getSessionName }}</p>
+        </div>
+    </div>
+</section>

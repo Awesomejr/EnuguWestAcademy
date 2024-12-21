@@ -1,0 +1,24 @@
+{% load static %}
+
+<section id="cbt-exam-question-preview-section" class="w-full p-6 text-gray-500 rounded-lg shadow-xl bg-boneWhiteBg text-medium dark:text-gray-400 dark:bg-gray-800 shadow-black">
+    {% if questions %}
+        <h2><strong>CBT: </strong>{{cbt_exam.getExamName}}</h2>
+        <h2><strong>Description: </strong>{{cbt_category.description}}</h2>
+        <h2><strong>Total Questions: </strong>{{ questions.count }}</h2>
+        {% for question in questions %}
+            {% include "techsupport/components/viewQuestionCard.html" %}
+            <div class="flex flex-row flex-wrap gap-4">
+                {% include "main/components/edit.html" with title="Edit Question" link="techsupport:editQuestion" object_id=question.id page="previewcbtexamination" %}
+                {% include "main/components/edit.html" with title="Edit Options" link="techsupport:editQuestionOptions" object_id=question.id page="previewcbtexamination" %}
+                <a href="{% url 'techsupport:removeCBTQuestion' cbtCategoryId=cbt_exam.cbt_category.id cbtExamId=cbt_exam.id questionId=question.id %}" class="flex flex-row items-center mx-2 text-xs font-bold text-red-600 underline dark:text-red-500 hover:underline">
+                    <img src="{% static 'images/icons/icons8_delete_bin.ico' %}" alt="delete-icon" class="w-5 h-5">
+                    Remove Question From Exam
+                </a>
+            </div>
+            <br>
+            <hr>
+        {% endfor %}
+    {% else %}
+    {% include "main/components/resultNotFound.html" with message="Click a subject to view it's questions." %}
+    {% endif %}
+</section>

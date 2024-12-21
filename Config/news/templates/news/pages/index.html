@@ -1,0 +1,45 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} News & Events  {% endblock title %}
+
+{% block content %}
+<style>
+    #news-area header{
+        background-image: url("{% static 'images/siteImages/pexels-kobeboy-1516440.jpg' %}");
+        background-size: 100% 100%; 
+    }
+</style>
+
+
+<section id="news-area" class="">
+    <header class="flex flex-row items-center justify-center bg-gray-700 bg-no-repeat bg-cover h-96 text-gray-50">
+        <div class="flex flex-row items-center justify-center h-full bg-black6">
+            <div class="w-4/5 space-y-4 text-center">
+                <h1 class="text-lg font-extrabold tracking-widest uppercase md:text-5xl">News and Events</h1>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus corrupti numquam sapiente quaerat totam reprehenderit, ipsa quos tempore culpa repellat. Dicta reiciendis repudiandae fuga non consequuntur suscipit corporis architecto dolorem, nemo incidunt repellendus necessitatibus facilis ipsum. Fuga labore magni nesciunt eos nostrum, sequi quisquam, ducimus libero temporibus assumenda sint. Illo!</p>
+            </div>
+        </div>
+    </header>
+    <div class="flex flex-row justify-center text-sm font-medium text-center text-blackText border-y border-gray-700 bg-green-700 dark:text-blackText dark:border-gray-700">
+        <ul class="flex -mb-px overflow-x-auto text-base text-left md:text-lg">
+            <li id="nav-news" class="me-2">
+                <a href="{% url 'news:news' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:border-gray-300 hover:text-gray-500">News</a>
+            </li>
+            <li id="nav-events"  class="me-2">
+                <a href="{% url 'news:events' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:border-gray-300 hover:text-gray-500">Events</a>
+            </li>
+            {% if request.user.is_superuser or request.user.role == "tech_support" %}
+            <li id="nav-create-news"  class="me-2">
+                <a href="{% url 'news:createNews' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:border-gray-300 hover:text-gray-500"> Add News</a>
+            </li>
+            <li id="nav-create-event"  class="me-2">
+                <a href="{% url 'news:createEvent' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:border-gray-300 hover:text-gray-500">Add Event</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% block main %}
+    <!-- Some content here... -->
+    {% endblock main %}
+</section>
+{% endblock content %}

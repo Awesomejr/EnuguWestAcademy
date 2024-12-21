@@ -1,0 +1,10 @@
+{% load static %}
+
+<a href="{% url 'base:home' %}" class="flex items-center">
+    {% if current_month == 12 %}
+    <img src="{% static 'images/logo/christmas-tree.png' %}" class="w-10 mr-3" alt="EWA Logo" />
+    {% else %}
+    <img src="{% static 'images/logo/site_logo.png' %}" class="w-10 mr-3" alt="EWA Logo" />
+    {% endif %}
+    <h1 class="self-center text-xs font-semibold whitespace-nowrap text-boneWhite">{{ site_name|default:'Enugu West Academy™' }}</h1>
+</a>

@@ -1,0 +1,58 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} Gallery  {% endblock title %}
+
+{% block content %}
+<style>
+    .cards {
+        transition-property: all;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+    }
+  
+    .cards:hover {
+        box-shadow: 0.5em 0.5em 2em lightgrey;
+        transform: scale(1.03, 1.03);
+    }
+  
+    .cards img {
+        transition-property: all;
+        transition-duration: 500ms;
+        transition-timing-function: ease-in-out;
+    }
+  
+    .cards img:hover {
+        transform: scale(1.05, 1.05);
+        /* transform: rotate(360deg); */
+        transform: skew(30deg, -30deg);
+    }
+</style>
+
+<section class="flex flex-col items-center justify-around p-4 md:p-8 w-full">
+    <h1 class="text-3xl font-bold uppercase mb-6">Gallery</h1>
+    <div id="accordion-color" data-accordion="collapse" data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white" class="w-full">
+        {% for event in events %}
+        <h2 id="accordion-color-heading-{{ event.id }}">
+          <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-color-body-{{ event.id }}" aria-expanded="true" aria-controls="accordion-color-body-{{ event.id }}">
+            <span class="text-xl font-semibold text-myBlue underline">View: {{ event.title }}</span>
+            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+            </svg>
+          </button>
+        </h2>
+        <div id="accordion-color-body-{{ event.id }}" class="hidden" aria-labelledby="accordion-color-heading-{{ event.id }}">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {% for image in event.eventimage_set.all %}
+                    <div class="flex flex-col items-center justify-between my-2 px-2 bg-gray-50 pt-2 border-amber-500 border-2 rounded-lg shadow-black shadow-2xl cards">
+                        <img src="{{ image.image.url }}" alt="{{ image.description }}" class="h-80 w-80">
+                        <p class="text-lg italic font-semibold text-center my-4">{{ image.description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}
+
+

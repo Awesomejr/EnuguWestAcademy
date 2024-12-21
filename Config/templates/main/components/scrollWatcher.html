@@ -1,0 +1,26 @@
+{% load static %}
+
+<style>
+    .scroll-watcher{
+        position: absolute;
+        bottom: 0;
+        z-index: 1000;
+        width: 100%;
+        height: 5px;
+        background-color: rgb(49, 196, 141);
+
+        scale: 0 1;
+        transform-origin: left; 
+        animation: scroll-watcher linear;
+        animation-timeline: scroll();
+    }
+
+    @keyframes scroll-watcher {
+        to { scale: 1 1; }
+    }
+
+</style>
+
+<div class="scroll-watcher">
+
+</div>

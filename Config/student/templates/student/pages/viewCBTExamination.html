@@ -1,0 +1,231 @@
+{% extends "./baseSTD.html" %}
+{% block title %} Preview CBT Examination {% endblock title %}
+
+
+{% block main %}
+<section class="w-full h-screen mx-auto md:px-4">
+    <main>
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <ul class="flex flex-wrap justify-center -mb-px text-sm font-medium text-center" id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="view-cbt-examination-styled-tab" data-tabs-target="#styled-view-cbt-examination" type="button" role="tab" aria-controls="view-cbt-examination" aria-selected="false">Available CBT</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="preview-cbt-result-styled-tab" data-tabs-target="#styled-preview-cbt-result" type="button" role="tab" aria-controls="preview-cbt-result" aria-selected="false">CBT Stats</button>
+                </li>
+            </ul>
+        </div>
+        <div id="default-styled-tab-content">
+            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-view-cbt-examination" role="tabpanel" aria-labelledby="view-cbt-examination-tab">
+                {% include "main/components/pageHeader.html" with title="CBT Examination" %}
+                <section class="py-4 mb-4">
+                    {% if cbt_categories %}
+                    <section class="relative">
+                        {% include "main/components/spinner.html" %}
+                        {% include "main/components/tableRowCount.html" with count=cbt_categories.count instances="Result" text_align="right" %}
+                        <div  class="flex flex-col gap-4">
+                            {% csrf_token %}
+                            <div class="relative px-4 overflow-x-auto shadow-md sm:rounded-lg table-height">
+                                <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                                    <thead class="text-xs uppercase bg-green-500 text-boneWhite dark:bg-green-500 dark:text-boneWhite">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                S/N
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Session
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Description
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Subjects
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Exam Date
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Start Time
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                End Time
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Duration
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Supervisor
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Date Created
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Time Created
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Created By
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Action
+                                            </th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for cbt_category in cbt_categories %}
+                                        <tr class="text-xs font-bold bg-gray-100 border-b dark:bg-gray-100 dark:border-gray-700 hover:bg-gray-300 dark:hover:bg-gray-300">
+                                            <td class="w-4 p-4">
+                                                {{forloop.counter}}
+                                            </td>
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {{ cbt_category.session.getSessionName }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ cbt_category.description }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {% for exam in cbt_category.exams.all %}
+                                                {{ exam.subject.name }},
+                                                {% endfor %}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ cbt_category.exam_date }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ cbt_category.start_time }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ cbt_category.end_time }}
+                                            </td>
+                                            <td class="w-full px-6 py-4">
+                                                {{ cbt_category.duration }}
+                                            </td>
+                                            <td class="w-full px-6 py-4">
+                                                {{ cbt_category.supervisor|default:"None" }}
+                                            </td>
+                                            <td class="w-full px-6 py-4">
+                                                {{ cbt_category.created_on|date }}
+                                            </td>
+                                            <td class="w-full px-6 py-4">
+                                                {{ cbt_category.created_on|time }}
+                                            </td>
+                                            <td class="w-full px-6 py-4">
+                                                {{ cbt_category.created_by.getFullName|default:"N/A" }}
+                                            </td>
+                                            <td class="flex flex-row items-center gap-4 px-6 py-4">
+                                                <a href="{% url 'student:viewCBTExaminationInstruction' cbtCategoryId=cbt_category.id %}" class="font-extrabold text-green-600 underline dark:text-green-500 hover:underline">Take CBT Examination</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                    {% else %}
+                    {% include "main/components/resultNotFound.html" %}
+                    {% endif %}
+                </section>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-preview-cbt-result" role="tabpanel" aria-labelledby="preview-cbt-result-tab">
+                {% include "main/components/pageHeader.html" with title="CBT Examination Result" current_session=" " %}
+                {% if cbt_results %}
+                <section class="w-full">
+                    {% include "main/components/tableRowCount.html" with count=cbt_results.count instances="Result" %}
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+                        <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                            <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-5000">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        S/N
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        ID
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Student
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        CBT
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Subjects
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Score
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Score Percentage (%)
+                                    </th>
+                                    <!-- <th scope="col" class="px-6 py-3">
+                                        Per Exam Scores
+                                    </th> -->
+                                    <!-- <th scope="col" class="px-6 py-3">
+                                        Answers
+                                    </th> -->
+                                    <th scope="col" class="px-6 py-3">
+                                        Created On
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Created By
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in cbt_results %}
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="px-6 py-4">
+                                        {{ forloop.counter }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ result.id }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ result.student.user.getFullName }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ result.cbt_category.description }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {% for exam in result.cbt_category.exams.all %}
+                                        {{ exam.subject.name }},
+                                        {% endfor %}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ result.score }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ result.score_percentage }}
+                                    </td>
+                                    <!-- <td class="px-6 py-4">
+                                        {{ result.per_exam_scores }}
+                                    </td> -->
+                                    <!-- <td class="px-6 py-4">
+                                        {{ result.answers }}
+                                    </td> -->
+                                    <td class="px-6 py-4">
+                                        {{ result.created_on }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ result.created_by.getFullName|default:'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {% include "main/components/view.html" with link="student:viewCBTExamResult" object_id=result.cbt_category.id %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                {% else %}
+                {% include "main/components/resultNotFound.html" %}
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</section>
+{% endblock main %}

@@ -1,0 +1,15 @@
+{% extends "./baseTS.html" %}
+{% block title %} View Parents {% endblock title %}
+
+{% block main %}
+{% if parents %}
+<section class="p-2 bg-gray-200 md:p-4">
+    {% include "techsupport/components/viewParentsHeader.html" with link="techsupport:viewParents" %}
+    <section id="parent-table-section">
+            {% include "techsupport/components/viewParentsTable.html" %}
+    </section>
+</section>
+{% else %}
+{% include "main/components/resultNotFound.html" with message="No parents yet. Register student to view them here." %}
+{% endif %}
+{% endblock main %}

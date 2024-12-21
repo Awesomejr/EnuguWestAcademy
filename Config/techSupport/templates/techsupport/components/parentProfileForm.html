@@ -1,0 +1,112 @@
+{% load static %}
+
+<section class="w-full form-col-layout">
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">Clauster</label>
+            <span class="helptext">{{ parent_profile_form.school_branch.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.school_branch.errors }}</span>
+            {{ parent_profile_form.school_branch }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.nationality.label }}</label>
+            <span class="helptext">{{ parent_profile_form.nationality.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.nationality.errors }}</span>
+            {{ parent_profile_form.nationality }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.state.label }}</label>
+            <span class="helptext">{{ parent_profile_form.state.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.state.errors }}</span>
+            {{ parent_profile_form.state }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.local_government_area.label }}</label>
+            <span class="helptext">{{ parent_profile_form.local_government_area.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.local_government_area.errors }}</span>
+            {{ parent_profile_form.local_government_area }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.town.label }}</label>
+            <span class="helptext">{{ parent_profile_form.town.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.town.errors }}</span>
+            {{ parent_profile_form.town }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.religion.label }}</label>
+            <span class="helptext">{{ parent_profile_form.religion.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.religion.errors }}</span>
+            {{ parent_profile_form.religion }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.address.label }}</label>
+            <span class="helptext">{{ parent_profile_form.address.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.address.errors }}</span>
+            {{ parent_profile_form.address }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.identification_type.label }}</label>
+            <span class="helptext">{{ parent_profile_form.identification_type.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.identification_type.errors }}</span>
+            {{ parent_profile_form.identification_type }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.identification_number.label }}</label>
+            <span class="helptext">{{ parent_profile_form.identification_number.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.identification_number.errors }}</span>
+            {{ parent_profile_form.identification_number }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.phone_number.label }}</label>
+            <span class="helptext">{{ parent_profile_form.phone_number.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.phone_number.errors }}</span>
+            {{ parent_profile_form.phone_number }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.secondary_phone_number.label }}</label>
+            <span class="helptext">{{ parent_profile_form.secondary_phone_number.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.secondary_phone_number.errors }}</span>
+            {{ parent_profile_form.secondary_phone_number }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.father_occupation.label }}</label>
+            <span class="helptext">{{ parent_profile_form.father_occupation.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.father_occupation.errors }}</span>
+            {{ parent_profile_form.father_occupation }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.mother_occupation.label }}</label>
+            <span class="helptext">{{ parent_profile_form.mother_occupation.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.mother_occupation.errors }}</span>
+            {{ parent_profile_form.mother_occupation }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.father_work_address.label }}</label>
+            <span class="helptext">{{ parent_profile_form.father_work_address.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.father_work_address.errors }}</span>
+            {{ parent_profile_form.father_work_address }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ parent_profile_form.mother_work_address.label }}</label>
+            <span class="helptext">{{ parent_profile_form.mother_work_address.help_text }}</span>
+            <span class="errorlist">{{ parent_profile_form.mother_work_address.errors }}</span>
+            {{ parent_profile_form.mother_work_address }}
+        </div>
+    </section>
+</section>

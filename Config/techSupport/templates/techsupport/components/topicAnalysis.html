@@ -1,0 +1,69 @@
+{% load static %}
+
+{% if topic_summary and topic_summary %}
+<section class="mb-4">
+    <h2 class="text-sm font-bold text-center capitalize md:text-base">Topic Analysis (Sorted by Highest Percentage)</h2>
+    {% include "main/components/tableRowCount.html" with count=topic_summary|length instances="Result" %}
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+        <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+            <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-5000">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        S/N
+                    </th>
+                    <th scope="col" class="p-4">
+                        Topic
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Subject
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Correct Answers
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Incorrect Answers
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Total Answers
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Percentage (%)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for topic in topic_summary %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <td class="px-6 py-4">
+                        {{ forloop.counter }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ topic.topic }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ topic.subject }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ topic.correct }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ topic.incorrect }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ topic.total }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ topic.percentage|floatformat:2 }}%
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% else %}
+<section class="h-screen">
+    {% include "main/components/pageHeader.html" with title="CBT Category Analysis:" current_session=cbt_category.description text_color="green-700" %}
+    {% include "main/components/resultNotFound.html" %}
+</section>
+{% endif %}

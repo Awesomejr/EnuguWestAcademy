@@ -1,0 +1,63 @@
+{% load static %}
+
+
+<section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {% for blog in blogs %}
+        <div class="bg-gradient-to-r from-amber-500 to-red-700 p-0.5 rounded-xl fade-in-scale">
+            <div class="flex flex-col items-start justify-start w-full h-full gap-2 p-4 text-black bg-white card rounded-xl">
+                {% if blog.cover_image_thumbnail %}
+                <img src="{{ blog.cover_image_thumbnail.url }}" alt="" class="object-cover w-full rounded-md h-52">
+                {% else %}
+                <img src="{% static 'images/logo/LimcapLogo1.jpg' %}" alt="" class="object-contain w-full rounded-md h-52">
+                {% endif %}
+                <ul class="flex flex-row flex-wrap items-start justify-start gap-2 mt-4">
+                    <li class="px-4 py-2 text-xs font-bold transition-all duration-300 ease-in translate-y-1 bg-green-600 cursor-pointer rounded-2xl hover:bg-opacity-90 text-boneWhite">{{ blog.category.name }}</li>
+                    <li class="px-4 py-2 text-xs font-bold transition-all duration-300 ease-in translate-y-1 bg-green-600 cursor-pointer rounded-2xl hover:bg-opacity-90 text-boneWhite">{{ blog.subject.name }}</li>
+                    <li class="px-4 py-2 text-xs font-bold transition-all duration-300 ease-in translate-y-1 bg-green-600 cursor-pointer rounded-2xl hover:bg-opacity-90 text-boneWhite">{{ blog.assigned_class.name }}</li>
+                </ul> 
+                <h1 class="text-sm font-bold capitalize md:text-base">{{ blog.title }}</h1>
+                <span class="text-sm italic font-semibold text-gray-600">{{ blog.created_on|date:"d M Y" }}</span>
+                <p class="text-xs font-medium bg-black md:text-sm">
+                    {{ blog.shortDescription|safe }}
+                </p>
+                <span><a href="{% url 'blog:viewBlog' blogId=blog.id %}" class="text-sm font-bold underline text-myBlue underline-offset-2">Read more</a>
+                </span>
+                <aside class="flex flex-row items-center justify-start gap-4 self">
+                    <div>
+                        <img id="avatarButton" type="button" data-dropdown-toggle="{{ blog.id }}" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="{{ blog.author.displayAvatar }}" alt="User dropdown">
+
+                        <!-- Dropdown menu -->
+                        <div id="{{ blog.id }}" class="z-50 hidden divide-y divide-gray-100 rounded-lg shadow bg-blackBg w-44 dark:divide-gray-600">
+                            <div class="px-4 py-3 text-sm text-boneWhite dark:text-boneWhite">
+                            <div>{{ blog.author.getFullName }}</div>
+                            <div class="font-medium truncate">{{ blog.author.user.email }}</div>
+                            </div>
+                            <ul class="py-2 text-sm text-boneWhite dark:text-boneWhite" aria-labelledby="avatarButton">
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-600 dark:hover:bg-gray-600 dark:hover:text-boneWhiteText">Blogs</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-600 dark:hover:bg-gray-600 dark:hover:text-boneWhiteText">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-600 dark:hover:bg-gray-600 dark:hover:text-boneWhiteText">Rate</a>
+                                </li>
+                                <br>
+                                <hr>
+                                {% if request.user == blog.author %}
+                                <li>
+                                    <a href="{% url 'blog:editBlog' blog.id %}" class="block px-4 py-2 hover:bg-gray-600 dark:hover:bg-gray-600 dark:hover:text-boneWhiteText">Edit</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'blog:deleteBlog' blog.id %}" class="block px-4 py-2 hover:bg-gray-600 dark:hover:bg-gray-600 dark:hover:text-boneWhiteText">Delete</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <h2 class="italic font-bold">{{ blog.author.getFullName }}</h2>
+                </aside>
+            </div>
+        </div>
+    {% endfor %}
+</section>

@@ -1,0 +1,209 @@
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title="Edit Teacher" current_session=" " text_align="center" text_color="green-700" %}
+        <h1 class="mb-4 font-extrabold text-center underline underline-offset-2 md:text-xl">{{teacher_profile.user.getFullName}}</h1>
+    </header>
+    <section class="flex flex-col justify-around gap-4 md:flex-row">
+        <form action="" method="post" enctype="multipart/form-data" class="flex flex-col justify-around gap-6 p-4 py-4 mx-auto shadow-xl bg-gray-50 md:w-4/5 shadow-black form-style">
+            {% csrf_token %}
+            <section class="w-full form-col-layout">
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.first_name.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.first_name.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.first_name.errors }}</span>
+                        {{ update_user_form.first_name }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.last_name.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.last_name.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.last_name.errors }}</span>
+                        {{ update_user_form.last_name }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.middle_name.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.middle_name.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.middle_name.errors }}</span>
+                        {{ update_user_form.middle_name }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.username.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.username.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.username.errors }}</span>
+                        {{ update_user_form.username }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.email.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.email.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.email.errors }}</span>
+                        {{ update_user_form.email }}
+                    </div>
+                </section>
+            </section>
+            <hr>
+            <section class="w-full form-col-layout">
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">Clauster</label>
+                        <span class="helptext">{{ update_teacher_profile_form.school_branch.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.school_branch.errors }}</span>
+                        {{ update_teacher_profile_form.school_branch }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.teacher_subject.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.teacher_subject.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.teacher_subject.errors }}</span>
+                        {{ update_teacher_profile_form.teacher_subject }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.teacher_status.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.teacher_status.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.teacher_status.errors }}</span>
+                        <div class="flex flex-row w-full gap-1 text-xs">
+                            {{ update_teacher_profile_form.teacher_status }}
+                        </div>
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.assigned_class.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.assigned_class.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.assigned_class.errors }}</span>
+                        {{ update_teacher_profile_form.assigned_class }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.gender.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.gender.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.gender.errors }}</span>
+                        {{ update_teacher_profile_form.gender }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.date_of_birth.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.date_of_birth.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.date_of_birth.errors }}</span>
+                        <div class="flex flex-row w-full gap-1">
+                            {{ update_teacher_profile_form.date_of_birth }}
+                        </div>
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.nationality.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.nationality.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.nationality.errors }}</span>
+                        {{ update_teacher_profile_form.nationality }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.state.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.state.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.state.errors }}</span>
+                        {{ update_teacher_profile_form.state }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.local_government_area.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.local_government_area.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.local_government_area.errors }}</span>
+                        {{ update_teacher_profile_form.local_government_area }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.town.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.town.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.town.errors }}</span>
+                        {{ update_teacher_profile_form.town }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.religion.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.religion.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.religion.errors }}</span>
+                        {{ update_teacher_profile_form.religion }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.phone_number.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.phone_number.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.phone_number.errors }}</span>
+                        {{ update_teacher_profile_form.phone_number }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.current_address.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.current_address.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.current_address.errors }}</span>
+                        {{ update_teacher_profile_form.current_address }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.permanent_address.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.permanent_address.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.permanent_address.errors }}</span>
+                        {{ update_teacher_profile_form.permanent_address }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.relationship.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.relationship.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.relationship.errors }}</span>
+                        {{ update_teacher_profile_form.relationship }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.any_experience.label }}</label>
+                        <span class="errorlist">{{ update_teacher_profile_form.any_experience.errors }}</span>
+                        <span class="helptext">{{ update_teacher_profile_form.any_experience.help_text }}</span>
+                        <div class="flex flex-row w-full gap-1">
+                            {{ update_teacher_profile_form.any_experience }}
+                        </div>
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.experience_description.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.experience_description.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.experience_description.errors }}</span>
+                        {{ update_teacher_profile_form.experience_description }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.qualification.label }}</label>
+                        <span class="errorlist">{{ update_teacher_profile_form.qualification.errors }}</span>
+                        <span class="helptext">{{ update_teacher_profile_form.qualification.help_text }}</span>
+                        <div class="flex flex-row w-full gap-1">
+                            {{ update_teacher_profile_form.qualification }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <div class="flex flex-col md:flex-row md:gap-4">
+                            <label for="" class="font-bold">{{ update_teacher_profile_form.cv.label }}</label>
+                            <span class="errorlist">{{ update_teacher_profile_form.cv.errors }}</span>
+                            <span class="helptext">{{ update_teacher_profile_form.cv.help_text }}</span>
+                        </div>
+                        <div class="flex flex-row w-full gap-1">
+                            {{ update_teacher_profile_form.cv }}
+                        </div>
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_teacher_profile_form.salary.label }}</label>
+                        <span class="helptext">{{ update_teacher_profile_form.salary.help_text }}</span>
+                        <span class="errorlist">{{ update_teacher_profile_form.salary.errors }}</span>
+                        {{ update_teacher_profile_form.salary }}
+                    </div>
+                </section>
+            </section>
+            <div class="self-start w-1/2">
+                {% include "main/components/saveButton.html" with title="Save Changes" %}
+            </div>
+        </form>
+    </section>
+</section>

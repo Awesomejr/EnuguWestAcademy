@@ -1,0 +1,155 @@
+{% load static %}
+
+<div class="mb-4 border-b border-gray-200 shadow-lg dark:border-gray-700 shadow-black overflow-x-auto">
+    <ul class="flex justify-center -mb-px text-lg font-bold text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+        <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">View Attendance</button>
+        </li>
+        <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">View Activities</button>
+        </li>
+        <li role="presentation">
+            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Examination Results</button>
+        </li>
+        <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">View Awards</button>
+        </li>
+        <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="school-calendar-tab" data-tabs-target="#school-calendar" type="button" role="tab" aria-controls="school-calendar" aria-selected="false">School Calendar</button>
+        </li>
+    </ul>
+</div>
+
+<div id="myTabContent">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab" style="min-height: 50em;">
+        <h2 class="mb-2 text-xl italic font-bold text-center underline uppercase text-myBlue">Attendance History</h2>
+        {% if daily_attendance %}
+        <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-base font-bold uppercase text-gray-50 bg-myBlue dark:bg-myBlue dark:text-gray-50">
+                  <tr>
+                      <th scope="col" class="px-6 py-3">
+                          First Name
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Last Name
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Middle Name
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Attendance Date
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Status
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Marked By
+                      </th>
+                  </tr>
+              </thead>
+              <tbody class="text-sm font-semibold text-gray-900">
+                {% for attendance in daily_attendance %}
+                  <tr class="transition-colors duration-300 ease-linear bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-200 hover:text-black">
+                      <th scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-gray-900">{{ attendance.student.user.first_name }}</th>
+                      <td class="px-6 py-4">{{ attendance.student.user.last_name }}</td>
+                      <td class="px-6 py-4">{{ attendance.student.user.middle_name }}</td>
+                      <td class="px-6 py-4">{{ attendance.attendance_date }}</td>
+                      {% if attendance.is_present %}
+                      <td class="px-6 py-4 font-bold text-green-500">Present</td>
+                      {% else %}
+                      <td class="px-6 py-4 font-bold text-myRed">Not Present</td>
+                      {% endif %}
+                      <td class="px-6 py-4">Teacher {{ attendance.teacher.user.first_name }} {{ attendance.teacher.user.last_name }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+        </div>
+        {% else %}
+        <h2 class="my-4 text-base text-center text-red-600">No Available Attendance</h2>
+        {% endif %}
+    </div>
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab" style="min-height: 50em;">
+        <h2 class="mb-2 text-xl italic font-bold text-center text-green-500 underline uppercase">Available Activities</h2>
+        <p class="my-4 text-base italic font-normal text-center"><span class="my-4 mr-4 text-lg font-bold underline uppercase">Note:</span>Activies includes updates on class assignments, class projects, class announcements and so on.</p>
+        {% if activities %}
+        <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-base font-bold uppercase bg-green-500 text-gray-50 dark:bg-green-500 dark:text-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Title
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Description
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Posted On
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Posted By
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Submission Date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-sm font-semibold text-gray-900">
+                {% for activity in activities %}
+                <tr class="transition-colors duration-300 ease-linear bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-200 hover:text-black">
+                    <th scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-gray-900">{{ activity.title | title }}</th>
+                    <td class="px-6 py-4">{{ activity.activity }}</td>
+                    <td class="px-6 py-4">{{ activity.updated_on}}  <span class="ml-2 italic underline">{{ activity.updated_on | timesince }} ago</span></td>
+                    <td class="px-6 py-4">Teacher {{ activity.teacher.user.first_name }} {{ activity.teacher.user.last_name }}</td>
+                    <td class="px-6 py-4">{{ activity.submission_date }}</td>
+                    {% if activity.is_complete %}
+                    <td class="px-6 py-4 font-bold text-myGreen">Completed</td>
+                    {% else %}
+                    <td class="px-6 py-4 font-bold text-yellow-400">On-going</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+        {% else %}
+        <h2 class="my-4 text-base text-center text-red-600">No Available Activities</h2>
+        {% endif %}
+    </div>
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab" style="min-height: 50em;">
+        <h2 class="mb-2 text-xl italic font-bold text-center text-yellow-400 underline uppercase">Your Examination Results</h2>
+        {% if student_results %}
+        {% include "base/components/examinationResult.html" %}
+        {% else  %}
+        <h2 class="my-4 text-base text-center text-red-600">No Available Results</h2>
+        {% endif  %}
+    </div>
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab" style="min-height: 50em;">
+        <h2 class="mb-2 text-xl italic font-bold text-center text-yellow-400 underline uppercase">Your Awards</h2>
+        {% if awards%}
+        {% for award in awards %}
+        <div class="p-5 space-y-2 border border-t-0 border-gray-200 dark:border-gray-700">
+            <div>
+                <h1 class="text-lg"><span class="font-bold text-myBlue">Award Title: </span>{{ award.name }}</h1>
+                <h2 class="text-sm italic font-semibold font-san">Awarded to {{ award.student.user.first_name }} {{ award.student.user.last_name }}</h2>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-myBlue">Award Description</h3>
+                <p class="text-base">{{ award.description }}</p>
+            </div>
+            <p class="text-sm text-blue-600 undeline">{{ award.updated_on }}</p>
+            <img src="{{ award.student.user.avatar.url }}" alt="" width="50" class="rounded-full">
+        </div>
+        {% endfor %}
+        {% else %}
+        <h2 class="my-4 text-base text-center text-red-600">No Available Awards</h2>
+        {% endif %}
+    </div>
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="school-calendar" role="tabpanel" aria-labelledby="school-calendar-tab" style="min-height: 50em;">
+        {% include "base/components/schoolCalendar.html" %}
+    </div>
+</div>

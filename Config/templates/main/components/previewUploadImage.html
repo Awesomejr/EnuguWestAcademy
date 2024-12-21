@@ -1,0 +1,6 @@
+{% load static %}
+
+<a href="{% static 'images/icons/icons8_image_128px.png' %}">
+    <img id="imagePreview" src="{% static 'images/icons/icons8_image_128px.png' %}" alt="Image Preview"
+        style="border: 1px solid rgba(0, 0, 0, .1); padding: 5px;" class="w-{{ width|default:20 }} h-{{ height|default:20 }} rounded-md bg-none">
+</a>

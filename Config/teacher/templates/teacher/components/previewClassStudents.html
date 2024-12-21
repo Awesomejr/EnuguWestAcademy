@@ -1,0 +1,10 @@
+{% load static %}
+
+
+<section id="teacher-preview-class-section" class="w-full px-1 pt-4 text-gray-500 rounded-lg shadow-xl md:w-4/5 bg-boneWhiteBg text-medium dark:text-gray-400 dark:bg-gray-800 shadow-black">
+    {% if class_participants %}
+    {% include "student/components/classParticipants.html" %}
+    {% else %}
+    {% include "main/components/resultNotFound.html" with message="Click a class to view students." %}
+    {% endif %}
+</section>

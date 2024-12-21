@@ -1,0 +1,82 @@
+{% extends "./baseExam.html" %}
+{% block title %} Take Examination  {% endblock title %}
+{% load option_filters %}
+
+{% block examContent %}
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title="Examination Result For" current_session=exam.getExamName %}
+    </header>
+    <section>
+        <div>
+            <p><strong>Score:</strong> {{ score }}%</p>
+            <p><strong>Correct Answers:</strong> {{ correct_count }} out of {{ total_questions }} ({{ correct_count }} / {{ total_questions }})</p>
+        </div>
+        <br>
+        <hr>
+        <ul>
+            {% for result in results %}
+            <li class="py-4 text-sm md:text-base space-y-4">
+                <h3><strong class="text-base md:text-lg underline underline-offset-1">Question {{ forloop.counter }}:</strong> {{ result.question.content|safe }}</h3>
+                <ul class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+                    {% for option in result.question.options.all %}
+                    <li><strong>{{ option_labels|index:forloop.counter0 }}. </strong>{{option.content|safe}}</li>
+                    {% endfor %}
+                </ul>
+                <div class="flex flex-col md:flex-row md:gap-4">
+                    <p>
+                        <strong>Selected Answer:</strong> 
+                        {% if result.selected_option %}
+                        <span class="text-yellow-500">{{result.selected_option.content|safe}}</span>
+                        {% else %}
+                        <span>Not Answered</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Correct Answer:</strong> {{ result.correct_option.content|safe }}</p>
+                    <p>
+                        <strong>Status: </strong>
+                        {% if result.is_correct %}
+                        <span style="color: green;">Correct</span>
+                        {% else %}
+                        <span style="color: red;">Incorrect</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <!-- Button to toggle the explanation -->
+                <button type="button" class="toggle-explanation font-bold underline underline-offset-1 hover:cursor-pointer text-myBlue" data-explanation-id="explanation_{{ forloop.counter }}">Show Explanation</button>
+
+                <!-- Explanation hidden by default -->
+                <div id="explanation_{{ forloop.counter }}" class="explanation space-y-4 bg-boneWhiteBg p-4" style="display: none;">
+                    <p><strong>Explanation:</strong> {{ result.question.explanation }}</p>
+                    <p><strong>Topic:</strong> {{ result.question.topic.name }}</p>
+                </div>
+            </li>
+            <hr>
+            {% endfor %}
+        </ul>
+        <div class="w-full md:w-1/2 my-4">
+            <a href="{% url 'student:viewExamination' %}" class="bg-myBlue px-4 p-2 text-boneWhite font-bold rounded-md w-full">Leave</a>
+        </div>
+    </section>
+</section>
+
+
+<script>
+    // Add event listeners to all toggle explanation buttons
+    document.querySelectorAll('.toggle-explanation').forEach(button => {
+        button.addEventListener('click', function() {
+            const explanationId = this.getAttribute('data-explanation-id');
+            const explanationDiv = document.getElementById(explanationId);
+            
+            // Toggle the display of the explanation
+            if (explanationDiv.style.display === 'none' || explanationDiv.style.display === '') {
+                explanationDiv.style.display = 'block';
+                this.innerText = 'Hide Explanation';
+            } else {
+                explanationDiv.style.display = 'none';
+                this.innerText = 'Show Explanation';
+            }
+        });
+    });
+</script>
+{% endblock examContent %}

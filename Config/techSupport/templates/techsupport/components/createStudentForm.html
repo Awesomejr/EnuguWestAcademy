@@ -1,0 +1,50 @@
+{% load static %}
+
+<section class="w-full form-col-layout">
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col">
+            {% include "main/components/previewImage.html" %}
+            <span class="helptext">{{ create_student_form.avatar.help_text }}</span>
+            <span class="errorlist">{{ create_student_form.avatar.errors }}</span>
+            {{ create_student_form.avatar }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ create_student_form.first_name.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ create_student_form.first_name.help_text }}</span>
+            <span class="errorlist">{{ create_student_form.first_name.errors }}</span>
+            {{ create_student_form.first_name }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ create_student_form.last_name.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ create_student_form.last_name.help_text }}</span>
+            <span class="errorlist">{{ create_student_form.last_name.errors }}</span>
+            {{ create_student_form.last_name }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ create_student_form.middle_name.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ create_student_form.middle_name.help_text }}</span>
+            <span class="errorlist">{{ create_student_form.middle_name.errors }}</span>
+            {{ create_student_form.middle_name }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ create_student_form.password1.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ create_student_form.password1.help_text }}</span>
+            <span class="errorlist">{{ create_student_form.password1.errors }}</span>
+            {{ create_student_form.password1 }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ create_student_form.password2.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ create_student_form.password2.help_text }}</span>
+            <span class="errorlist">{{ create_student_form.password2.errors }}</span>
+            {{ create_student_form.password2 }}
+        </div>
+    </section>
+</section>

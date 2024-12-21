@@ -1,0 +1,72 @@
+{% load static %}
+
+<section class="mb-4">
+    <h2 class="text-sm font-bold text-center capitalize md:text-base">Topic Analysis Plot: Number of Correct Answers Per Topic</h2>
+    <canvas id="topicChart" width="400" height="200"></canvas>
+</section>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+console.log("Loaded topic data for chart visualization");
+
+// Parse JSON data
+var topicLabels = JSON.parse('{{ topic_labels|escapejs }}');
+var percentageData = JSON.parse('{{ percentage_data|escapejs }}');
+
+console.log("Parsed Topic Labels:", topicLabels);
+console.log("Parsed Percentage Data:", percentageData);
+
+var ctx = document.getElementById('topicChart').getContext('2d');
+
+// Create the chart
+var topicChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: topicLabels,
+        datasets: [
+            {
+                label: 'Correct Percentage',
+                data: percentageData,
+                backgroundColor: 'rgba(0, 120, 0, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                barPercentage: 1.0,  // Makes bars take up the full width
+                //categoryPercentage: 1.0  // Removes spacing between bars
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: false,
+                max: 120,
+                //min: -10,  // Start the y-axis at -10
+                //max: 100,  // End the y-axis at 100 (for percentage range)
+                title: {
+                    display: true,
+                    text: 'Percentage (%)'
+                }
+            },
+            x: {
+                //grid: {
+                //    display: false  // Hides grid lines on x-axis
+                //},
+                title: {
+                    display: true,
+                    text: 'Topics'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true
+            }
+        }
+    }
+});
+</script>

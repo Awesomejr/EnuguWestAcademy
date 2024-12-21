@@ -1,0 +1,95 @@
+{% load static %}
+
+<style>
+    #school-branch-teacher-chart, #school-branch-chart {
+        max-width: 100%;
+        max-height: 100%;
+        width: 80%; 
+        height: 300px;
+        margin: auto;
+    }
+</style>
+
+<section class="flex flex-col w-full gap-4">
+    <div id="plot-area-teachers" class="w-full">
+        <canvas id="school-branch-teacher-chart"></canvas>
+    </div>
+
+    <div id="plot-area" class="w-full">
+        <canvas id="school-branch-chart"></canvas>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // First chart: Teacher chart
+        const schoolBranchTeacherChart = document.getElementById('school-branch-teacher-chart');
+
+        new Chart(schoolBranchTeacherChart, {
+            type: 'bar',
+            data: {
+                labels: {{ teacher_branch_name|safe }},
+                datasets: [{
+                    label: 'Number of Teachers',
+                    data: {{ number_of_teachers|safe }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Number of Teachers"
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Branch Name"
+                        }
+                    }
+                }
+            }
+        });
+
+        // Second chart: Student chart
+        const schoolBranchChart = document.getElementById('school-branch-chart');
+
+        new Chart(schoolBranchChart, {
+            type: 'bar',
+            data: {
+                labels: {{ branch_name|safe }},
+                datasets: [{
+                    label: 'Number of Students',
+                    data: {{ number_of_students|safe }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Number of Students"
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Branch Name"
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,158 @@
+{% load static %}
+
+<section class="w-full form-col-layout">
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">Clauster</label>
+            <span class="helptext">{{ teacher_profile_form.school_branch.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.school_branch.errors }}</span>
+            {{ teacher_profile_form.school_branch }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.teacher_subject.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.teacher_subject.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.teacher_subject.errors }}</span>
+            {{ teacher_profile_form.teacher_subject }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.teacher_status.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.teacher_status.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.teacher_status.errors }}</span>
+            <div class="flex flex-row w-full gap-1 text-xs">
+                {{ teacher_profile_form.teacher_status }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.assigned_class.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.assigned_class.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.assigned_class.errors }}</span>
+            {{ teacher_profile_form.assigned_class }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.gender.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.gender.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.gender.errors }}</span>
+            {{ teacher_profile_form.gender }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.date_of_birth.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.date_of_birth.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.date_of_birth.errors }}</span>
+            <div class="flex flex-row w-full gap-1">
+                {{ teacher_profile_form.date_of_birth }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.nationality.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.nationality.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.nationality.errors }}</span>
+            {{ teacher_profile_form.nationality }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.state.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.state.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.state.errors }}</span>
+            {{ teacher_profile_form.state }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.local_government_area.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.local_government_area.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.local_government_area.errors }}</span>
+            {{ teacher_profile_form.local_government_area }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.town.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.town.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.town.errors }}</span>
+            {{ teacher_profile_form.town }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.religion.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.religion.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.religion.errors }}</span>
+            {{ teacher_profile_form.religion }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.phone_number.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.phone_number.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.phone_number.errors }}</span>
+            {{ teacher_profile_form.phone_number }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.current_address.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.current_address.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.current_address.errors }}</span>
+            {{ teacher_profile_form.current_address }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.permanent_address.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.permanent_address.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.permanent_address.errors }}</span>
+            {{ teacher_profile_form.permanent_address }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.relationship.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.relationship.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.relationship.errors }}</span>
+            {{ teacher_profile_form.relationship }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.any_experience.label }}</label>
+            <span class="errorlist">{{ teacher_profile_form.any_experience.errors }}</span>
+            <span class="helptext">{{ teacher_profile_form.any_experience.help_text }}</span>
+            <div class="flex flex-row w-full gap-1">
+                {{ teacher_profile_form.any_experience }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.experience_description.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.experience_description.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.experience_description.errors }}</span>
+            {{ teacher_profile_form.experience_description }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.qualification.label }}</label>
+            <span class="errorlist">{{ teacher_profile_form.qualification.errors }}</span>
+            <span class="helptext">{{ teacher_profile_form.qualification.help_text }}</span>
+            <div class="flex flex-row w-full gap-1">
+                {{ teacher_profile_form.qualification }}
+            </div>
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <div class="flex flex-col md:flex-row md:gap-4">
+                <label for="" class="font-bold">{{ teacher_profile_form.cv.label }}</label>
+                <span class="errorlist">{{ teacher_profile_form.cv.errors }}</span>
+                <span class="helptext">{{ teacher_profile_form.cv.help_text }}</span>
+            </div>
+            <div class="flex flex-row w-full gap-1">
+                {{ teacher_profile_form.cv }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ teacher_profile_form.salary.label }}</label>
+            <span class="helptext">{{ teacher_profile_form.salary.help_text }}</span>
+            <span class="errorlist">{{ teacher_profile_form.salary.errors }}</span>
+            {{ teacher_profile_form.salary }}
+        </div>
+    </section>
+</section>

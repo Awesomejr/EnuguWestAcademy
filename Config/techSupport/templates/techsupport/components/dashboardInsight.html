@@ -1,0 +1,81 @@
+{% load static %}
+<section class="w-full">
+    <section class="flex flex-row flex-wrap gap-4 mt-2 justify-evenly text-boneWhite">
+        <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-500 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">Branches</h1>
+            <a href="" class="text-xl font-bold md:text-2xl"><h2 id="branches-count">{{ total_school_branches }}</h2></a>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} number of school locations.</p>
+        </div>
+        <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-500 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">Subjects</h1>
+            <a href="" class="text-xl font-bold md:text-2xl"><h2 id="subject-count">{{ total_subjects }}</h2></a>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} available subject.</p>
+        </div>
+        <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-600 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">Students</h1>
+            <h2 class="text-xl font-bold md:text-2xl"><a href="" id="student-count">{{ students.count }}</a></h2>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} available students.</p>
+        </div>
+        <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-600 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">Teachers</h1>
+            <h2 class="text-xl font-bold md:text-2xl"><a href="" id="student-count">{{ teachers.count }}</a></h2>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} available teachers.</p>
+        </div>
+        <!-- <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-600 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">Attendance</h1>
+            <h2 class="text-xl font-bold md:text-2xl"><a href="" id="attendance-count">{{ number_of_attendance_per_session }}</a></h2>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} available attendance.</p>
+        </div>
+        <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-700 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">Activities</h1>
+            <h2 class="text-xl font-extrabold md:text-2xl"><a href="" id="activities-count">{{ number_of_activities }}</a></h2>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} available activities.</p>
+        </div> -->
+        <!-- <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-800 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">Assignments</h1>
+            <h2 class="text-xl font-extrabold md:text-2xl"><a href="" id="assignment-count">{{ total_assignments_per_term }}</a></h2>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} available assignment.</p>
+        </div> -->
+        <div class="flex flex-col items-center flex-1 gap-2 p-4 mb-2 bg-green-900 rounded-md shadow-xl shadow-black5 fade-in-scale card-pop-up">
+            <h1 class="font-serif text-base font-semibold uppercase md:text-lg">CBT</h1>
+            <h2 class="text-xl font-extrabold md:text-2xl"><a href="" id="examination-count">{{ exams.count }}</a></h2>
+            <p class="text-sm italic font-bold text-center capitalize opacity-60">{{ session.getSessionName }} available examination.</p>
+        </div>
+    </section>
+</section>
+{% include "main/charts/studentAttendanceChart.html" %}
+
+<script >
+    let attendanceCount =  document.getElementById("attendance-count").innerText;
+    let studentCount =  document.getElementById("student-count").innerText;
+    let subjectCount =  document.getElementById("subject-count").innerText;
+    let examinationCount =  document.getElementById("examination-count").innerText;
+    let assignmentCount =  document.getElementById("assignment-count").innerText;
+    let activitiesCount =  document.getElementById("activities-count").innerText;
+    
+    function incrementCount(targetId, start, end, duration) {
+        let currentCount = start;
+        const increment = Math.ceil((end - start) / duration);
+        const targetElement = document.getElementById(targetId);
+        
+        function updateCount() {
+            currentCount += increment;
+            if (currentCount <= end) {
+                targetElement.innerText = currentCount;
+                setTimeout(updateCount, 50); // Adjust the delay for animation speed
+            } else {
+                targetElement.innerText = end;
+            }
+        }
+    
+        updateCount();
+    }
+    
+    // Call the function to start the count-up animation
+    incrementCount("subject-count", 0, subjectCount, 5000); // Adjust the duration as needed
+    incrementCount("student-count", 0, studentCount, 5000); // Adjust the duration as needed
+    incrementCount("attendance-count", 0, attendanceCount, 5000); // Adjust the duration as needed
+    incrementCount("examination-count", 0, examinationCount, 5000); // Adjust the duration as needed
+    incrementCount("activities-count", 0, activitiesCount, 5000); // Adjust the duration as needed
+    incrementCount("assignment-count", 0, assignmentCount, 5000); // Adjust the duration as needed
+</script>

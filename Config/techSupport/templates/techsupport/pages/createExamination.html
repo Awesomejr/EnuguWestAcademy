@@ -1,0 +1,93 @@
+{% extends "./examination.html" %}
+{% block title %} Create Examination {% endblock title %}
+
+
+{% block examTabContent %}
+    <section id="create-exam-form" class="py-4 mb-4 space-y-4 bg-gray-100">
+        <header>
+            {% include "main/components/pageHeader.html" with title="Create Examination" current_session=" " text_align="center" %}
+        </header>
+        <form method="post" class="items-center form-col-layout">
+            {% csrf_token %}
+            <section class="flex flex-col items-center justify-start w-full gap-4 md:w-4/5 bg-gray-50 md:p-4">
+                <section class="flex flex-col w-full gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="session" class="font-bold">{{ form.session.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ form.session.help_text }}</span>
+                        <span class="errorlist">{{ form.session.errors }}</span>
+                        {{ form.session }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="subject" class="font-bold">{{ form.subject.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ form.subject.help_text }}</span>
+                        <span class="errorlist">{{ form.subject.errors }}</span>
+                        {{ form.subject }}
+                    </div>
+                </section>
+                <section class="flex flex-col w-full gap-2 md:flex-row">
+                    <!-- <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="year" class="font-bold ">Year <span class="text-red-600">*</span></label>
+                        <input type="text" id="year" name="year" list="year-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Year..." required />
+                        <datalist id="year-list">
+                            {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div> -->
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="total-mark" class="font-bold">{{ form.year.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ form.year.help_text }}</span>
+                        <span class="errorlist">{{ form.year.errors }}</span>
+                        {{ form.year }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="total-mark" class="font-bold">{{ form.total_marks.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ form.total_marks.help_text }}</span>
+                        <span class="errorlist">{{ form.total_marks.errors }}</span>
+                        {{ form.total_marks }}
+                    </div>
+                </section>
+                <section class="flex flex-col w-full gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="duration" class="font-bold">{{ form.duration.label }} <span class="text-red-600">*
+                            <span class="text-gray-500 helptext"> {{ form.duration.help_text }}</span>
+                        </span></label>
+                        <span class="errorlist">{{ form.duration.errors }}</span>
+                        {{ form.duration }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="instruction" class="font-bold">{{ form.instruction.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ form.instruction.help_text }}</span>
+                        <span class="errorlist">{{ form.instruction.errors }}</span>
+                        {{ form.instruction }}
+                        <datalist id="instruction-list">
+                            <option value="Answer All Questions"></option>
+                            <option value="Attempt All Questions"></option>
+                            <option value=""></option>
+                        </datalist>
+                    </div>
+                </section>
+                <section class="flex flex-col w-full gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full form-col-child">
+                        <label for="" class="font-bold">{{ form.published.label }} <span class="text-red-600">
+                            <span class="text-gray-500 helptext"> {{ form.published.help_text }}</span>
+                        </span></label>
+                        <span class="errorlist">{{ form.published.errors }}</span>
+                        {{ form.published }}
+                    </div>
+                </section>
+            </section>
+            <div class="w-1/2 mb-4 md:w-1/3">
+                {% include "main/components/saveButton.html" with title="Created Exam" %}
+            </div>
+        </form>
+    </section>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            let button = document.querySelector("#nav-create-examination");
+            button.style.color = "white";
+        });
+    </script>
+{% endblock examTabContent %}

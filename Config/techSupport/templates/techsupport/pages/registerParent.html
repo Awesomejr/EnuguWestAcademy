@@ -1,0 +1,22 @@
+{% extends "./baseTS.html" %}
+{% block title %} Register Parent {% endblock title %}
+
+{% block main %}
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title="Parent Registration" text_align="center" text_color="myGreen" %}
+    </header>
+    <section class="flex flex-col justify-around gap-4 md:flex-row">
+        <form action="" method="post" enctype="multipart/form-data" class="flex flex-col justify-around w-full gap-6 p-4 py-4 mx-auto shadow-xl bg-boneWhite md:w-4/5 shadow-black form-style">
+            {% csrf_token %}
+            {% include "techsupport/components/createUserForm.html" %}
+            <hr>
+            {% include "techsupport/components/parentProfileForm.html" %}
+            <div class="self-center w-1/2">
+                {% include "main/components/saveButton.html" with title="Submit" %}
+            </div>
+        </form>
+    </section>
+</section>
+
+{% endblock main %}

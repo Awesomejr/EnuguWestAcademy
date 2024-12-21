@@ -1,0 +1,326 @@
+{% extends "main/pages/base.html" %}
+{% block title %} CBT Analysis {% endblock title %}
+
+
+
+{% block content %}
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        /*margin: 20px 0;*/
+    }
+    .table th, .table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+    /* .table th {
+        background-color: #f2f2f2;
+    }
+    */
+    .table-striped tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #ddd;
+    }
+</style>
+
+<!-- Debug output -->
+<p>Topic Summary: {{ topic_summary|default_if_none:"No Data" }}</p>
+<p>Students Data: {{ students_data|default_if_none:"No Data" }}</p>
+<p>Topic Labels: {{ topic_labels|default_if_none:"No Data" }}</p>
+<p>Percentage Data: {{ percentage_data|default_if_none:"No Data" }}</p>
+{% if topic_summary and topic_summary %}
+
+
+<section class="flex flex-col gap-6 px-1 bg-gray-100">
+    <header class="mb-4">
+        {% include "main/components/pageHeader.html" with title="CBT Category Analysis:" current_session=cbt_category.description text_color="green-700" %}
+        <p class="text-xs italic font-semibold text-center capitalize">An overall analysis summary and vizualation for student perfomance summary, subject and topics analysis.</p>
+        <form method="get" action="" class="flex flex-col items-center self-start mx-auto mt-6 sm:gap-4 md:flex-row md:gap-0 sm:w-full md:w-1/3">
+            <div class="relative flex flex-col w-full gap-4 md:gap-1 md:flex-row">
+                {{ form.school_branch }}
+            </div>
+            <button type="submit" class="p-2.5 ms-2 text-sm font-medium text-white bg-green-700 rounded-lg border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+                <span class="sr-only">Search</span>
+            </button>
+            <a href="{% url 'techsupport:viewCBTAnalysis' cbtCategoryId=cbt_category.id %}" class="text-xs italic font-semibold text-center underline cursor-pointer underline-offset-2">View All</a>
+        </form>
+    </header>
+    <section class="mb-4">
+        <h2 class="text-sm font-bold text-center capitalize md:text-base">Student Performance Summary (Sorted by Total Score)</h2>
+        <div>
+            {% include "main/components/tableRowCount.html" with count=students_data|length instances="CBT Result" %}
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-bordered table-striped table-height">
+                <table class="table w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                    <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-5000">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                S/N
+                            </th>
+                            <th scope="col" class="p-4">
+                                Students
+                            </th>
+                            <th scope="col" class="p-4">
+                                Cluster
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Total Score (%)
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Correct Questions (Total)
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Incorrect Questions (Total)
+                            </th>
+                            {% for exam in students_data.0.exam_scores %}
+                                <th colspan="2" scope="col" class="px-6 py-3">
+                                    {{ exam.exam.subject.name }}
+                                </th>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <th scope="col" class="px-6 py-3"></th>
+                            <th scope="col" class="px-6 py-3"></th>
+                            <th scope="col" class="px-6 py-3"></th>
+                            <th scope="col" class="px-6 py-3"></th>
+                            <th scope="col" class="px-6 py-3"></th>
+                            <th scope="col" class="px-6 py-3"></th>
+                            {% for exam in students_data.0.exam_scores %}
+                                <th scope="col" class="px-6 py-3">Score (%)</th>
+                                <th scope="col" class="px-6 py-3">Correct/Incorrect</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student_data in students_data %}
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="px-6 py-4">
+                                {{ forloop.counter }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ student_data.student.user.getFullName }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ student_data.student.school_branch.name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ student_data.total_score|floatformat:2 }}%
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="font-bold text-green-600">{{ student_data.correct_answers }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="font-bold text-red-600">{{ student_data.incorrect_answers }}</span>
+                            </td>
+    
+                            {% for exam_score in student_data.exam_scores %}
+                                <td class="px-6 py-4">
+                                    <span class="font-bold text-blackText">{{ exam_score.score_percentage|floatformat:2 }}%</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="font-bold text-green-600">{{ exam_score.correct_answers }}</span>/<span class="font-bold text-red-600">{{ exam_score.incorrect_answers }}</span>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Total Score (%)</th>
+                    <th>Correct Questions (Total)</th>
+                    <th>Incorrect Questions (Total)</th>
+                    {% for exam in students_data.0.exam_scores %}
+                        <th colspan="2">{{ exam.exam.getExamName }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    {% for exam in students_data.0.exam_scores %}
+                        <th>Score (%)</th>
+                        <th>Correct/Incorrect</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for student_data in students_data %}
+                <tr>
+                    <td>{{ student_data.student.user.get_full_name }}</td>
+                    <td>{{ student_data.total_score|floatformat:2 }}%</td>
+                    <td>{{ student_data.correct_answers }}</td>
+                    <td>{{ student_data.incorrect_answers }}</td>
+        
+                    {% for exam_score in student_data.exam_scores %}
+                        <td>{{ exam_score.score_percentage|floatformat:2 }}%</td>
+                        <td>{{ exam_score.correct_answers }}/{{ exam_score.incorrect_answers }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> -->
+    </section>
+    
+    <section class="mb-4">
+        <h2 class="text-sm font-bold text-center capitalize md:text-base">Topic Analysis (Sorted by Highest Percentage)</h2>
+        {% include "main/components/tableRowCount.html" with count=topic_summary|length instances="Result" %}
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-5000">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            S/N
+                        </th>
+                        <th scope="col" class="p-4">
+                            Topic
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Subject
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Correct Answers
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Incorrect Answers
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Total Answers
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Percentage (%)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for topic in topic_summary %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">
+                            {{ forloop.counter }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ topic.topic }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ topic.subject }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ topic.correct }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ topic.incorrect }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ topic.total }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ topic.percentage|floatformat:2 }}%
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <section class="mb-4">
+        <h2 class="text-sm font-bold text-center capitalize md:text-base">Topic Analysis Plot: Number of Correct capitalize Per Topic</h2>
+        <canvas id="topicChart" width="400" height="200"></canvas>
+    </section>
+
+
+    
+
+    
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    console.log("Loaded topic data for chart visualization");
+    
+    // Parse JSON data
+    var topicLabels = JSON.parse('{{ topic_labels|escapejs }}');
+    var percentageData = JSON.parse('{{ percentage_data|escapejs }}');
+    
+    console.log("Parsed Topic Labels:", topicLabels);
+    console.log("Parsed Percentage Data:", percentageData);
+    
+    var ctx = document.getElementById('topicChart').getContext('2d');
+    
+    // Create the chart
+    var topicChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: topicLabels,
+            datasets: [
+                {
+                    label: 'Correct Percentage',
+                    data: percentageData,
+                    backgroundColor: 'rgba(0, 120, 0, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    barPercentage: 1.0,  // Makes bars take up the full width
+                    //categoryPercentage: 1.0  // Removes spacing between bars
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    max: 120,
+                    //min: -10,  // Start the y-axis at -10
+                    //max: 100,  // End the y-axis at 100 (for percentage range)
+                    title: {
+                        display: true,
+                        text: 'Percentage (%)'
+                    }
+                },
+                x: {
+                    //grid: {
+                    //    display: false  // Hides grid lines on x-axis
+                    //},
+                    title: {
+                        display: true,
+                        text: 'Topics'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true
+                }
+            }
+        }
+    });
+</script>
+</section>
+{% else %}
+<section class="h-screen">
+    {% include "main/components/pageHeader.html" with title="CBT Category Analysis:" current_session=cbt_category.description text_color="green-700" %}
+    {% include "main/components/resultNotFound.html" %}
+</section>
+{% endif %}
+{% endblock content %}
+
+
+
+
+
+
+
+
+

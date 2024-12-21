@@ -1,0 +1,16 @@
+{% load static %}
+<header>
+    <nav class="flex flex-row justify-center text-sm font-medium text-center bg-green-500 border-b border-green-500 text-blackText dark:text-blackText dark:border-green-500">
+        <ul class="flex -mb-px overflow-x-auto text-base font-bold text-center">
+            <li id="nav-mark-attendance"  class="me-2">
+                <a href="{% url mark_attendance_link %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Mark Attendance</a>
+            </li>
+            <li id="nav-preview-marked-attendance"  class="me-2">
+                <a href="{% url preview_marked_attendance_link %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Preview Marked Attendance</a>
+            </li>
+            <li id="nav-attendance-statistics"  class="me-2">
+                <a href="{% url students_attendance_statistics_link %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Statistics</a>
+            </li>
+        </ul>
+    </nav>
+</header>

@@ -1,0 +1,19 @@
+{% extends "./baseTS.html" %}
+{% block title %} View CBT Scores {% endblock title %}
+
+{% block main %}
+<section class="p-4 bg-gray-100 h-full">
+    <h2>{{ cbt_category }} - Exams</h2>
+    <br>
+    <br>
+    <ul>
+    {% for exam in exams %}
+        <li>
+        <a href="{% url 'techsupport:viewCBTAnalysis' cbtCategoryId=cbt_category.id %}">
+            {{ exam }}
+        </a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+{% endblock main %}

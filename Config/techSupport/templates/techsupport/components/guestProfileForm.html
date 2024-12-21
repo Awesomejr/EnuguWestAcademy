@@ -1,0 +1,83 @@
+{% load static %}
+
+<section class="w-full form-col-layout">
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.gender.label }}</label>
+            <span class="helptext">{{ guest_profile_form.gender.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.gender.errors }}</span>
+            {{ guest_profile_form.gender }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.date_of_birth.label }}</label>
+            <span class="helptext">{{ guest_profile_form.date_of_birth.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.date_of_birth.errors }}</span>
+            <div class="flex flex-row items-center justify-start gap-1">
+                {{ guest_profile_form.date_of_birth }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.nationality.label }}</label>
+            <span class="helptext">{{ guest_profile_form.nationality.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.nationality.errors }}</span>
+            {{ guest_profile_form.nationality }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.state.label }}</label>
+            <span class="helptext">{{ guest_profile_form.state.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.state.errors }}</span>
+            {{ guest_profile_form.state }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.local_government_area.label }}</label>
+            <span class="helptext">{{ guest_profile_form.local_government_area.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.local_government_area.errors }}</span>
+            {{ guest_profile_form.local_government_area }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.town.label }}</label>
+            <span class="helptext">{{ guest_profile_form.town.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.town.errors }}</span>
+            {{ guest_profile_form.town }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.religion.label }}</label>
+            <span class="helptext">{{ guest_profile_form.religion.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.religion.errors }}</span>
+            {{ guest_profile_form.religion }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.address.label }}</label>
+            <span class="helptext">{{ guest_profile_form.address.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.address.errors }}</span>
+            {{ guest_profile_form.address }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.phone_number.label }}</label>
+            <span class="helptext">{{ guest_profile_form.phone_number.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.phone_number.errors }}</span>
+            {{ guest_profile_form.phone_number }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.relationship.label }}</label>
+            <span class="helptext">{{ guest_profile_form.relationship.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.relationship.errors }}</span>
+            {{ guest_profile_form.relationship }}
+        </div>
+        <!-- <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ guest_profile_form.salary.label }}</label>
+            <span class="helptext">{{ guest_profile_form.salary.help_text }}</span>
+            <span class="errorlist">{{ guest_profile_form.salary.errors }}</span>
+            {{ guest_profile_form.salary }}
+        </div> -->
+    </section>
+    </section>
+</section>

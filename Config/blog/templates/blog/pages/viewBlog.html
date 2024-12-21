@@ -1,0 +1,131 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} View Blog {% endblock title %}
+
+{% block content %}
+<style>
+    #blog-img aside{
+        position: absolute;
+        /*inset: 50%;*/
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        /*transform: translateX(-50%);*/
+        z-index: 1;
+    }
+</style>
+
+<section id="view-blog-area" class="p-6 bg-boneWhiteBg ">
+    <section class="container py-4 mx-auto space-y-6 md:w-4/5">
+        <header class="flex flex-row items-center justify-between gap-4 px-2 py-2 bg-blackBg text-boneWhite rounded-tr-md rounded-tl-md">
+            <div class="flex flex-row items-center justify-start gap-4">
+                <div class="hidden w-1/6 mx-4 md:flex ">
+                    {% include 'main/components/backButton.html' with title="Back" %}
+                </div>
+                <img src="{{ post.author.displayAvatar }}" alt="" class="w-10 h-10 rounded-full">
+                <div class="hidden md:block">
+                    <h2 class="text-sm">{{ post.author.getFullName }}</h2>
+                    <h3 class="text-xs">@{{ post.author.username }}</h3>
+                </div>
+                <h2 class="flex flex-row items-center justify-start gap-1">
+                    {% if author.website %}
+                    <img src="{% static 'images/icons/web_14726.ico' %}" alt="" class="w-5 h-5 rounded-full">
+                    <a href="{{ post.author.website }}" target="_blank" class="underline underline-offset-2 text-myBlue">{{ post.author.website }}</a>
+                    {% endif %}
+                </h2>
+            </div>
+            {% if request.user == post.author %}
+            <div class="flex flex-row items-center justify-start gap-1">
+                {% include "main/components/edit.html" with link="blog:editBlog" object_id=post.id %}
+                {% include "main/components/delete.html" with link="blog:deleteBlog" object_id=post.id %}
+                <!-- <a href="{% url 'blog:deleteBlog' post.id %}" class="flex flex-row items-center gap-0.5 italic text-sm"><img src="{% static 'images/icons/icons8_remove.ico' %}" alt="" class="w-5 h-5"> Delete</a> -->
+            </div>
+            {% endif %}
+        </header>
+        <section class="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div class="self-start w-full text-3xl font-extrabold md:w-1/2"><h1>{{ post.title }}</h1></div>
+            <div class="w-full px-0 text-sm text-black md:w-1/2"><p class="text-black">{{ post.introduction|safe }} <a href="#blog-article" class="font-semibold text-myBlue">Read more</a></p></div>
+        </section>
+        <section>
+            <p class="font-bold capitalize"><span>Category: </span> <span class="text-yellowAmber">{{ post.category.name }}</span></p>
+            <p class="font-bold capitalize"><span>Class: </span> <span class="text-yellowAmber">{{ post.assigned_class.name }}</span></p>
+            <p class="text-sm italic font-normal capitalize"><span></span> <span class="text-yellowAmber">{{ post.read_time }} minutes read.</span></p>
+        </section>
+        <section id="blog-img" class="relative w-full" style="height: 50vh;">
+            <div class="absolute top-0 left-0 w-full h-full rounded-md bg-black6"></div>
+            <aside class="hidden p-2 mt-2 text-xs md:block rounded-xl bg-black6 text-boneWhite">
+                <a href="{{ post.cover_image.url|default:'' }}" target="_blank">Click to view image</a>
+            </aside>
+            <aside class="block p-2 mt-2 text-xs md:hidden rounded-xl bg-black6 text-boneWhite">
+                <a href="{{ post.cover_image.url|default:'' }}" target="_blank">Tap to view image</a>
+            </aside>
+            {% if post.cover_image %}
+            <img src="{{ post.cover_image.url|default:'' }}" alt="" class="w-full h-full rounded-md">
+            {% else %}
+            <img src="{% static 'images/pexels-divinetechygirl-1181571.jpg' %}" alt="" class="w-full h-full rounded-md">
+            {% endif %}
+        </section>
+        <section>
+            <h1 class="text-lg font-bold">Post Details</h1>
+            <div class="flex flex-col text-xs italic md:flex-row md:gap-4">
+                <p><span>Created on </span> <span>{{ post.updated_on }}</span></p>
+                <p><span>Updated on </span> <span>{{ post.created_on }}</span></p>
+            </div>
+            <div class="flex flex-row items-center justify-start gap-1">
+                
+            </div>
+        </section>
+        <hr>
+        <br>
+        <article id="blog-article">
+            {{ post.content|safe }}
+        </article>
+        <br>
+        <hr>
+        <section class="space-y-2">
+            <div><h1 class="text-lg font-bold md:text-2xl text-blackText">Add a Comment</h1></div>
+            <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+                {% if comments %}
+                <p><span class="opacity-80">Share your thoughts on </span> <span class="font-semibold">'{{ post.title }}'</span></p>
+                {% else %}
+                <p><span class="opacity-80">Be the first to comment on </span> <span class="font-semibold">'{{ post.title }}'</span></p>
+                {% endif %}
+                <div>
+                    {% include "blog/components/ratings.html" %}
+                </div>
+            </div>
+        </section>
+        <section class="w-full space-y-4">
+            {% include "blog/components/commentInput.html" %}
+            <br>
+            {% include "blog/components/comments.html" %}
+        </section>
+        <hr>
+        <section class="pt-6 space-y-6 md:pt-4">
+            <header>
+                <h1 class="text-lg font-extrabold capitalize md:text-xl"><span>{{ blogs.count }} </span>Related Post</h1>
+            </header>
+            {% include "blog/components/displayBlogs.html" with message="No related post yet." %}
+        </section>
+    </section>
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const blogArticleLink = document.querySelector('a[href="#blog-article"]');
+        if (blogArticleLink) {
+            blogArticleLink.addEventListener("click", function(event) {
+                event.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute("href"));
+                if (targetElement) {
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top: targetElement.getBoundingClientRect().top + window.scrollY,
+                    });
+                }
+            });
+        }
+    });
+</script>
+{% endblock content %}

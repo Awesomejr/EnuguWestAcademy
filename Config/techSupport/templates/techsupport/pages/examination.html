@@ -1,0 +1,36 @@
+{% extends "./baseTS.html" %}
+{% block title %} Examination {% endblock title %}
+
+{% block main %}
+<section class="w-full">
+    <header>
+        <nav class="flex flex-row justify-center text-sm font-medium text-center bg-green-500 border-b border-green-500 text-blackText dark:text-blackText dark:border-green-500">
+            <ul class="flex -mb-px overflow-x-auto text-base font-bold text-center">
+                <li id=nav-create-examination  class="me-2">
+                    <a href="{% url 'techsupport:createExamination' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Create Exam</a>
+                </li>
+                <li id="nav-create-examination-question"  class="me-2">
+                    <a href="{% url 'techsupport:createExaminationQuestion' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Create Question</a>
+                </li>
+                <li id="nav-create-question-option"  class="me-2">
+                    <a href="" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Create Options</a>
+                </li>
+                <li id="nav-preview-examination"  class="me-2">
+                    <a href="{% url 'techsupport:previewExamination' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Preview Exam</a>
+                </li>
+                <li id="nav-preview-examination-question"  class="me-2">
+                    <a href="{% url 'techsupport:previewExaminationQuestion' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Preview Question</a>
+                </li>
+                <li id="nav-preview-examination-question-option"  class="me-2">
+                    <a href="{% url 'techsupport:previewExaminationQuestionOption' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Preview Option</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="h-screen">
+    {% block examTabContent %}
+    <!-- Some dynamic content here -->
+    {% endblock examTabContent %}
+    </main>
+</section>
+{% endblock main %}

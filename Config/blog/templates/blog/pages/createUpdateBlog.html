@@ -1,0 +1,124 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} Create Blog {% endblock title %}
+
+{% block content %}
+<style>
+    #create-blog-form label {
+        color: black;
+        font-weight: bolder;
+    }
+</style>
+
+
+<section class="p-6 bg-black8">
+    <div class="container flex flex-col items-center justify-start w-full mx-auto space-y-4">
+        <header>
+            <!-- <h1 class="text-xl font-extrabold tracking-wider capitalize md:text-xl text-boneWhite">{{ title }}</h1> -->
+            {% include "main/components/pageHeader.html" with title=title current_session=" " text_color="boneWhite" %}
+        </header>
+        <form id="create-blog-form" action="" method="post" enctype="multipart/form-data" class="flex flex-col w-full gap-6 p-4 bg-boneWhiteBg rounded-xl md:w-4/5 form-col-layout">
+            {% csrf_token %}
+            {{ form.media }}
+            <div class="self-start w-1/6">
+                {% include 'main/components/backButton.html' with title="Back" %}
+            </div>
+            <section class="flex flex-row items-center justify-start w-full gap-4">
+                {% if cover_image %}
+                <div class="">
+                    <div class="flex flex-col items-center self-start space-y-1 border-0 cursor-pointer text-boneWhiteText">
+                        <img id="imagePreview" src="{{ cover_image }}" alt="preview image" class="self-start w-12 h-12 border-0 rounded-md md:w-full md:h-48">
+                    </div>
+                {% else %}
+                <div class="">
+                    {% include "main/components/previewUploadImage.html" %}
+                </div>
+                {% endif %}
+                <div class="w-full">
+                    {{ form.cover_image }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.category.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.category.help_text }}</span>
+                    <span class="errorlist">{{ form.category.errors }}</span>
+                    {{ form.category }}
+                </div>
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.subject.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.subject.help_text }}</span>
+                    <span class="errorlist">{{ form.subject.errors }}</span>
+                    {{ form.subject }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.assigned_class.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.assigned_class.help_text }}</span>
+                    <span class="errorlist">{{ form.assigned_class.errors }}</span>
+                    {{ form.assigned_class }}
+                </div>
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.read_time.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.read_time.help_text }}</span>
+                    <span class="errorlist">{{ form.read_time.errors }}</span>
+                    {{ form.read_time }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.title.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.title.help_text }}</span>
+                    <span class="errorlist">{{ form.title.errors }}</span>
+                    {{ form.title }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-4">
+                <div class="flex flex-col w-full gap-1" style="height: 20%;">
+                    <label for="">Introduction</label>
+                    {{ form.introduction }}
+                </div>
+                <div class="flex flex-col w-full gap-1" style="height: 20%;">
+                    <label for="">Content</label>
+                    {{ form.content }}
+                </div>
+            </section>
+            <section class="flex flex-row justify-between gap-4 md:flex-col">
+                <div class="flex flex-row items-center gap-2">
+                    {{ form.published }}
+                    <label for="">Publish</label>
+                </div>
+                <div class="flex flex-row items-center gap-2">
+                    {{ form.make_public }}
+                    <label for="">Make Public</label>
+                </div>
+            </section>
+            <div class="self-center w-1/2 my-4">
+                {% include "main/components/saveButton.html" with title="Upload Post" %}
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    function previewImage() {
+        var input = document.getElementById('postImageInput');
+        var preview = document.getElementById('imagePreview');
+    
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+</script>
+{% endblock content %}

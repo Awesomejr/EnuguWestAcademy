@@ -1,0 +1,180 @@
+{% extends "./cbt.html" %}
+{% block title %} Preview CBT Results {% endblock title %}
+
+{% block cbtTabContent %}
+{% if cbt_results %}
+<section class="space-y-4">
+    <header class="space-y-6">
+        {% include "main/components/pageHeader.html" with title="Preview CBT Results" %}
+        <form method="get" action="" class="relative flex flex-row items-center gap-1 sm:w-full md:w-1/2">
+            <div class="relative flex flex-col w-full gap-1 md:flex-row">
+                <input type="search" id="student" name="q" list="student-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search reg. number | cluster | username | email" required />
+                <datalist id="student-list">
+                    {% for student in students %}
+                    <option value="{{ student.user.username }}">{{ student.user.username }}</option>
+                    {% endfor %}
+                    {% for student in students %}
+                    <option value="{{ student.user.email }}">{{ student.user.email }}</option>
+                    {% endfor %}
+                    {% for student in students %}
+                    <option value="{{ student.registration_number }}">{{ student.registration_number }}</option>
+                    {% endfor %}
+                    {% for name in school_branches %}
+                    <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                    <option value="Part-time">Part-time</option>
+                    <option value="Full-time">Full-time</option>
+                </datalist>
+            </div>
+            {% include "main/components/searchButton.html" %}
+            <a href="{% url 'techsupport:previewCBTResults' %}" class="text-xs italic font-semibold text-center underline cursor-pointer underline-offset-2">Reset</a>
+        </form>
+    </header>
+    <section>
+        {% include "main/components/tableRowCount.html" with count=cbt_results.count instances="Result" %}
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-5000">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            S/N
+                        </th>
+                        <th scope="col" class="p-4">
+                            <div class="flex items-center">
+                                <input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="checkbox-all" class="sr-only">checkbox</label>
+                            </div>
+                        </th>
+                        <th scope="col" class="p-4">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Student
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            CBT
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Subjects
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Score
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Score Percentage (%)
+                        </th>
+                        <!-- <th scope="col" class="px-6 py-3">
+                            Per Exam Scores
+                        </th> -->
+                        <!-- <th scope="col" class="px-6 py-3">
+                            Answers
+                        </th> -->
+                        <th scope="col" class="px-6 py-3">
+                            Created On
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Created By
+                        </th>
+                        {% if request.user.role == "tech_support" %}
+                        <th scope="col" class="px-6 py-3">
+                            Action
+                        </th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in cbt_results %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">
+                            {{ forloop.counter }}
+                        </td>
+                        <td class="w-4 p-4">
+                            <div class="flex items-center">
+                                <input id="{{ result.id }}-{{ forloop.counter }}" type="checkbox" value="{{ result.id }}"  name="selected_results" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded checkbox-item focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="{{ result.id }}-{{ forloop.counter }}" class="sr-only">checkbox</label>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ result.id }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ result.student.user.getFullName }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ result.cbt_category.description }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {% for exam in result.cbt_category.exams.all %}
+                            {{ exam.subject.name }},
+                            {% endfor %}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ result.score }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ result.score_percentage }}
+                        </td>
+                        <!-- <td class="px-6 py-4">
+                            {{ result.per_exam_scores }}
+                        </td> -->
+                        <!-- <td class="px-6 py-4">
+                            {{ result.answers }}
+                        </td> -->
+                        <td class="px-6 py-4">
+                            {{ result.created_on }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ result.created_by.getFullName|default:'N/A' }}
+                        </td>
+                        {% if request.user.role == "tech_support" %}
+                        <td class="px-6 py-4">
+                            <!-- <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> -->
+                            {% include "main/components/delete.html" with link="techsupport:deleteCBTResult" object_id=result.id %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+<!-- JavaScript to handle Select All checkboxes functionality -->
+<script>
+    function initializeSelectAllCheckbox() {
+        const selectAllCheckbox = document.getElementById('checkbox-all');
+        const checkboxes = document.querySelectorAll('.checkbox-item');
+
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                checkboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+        }
+    }
+
+    // Reattach event listener after HTMX update
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        initializeSelectAllCheckbox();
+    });
+
+    // Initialize the Select All functionality on page load
+    initializeSelectAllCheckbox();
+</script>
+</section>
+{% else %}
+<section class="h-screen">
+    {% include "main/components/pageHeader.html" with title="Preview CBT Results" %}
+    {% include "main/components/resultNotFound.html" %}
+</section>
+{% endif %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-preview-cbt-results");
+        button.style.color = "white";
+    });
+</script>
+{% endblock cbtTabContent %}

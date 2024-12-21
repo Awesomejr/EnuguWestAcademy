@@ -1,0 +1,119 @@
+{% extends "./baseTS.html" %}
+{% block title %} Register Guest {% endblock title %}
+
+{% block main %}
+{% include "main/components/pageHeader.html" with title="Previllaged User Registration" text_align="center" %}
+<section class="w-full h-screen mx-auto md:px-4">
+    <main>
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <ul class="flex flex-wrap justify-center -mb-px text-sm font-medium text-center" id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="mark-attendance-styled-tab" data-tabs-target="#styled-mark-attendance" type="button" role="tab" aria-controls="mark-attendance" aria-selected="false">Register User</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="preview-attendance-styled-tab" data-tabs-target="#styled-preview-attendance" type="button" role="tab" aria-controls="preview-attendance" aria-selected="false">Preview</button>
+                </li>
+            </ul>
+        </div>
+        <div id="default-styled-tab-content">
+            <div class="hidden p-4 rounded-lg" id="styled-mark-attendance" role="tabpanel" aria-labelledby="mark-attendance-tab">
+                <section class="flex flex-col justify-around gap-4 md:flex-row">
+                    <form action="" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-around w-full gap-6 p-4 py-4 mx-auto md:w-4/5 bg-gray-50 form-style">
+                        {% csrf_token %}
+                        {% include "techsupport/components/createUserForm.html" %}
+                        {% include "techsupport/components/previllagedUserProfileForm.html" %}
+                        <div class="self-center mx-auto my-4 md:w-1/3">
+                            {% include "main/components/saveButton.html" with title="Submit" %}
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-preview-attendance" role="tabpanel" aria-labelledby="preview-attendance-tab">
+                <section class="w-full">
+                    {% include "main/components/tableRowCount.html" with count=previllaged_users_profiles.count instances="recent added user" %}
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                            <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        S/N
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Avatar
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Role
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Username
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        First Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Last Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Middle Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Phone
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Address
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Created On
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Created By
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for previllaged_user_profile in previllaged_users_profiles %}
+                                <tr class="text-xs border-b odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ forloop.counter }}
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {% include "main/components/userAvatar.html" with width="12" height="12" %}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{previllaged_user_profile.user.role|title }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{previllaged_user_profile.user.username }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ previllaged_user_profile.user.first_name }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ previllaged_user_profile.user.last_name }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ previllaged_user_profile.user.middle_name }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{previllaged_user_profile.phone_number }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ previllaged_user_profile.address }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ previllaged_user_profile.created_on }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ previllaged_user_profile.created_by.getFullName }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</section>
+{% endblock main %}

@@ -1,0 +1,88 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} Base Examination  {% endblock title %}
+{% load option_filters %}
+
+{% block content %}
+<button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" class="inline-flex items-center p-2 mt-2 text-sm text-gray-500 rounded-lg ms-3 md:hidden sm:block hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+    <span class="sr-only">Open sidebar</span>
+    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+    </svg>
+</button>
+
+<aside id="sidebar-multi-level-sidebar" class="absolute top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-green-900 dark:bg-green-900">
+        <div class="w-full max-w-sm bg-transparent border-b-2 rounded-sm shadow dark:bg-tranparent border-b-gray-900">
+            <div class="flex justify-end px-4 pt-4">
+                <!-- <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+                    <span class="sr-only">Open dropdown</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                        <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                    </svg>
+                </button> -->
+                <!-- Dropdown menu -->
+                <!-- <div id="dropdown" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                    <ul class="py-2" aria-labelledby="dropdownButton">
+                    <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export Data</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+                    </li>
+                    </ul>
+                </div> -->
+            </div>
+            <br>
+            <div class="flex flex-col items-center gap-4 pb-10">
+                <section class="flex flex-col items-center">
+                    <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ request.user.displayAvatar }}" alt="Bonnie image"/>
+                    <h5 class="mb-1 text-xl font-medium text-boneWhite dark:text-boneWhite">{{ request.user.getFullName }}</h5>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ request.user.username }}</span>
+                </section>
+                <section class="flex flex-col items-center">
+                    <div class="text-boneWhite">
+                        <label for="">Class:</label>
+                        <span>{{ request.user.studentprofile.classes.name.name }}</span>
+                    </div>
+                    <div class="text-boneWhite">
+                        <label for="">Section:</label>
+                        <span>{{ request.user.studentprofile.classes.section.name }}</span>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<div class="px-4 pb-4 sm:ml-64">
+    {% block examContent %}
+    {% endblock examContent %}
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include "main/components/backToTop.html" %}
+{% endblock footer %}
+
+
+
+
+<!-- {% for question in questions %}
+<div class="question-section" id="question_section_{{ question.id }}" style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+    <h2>Question {{ forloop.counter }}</h2>
+    <p>{{ question.content }}</p>
+    <ul>
+        {% for option in question.options.all %}
+        <li>
+        <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}" id="option_{{ option.id }}">
+        <label for="option_{{ option.id }}">Option {{forloop.counter}}: {{ option.content }}</label>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %} -->

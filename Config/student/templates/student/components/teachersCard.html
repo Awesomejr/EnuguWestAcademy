@@ -1,0 +1,34 @@
+{% load static %}
+
+<section class="flex flex-col flex-wrap items-center justify-center w-full gap-4 md:flex-row">
+    {% for teacher_profile in teachers %}
+    <div id="teacher-mini-card" class="max-w-xs p-4 bg-gray-200 rounded-lg cards">
+        <header class="flex flex-col items-center justify-center gap-4">
+            <div>
+                {% include 'main/components/userAvatar.html' with width="20" height="20" %}
+            </div>
+            <div class="text-center">
+                <h1 class="text-sm font-extrabold text-blackText md:text-base">{{ teacher_profile.user.getFullName }}</h1>
+                <span class="text-xs italic">@{{ teacher_profile.user.username }}</span>
+                <div class="flex flex-row justify-between gap-4 underline underline-offset-2">
+                    <a href="">13 Posts</a>
+                    <a href="">5 star</a>
+                </div>
+            </div>
+        </header>
+        <main class="my-4">
+            <h2 class="text-sm font-bold text-center text-blackText md:text-sm">Bio</h2>
+            <p class="text-sm text-center">{{ teacher_profile.bio|default:"N/A" }}</p>
+            <p class="text-sm text-center"><strong>Cluster: </strong>{{ teacher_profile.school_branch.name }}</p>
+        </main>
+        <footer>
+            <div class="flex flex-row flex-wrap items-center justify-center gap-4">
+                {% for class in teacher_profile.assigned_class.all %}
+                <a href="#" class="px-2 py-2 text-xs italic font-bold rounded-md bg-myBlue text-boneWhite">{{class.name.name}}</a>
+                {% endfor %}
+                <a href="#" class="px-2 py-2 text-xs italic font-bold rounded-md bg-myBlue text-boneWhite">{{teacher_profile.teacher_subject.name}}</a>
+            </div>
+        </footer>
+    </div>
+    {% endfor %}
+</section>

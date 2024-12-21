@@ -1,0 +1,26 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} Gallery  {% endblock title %}
+
+{% block content %}
+<section class="flex flex-col items-center">
+    <div class="flex flex-row items-center justify-around w-full p-4 mt-4 md:w-4/5">
+        <div class="max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-5">
+                <a href="{{ event_image.image.url }}">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Description</h5>
+                </a>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ event_image.description }}Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+
+                </p>
+                <a href="{{ event_image.image.url }}" class="inline-flex items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" download="{{ event_image.title }}">
+                    Downlaod Image
+                </a>
+                <a href="{{ event_image.image.url }}">
+                    <img class="w-full rounded-t-lg" src="{{ event_image.image.url }}" alt="" />
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

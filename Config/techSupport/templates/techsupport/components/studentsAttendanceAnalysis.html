@@ -1,0 +1,123 @@
+{% load static %}
+
+
+{% if attendance_summary %}
+<section>
+    {% include "main/components/pageHeader.html" with title="Branch Attendance" text_align="center" %}
+    <section class="flex flex-col items-center justify-around w-full gap-4 space-y-4 md:flex-row">
+        <div class="relative w-full overflow-x-auto shadow-md md:w-4/5 sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            S/N
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Clausters
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Present
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Absent
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            A.W.R
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for branch in attendance_summary %}
+                    <tr class="border-b odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ forloop.counter }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ branch.school_branch__name }}
+                        </td>
+                        <td class="px-6 py-4 font-bold text-myGreen">
+                            {{branch.present_count }}
+                        </td>
+                        <td class="px-6 py-4 font-bold text-myRed">
+                            {{ branch.absent_count }}
+                        </td>
+                        <td class="px-6 py-4 font-bold text-yellow-400">
+                            {{ branch.absent_with_reason_count }}
+                        </td>
+                        <td class="px-6 py-4 font-bold">
+                            {{ branch.present_count|add:branch.absent_count|add:branch.absent_with_reason_count }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "main/charts/schoolBranchAttendanceChart.html" %}
+    </section>
+    <section class="w-full space-y-4">
+        {% include "main/components/pageHeader.html" with title="Top 20 Highest Attendance" text_align="center" %}
+        {% include "main/components/tableRowCount.html" with count=students_with_high_attendance.count instances="result" %}
+        <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg table-height">
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            S/N
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Session
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Clausters
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Class
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Course
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Average Attendance
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendance in students_with_high_attendance %}
+                    <tr class="border-b odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ forloop.counter }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ attendance.student.user.getFullName }}
+                        </td>
+                        <td class="px-6 py-4 font-bold text-myGreen">
+                            {{ attendance.session.getSessionName }}
+                        </td>
+                        <td class="px-6 py-4 font-bold text-myGreen">
+                            {{ attendance.school_branch.name }}
+                        </td>
+                        <td class="px-6 py-4 font-bold text-myRed">
+                            {{ attendance.class_name.name.name }}
+                        </td>
+                        <td class="px-6 py-4 font-bold text-yellow-400">
+                            {{ attendance.student.course.name }}
+                        </td>
+                        <td class="px-6 py-4 font-bold">
+                            {{  attendance.attendance_avg|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+{% else %}
+{% include "main/components/resultNotFound.html" %}
+{% endif %}

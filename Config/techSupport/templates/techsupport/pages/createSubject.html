@@ -1,0 +1,83 @@
+{% extends "./baseTS.html" %}
+{% block title %} Create Subject {% endblock title %}
+
+{% block main %}
+{% if subjects %}
+<section class="p-2 bg-gray-200 md:p-4">
+    <form method="post" action="" class="flex flex-col gap-2 md:flex-row md:items-center">
+        {% csrf_token %}
+        <div class="flex flex-row">
+            <label for="" class="text-sm font-bold">{{ form.name.label }}</label>
+            {{ form.name }}
+        </div>
+        <div>
+            {% include "main/components/saveButton.html" with title=page_title %}
+        </div>
+    </form>
+    {% include "main/components/pageHeader.html" with title="Preview Subjects" text_align="center" current_session=" " %}
+    {% include "main/components/tableRowCount.html" with count=subjects.count instances="Subject" %}
+    <div id="table-display" class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+        <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+            <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        S/N
+                    </th>
+                    <th scope="col" class="p-4">
+                        ID
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        No. of Topics
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Teacher
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Created On
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <td class="px-6 py-4">
+                        {{ forloop.counter }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subject.id }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subject.name }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subject.topics.count }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subject.teachers.first.user.getFullName }}
+                        {% if subject.teachers.count > 1 %}
+                        <span>and {{ subject.teachers.count|add:-1 }} more</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ subject.created_on }}
+                    </td>
+                    <td class="flex flex-row items-center gap-2 px-6 py-4">
+                        {% include "main/components/edit.html" with link="techsupport:editSubject" object_id=subject.id %}
+                        {% include "main/components/delete.html" with link="techsupport:deleteSubject" object_id=subject.id %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% else %}
+{% include "main/components/resultNotFound.html" %}
+{% endif %}
+{% endblock main %}

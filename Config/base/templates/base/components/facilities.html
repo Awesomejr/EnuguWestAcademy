@@ -1,0 +1,136 @@
+{% load static %}
+<style>
+    @media (prefers-reduced-motion: no-preference){
+        .fade-in-scale{
+            scale: .8; opacity: 0;
+            animation: fade-in-scale linear forwards;
+            animation-timeline: view();
+            animation-range-start: 100px;
+            animation-range-end: 500px;
+        }
+        
+        @keyframes fade-in-scale {
+            to {scale: 1; opacity: 1;}
+        }
+    }
+    
+    .cards {
+        transition-property: all;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+    }
+    
+    .cards:hover {
+        box-shadow: 0.5em 0.5em 2em lightgrey;
+        transform: scale(1.03, 1.03);
+    }
+    
+    .cards img {
+        transition-property: all;
+        transition-duration: 500ms;
+        transition-timing-function: ease-in-out;
+    }
+    
+    .cards img:hover {
+        transform: scale(1.05, 1.05);
+        /* transform: rotate(360deg); */
+        transform: skew(30deg, -30deg);
+    }
+
+
+    .facility-area {
+        background-image: url("{% static 'images/banner4.jpg' %}");
+        background-size: 100% 100%;
+
+    }
+    .custom-shape-divider-bottom-1698942290 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+        transform: rotate(180deg);
+    }
+    
+    .custom-shape-divider-bottom-1698942290 svg {
+        position: relative;
+        display: block;
+        width: calc(100% + 1.3px);
+        height: 61px;
+    }
+    
+    .custom-shape-divider-bottom-1698942290 .shape-fill {
+        fill: #f9f6ee;
+    }
+</style>
+
+<section id="facilities" class="relative flex flex-col px-4 py-10 bg-gray-700 bg-center bg-no-repeat shadow-lg facility-area bg-blend-multiply shadow-gray-300" style="height: auto;">
+    <h1 class="my-6 text-3xl font-extrabold text-center uppercase text-gray-50">Our Facilities</h1>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div class="flex flex-col items-start justify-around p-4 py-10 space-y-6 text-center rounded-lg cards bg-gray-50">
+            <img src="{% static 'images/sickbay.jpg' %}" class="ml-1 rounded-lg shadow-lg fade-in-scale shadow-black w-80 h-60">
+            <h2 class="text-xl font-bold text-left uppercase text-myRed">Sick Bay</h2>
+            <p class="text-left text-green-500">tractatos dicam vis delicata molestiae quas maluisset cras appetere dicunt nihil posse</p>
+            <div>
+                <p class="font-bold text-left">Supervisor: <span class="font-medium">Jane Doe</span></p>
+                <p class="font-bold text-left">Contact: <span class="font-medium">+234 8569227288</span></p>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-start justify-around p-4 py-10 space-y-6 text-center rounded-lg cards bg-gray-50">
+            <img src="{% static 'images/computerlab.jpg' %}"  class="ml-1 rounded-lg shadow-lg fade-in-scale shadow-black w-80 h-60">
+            <h2 class="text-xl font-bold text-left text-yellow-700 uppercase">ICT Facility</h2>
+            <p class="text-left text-green-500">tractatos dicam vis delicata molestiae quas maluisset cras appetere dicunt nihil posse</p>
+            <div>
+                <p class="font-bold text-left">Supervisor: <span class="font-medium">Jane Doe</span></p>
+                <p class="font-bold text-left">Contact: <span class="font-medium">+234 8569227288</span></p>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-start justify-around p-4 py-10 space-y-6 text-center rounded-lg cards bg-gray-50">
+            <img src="{% static 'images/library.jpg' %}" class="ml-1 rounded-lg shadow-lg fade-in-scale shadow-black w-80 h-60">
+            <h2 class="text-xl font-bold text-left uppercase text-myBlue">Library</h2>
+            <p class="text-left text-green-500">tractatos dicam vis delicata molestiae quas maluisset cras appetere dicunt nihil posse</p>
+            <div>
+                <p class="font-bold text-left">Supervisor: <span class="font-medium">Jane Doe</span></p>
+                <p class="font-bold text-left">Contact: <span class="font-medium">+234 8569227288</span></p>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-start justify-around p-4 py-10 space-y-6 text-center rounded-lg cards bg-gray-50">
+            <img src="{% static 'images/musicroom.jpg' %}" class="ml-1 rounded-lg shadow-lg fade-in-scale shadow-black w-80 h-60">
+            <h2 class="text-xl font-bold text-left text-yellow-400 uppercase">Music Room</h2>
+            <p class="text-left text-green-500">tractatos dicam vis delicata molestiae quas maluisset cras appetere dicunt nihil posse</p>
+            <div>
+                <p class="font-bold text-left">Supervisor: <span class="font-medium">Jane Doe</span></p>
+                <p class="font-bold text-left">Contact: <span class="font-medium">+234 8569227288</span></p>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="mt-8 mb-4 text-base text-center md:text-xl text-gray-50">View More...</a>
+    
+    <div class="custom-shape-divider-bottom-1698942290 ">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill shadow-black"></path>
+        </svg>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const facilitiesLink = document.querySelector('a[href="#facilities"]');
+        if (facilitiesLink) {
+            facilitiesLink.addEventListener("click", function(event) {
+                event.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute("href"));
+                if (targetElement) {
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top: targetElement.getBoundingClientRect().top + window.scrollY,
+                    });
+                }
+            });
+        }
+    });
+</script>

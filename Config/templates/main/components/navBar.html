@@ -1,0 +1,177 @@
+{% load static %}
+
+<style>
+    #navbar{
+        --_animationStart: 700px;
+        --_animationDuration: 100px;
+        --_surfaceColorStart:  rgb(1 71 55);  /*rgb(24, 23, 23);*/ /*#0e1013*/
+        --_surfaceColorEnd: rgb(1 71 55); /* blackBg color */
+        --_textColorStart: #f9f6ee; /* bonWhite color */
+        --_textcolorEnd: #f9f6ee; /* bonWhite color */
+  
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+  
+        color: --_textColorStart; 
+        background-color:  var(--_surfaceColorEnd); /* navbar black color */
+  
+        @supports (animation-timeline: view()){
+          color: --_textColorStart; 
+          background-color:  var(--_surfaceColorStart); /* navbar color */
+          animation: nav-animation linear forwards;
+          animation-timeline: view();
+          animation-range-start: calc(100vh + var(--_animationStart));
+          animation-range-end: calc(100vh + var(--_animationStart) + var(--_animationDuration));
+  
+        }
+      }
+  
+      @keyframes nav-animation{
+        100% {
+          background-color: var(--_surfaceColorEnd);
+          color: var(--_textcolorEnd);
+          box-shadow: 0 0 0.75rem rgb(255, 255, 255);
+        }
+      }
+
+    #user-dropdown{
+        z-index: 2000;
+    }
+
+    #navbar-user  a,
+    #navbar-user button,
+    #user-dropdown{
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-style: italic;
+    }
+
+    #navbar-user  a:hover,
+    #navbar-user button:hover {
+        border-bottom: 1px solid rgb(9, 73, 9);
+        border-radius: 0;
+    }
+</style>
+
+<nav id="navbar" class="relative w-full border-b-2 border-gray-400 bg-blackBg dark:bg-blackBg text-boneWhite">
+    <!-- <div class="flex flex-col items-start w-full px-4 py-0 text-xs italic sm:space-y-1 md:justify-start md:items-center md:space-x-4 md:flex-row text-gray-50 bg-blackBg">
+        <p class="capitalize"><span class="font-extrabold">Location: </span>Opposite Eagle Nest, hill-top ngwo</p>
+        <p><span class="font-extrabold">Contact: </span>+234 8041795110, +234 8141795110</p>
+    </div> -->
+    <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
+        {% include "main/components/siteLogo.html" %}
+        <div class="flex items-center md:order-2">
+            {% if request.user.is_authenticated %}
+            <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+            <span class="sr-only">Open user menu</span>
+            <img class="w-8 h-8 rounded-full" src="{{ request.user.avatar.url }}" alt="">
+            </button>
+            <!-- Dropdown menu -->
+            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-xl dark:bg-white dark:divide-gray-100 shadow-black" id="user-dropdown">
+                <div class="px-4 py-3">
+                    <span class="block text-sm text-gray-900 dark:text-white">{{ request.user.getFullName }}</span>
+                    <span class="block text-sm text-gray-500 truncate dark:text-gray-400">@{{ request.user.username }}</span>
+                </div>
+                {% if request.user.is_superuser or request.user.role == "tech_support" %}
+                <ul class="py-2" aria-labelledby="user-menu-button">
+                    {% if request.user.is_superuser %}
+                    <li>
+                    <a href="/admin/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Admin Dashboard</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'base:deleteAllRequestsLogs' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete requests logs</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                    <a href="{% url 'base:dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'base:userAccount' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'base:logoutConfirmation' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="py-2" aria-labelledby="user-menu-button">
+                    <li>
+                    <a href="{% url 'base:dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                    </li>
+                    {% if request.user.role != "data_entry" %}
+                    <li>
+                    <a href="{% url 'base:userAccount' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                    <a href="{% url 'base:logoutConfirmation' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+            {% else %}
+            {% include "base/components/loginModal.html" %}
+            {% endif %}
+            <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+            </svg>
+        </button>
+        </div>
+        <!-- main menu -->
+        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+            <ul class="flex flex-col p-4 mt-4 font-medium bg-transparent rounded-lg md:p-0 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent dark:bg-transparent md:dark:bg-transparent dark:border-black">
+                <li>
+                <a href="{% url 'base:home' %}" class="block py-2 pl-3 pr-4 transition-colors duration-300 ease-linear rounded text-gray-50 md:hover:text-green-700 md:p-0 dark:text-gray-50 md:dark:hover:text-green-700 dark:hover:text-white dark:border-gray-700" aria-current="page">Home</a>
+                </li>
+                <li>
+                    <button id="mega-menu-full-dropdown-button" data-collapse-toggle="explore-mega-menu-full-dropdown" class="flex items-center justify-between w-full py-2 pl-3 pr-4 transition-colors duration-300 ease-linear rounded text-gray-50 md:w-auto md:border-0 md:hover:text-green-700 md:p-0 dark:text-gray-50 md:dark:hover:text-green-700 dark:hover:text-green-700 dark:border-gray-700">Explore <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+                    </button>
+                </li>
+                <li>
+                    <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 pl-3 pr-4 transition-colors duration-300 ease-linear rounded text-gray-50 md:w-auto md:border-0 md:hover:text-green-700 md:p-0 dark:text-gray-50 md:dark:hover:text-green-700 dark:hover:text-green-700 dark:border-gray-700">Updates <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg></button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdownNavbar" class="z-10 hidden font-normal bg-green-800 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-green-800 dark:divide-gray-600">
+                        <ul class="py-2 text-sm font-bold text-boneWhite dark:text-boneWhite" aria-labelledby="dropdownLargeButton">
+                          <li>
+                            <a href="{% url 'news:news' %}" class="block px-4 py-2 hover:bg-green-600 dark:hover:bg-green-600 dark:hover:text-white transition-colors duration-300 ease-in">News</a>
+                          </li>
+                          <li>
+                            <a href="{% url 'news:events' %}" class="block px-4 py-2 hover:bg-green-600 dark:hover:bg-green-600 dark:hover:text-white transition-colors duration-300 ease-in">Events</a>
+                          </li>
+                    </div>
+                </li>
+                <li>
+                    <a href="{% url 'gallery:gallery' %}" class="block py-2 pl-3 pr-4 transition-colors duration-300 ease-linear rounded text-gray-50 md:hover:text-green-700 md:p-0 dark:text-gray-50 md:dark:hover:text-green-700 dark:hover:text-white dark:border-gray-700">Gallery</a>
+                </li>
+                <li>
+                <a href="" class="block py-2 pl-3 pr-4 transition-colors duration-300 ease-linear rounded text-gray-50 md:hover:text-green-700 md:p-0 dark:text-gray-50 md:dark:hover:text-green-700 dark:hover:text-white dark:border-gray-700">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% include "main/components/scrollWatcher.html" %}
+{% include "base/components/registrationsMegaMenu.html" %}
+{% include "base/components/exploreMegaMenu.html" %}
+</nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const main_nav_link = document.querySelector('a[href="#main-nav"]');
+        if (main_nav_link) {
+            main_nav_link.addEventListener("click", function(event) {
+                event.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute("href"));
+                if (targetElement) {
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top: targetElement.getBoundingClientRect().top + window.scrollY,
+                    });
+                }
+            });
+        }
+    });
+</script>

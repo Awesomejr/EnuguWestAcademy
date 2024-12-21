@@ -1,0 +1,165 @@
+{% include "main/components/spinner.html" %}
+{% include "main/components/tableRowCount.html" with count=questions_to_display.object_list|length instances="Result" text_align="right" %}
+<div class="relative px-4 overflow-x-auto shadow-md sm:rounded-lg table-height">
+    <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+        <thead class="text-xs uppercase bg-green-500 text-blackText dark:bg-green-500 dark:text-blackText">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    S/N
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Q. Type
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Subject
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Year
+                </th>
+                <!-- <th scope="col" class="px-6 py-3">
+                    Q.Number
+                </th> -->
+                <!-- <th scope="col" class="px-6 py-3">
+                    Q.Content
+                </th> -->
+                <th scope="col" class="px-6 py-3">
+                    Image
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Topic
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Explanation
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions_to_display %}
+            <tr class="text-xs font-bold bg-gray-100 border-b dark:bg-gray-100 dark:border-gray-700 hover:bg-gray-300 dark:hover:bg-gray-300">
+                <td class="w-4 p-4">
+                    {{forloop.counter}}
+                </td>
+                <td class="flex flex-row items-center gap-4 px-6 py-4">
+                    <!-- Modal toggle -->
+                    <button data-modal-target="default-modal-{{question.id}}-{{forloop.counter}}" data-modal-toggle="default-modal-{{question.id}}-{{forloop.counter}}" class="font-extrabold text-blue-600 underline dark:text-blue-500 hover:underline underline-offset-2" type="button">
+                        Preview Question
+                    </button>
+                    <!-- Main modal -->
+                    <div id="default-modal-{{question.id}}-{{forloop.counter}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative w-full max-w-2xl max-h-full p-4">
+                            <!-- Modal content -->
+                            <div class="relative rounded-lg shadow bg-boneWhiteBg dark:bg-boneWhiteBg">
+                                <!-- Modal header -->
+                                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
+                                    <h3 class="text-base font-extrabold text-blackText dark:text-blackText">
+                                        Question Preview
+                                    </h3>
+                                    <button type="button" class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal-{{question.id}}-{{forloop.counter}}">
+                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                        </svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="p-4 space-y-4 text-xs md:p-5">
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Subject:</label>
+                                        <p>{{ question.subject.name }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Question Type:</label>
+                                        <p>{{ question.question_type }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Year:</label>
+                                        <p>{{ question.year }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Question No.:</label>
+                                        <p>{{ question.number }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Content:</label>
+                                        <p>{{ question.content|safe }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Q.Image:</label>
+                                        {% if question.image %}
+                                        <img src="{{ question.image.url }}" alt="" class="w-28 h-28">
+                                        {% else %}
+                                        <p>No Image</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Level:</label>
+                                        <p>{{ question.level }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Explanation:</label>
+                                        <p>{{ question.explanation }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Topic:</label>
+                                        <p>{{ question.topic.name|default:"None" }}</p>
+                                    </div>
+                                    <hr>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Created On:</label>
+                                        <p>{{ question.created_on }}</p>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <label for="" class="font-extrabold text-blackText">Created On:</label>
+                                        <p>{{ question.created_by }}</p>
+                                    </div>
+
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
+                                    <button data-modal-hide="default-modal-{{question.id}}-{{forloop.counter}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if request.user.role == "tech_support" or request.user.role == "mini_tech_support" or request.user.role == "academic_manager" %}
+                        <a href="{% url 'techsupport:viewQuestionWIthOptions' questionId=question.id %}?page=viewquestionspage" class="font-extrabold text-blue-600 underline dark:text-blue-500 hover:underline underline-offset-2">View Question</a>
+                        <a href="{% url 'techsupport:editQuestion' questionId=question.id %}?page=viewquestionspage" class="font-extrabold text-green-600 underline dark:text-green-500 hover:underline underline-offset-2">Edit Question</a>
+                        <a href="{% url 'techsupport:editQuestionOptions' questionId=question.id %}?page=viewquestionspage" class="font-extrabold text-yellow-600 underline dark:text-yellow-500 hover:underline underline-offset-2">Edit Options</a>
+                        <a href="{% url 'techsupport:deleteQuestion' questionId=question.id %}" class="font-extrabold text-red-600 underline dark:text-red-500 underline-offset-2">Delete Question</a>
+                    {% endif %}
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ question.question_type }}
+                </th>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ question.subject.name }}
+                </th>
+                <td class="px-6 py-4">
+                    {{ question.year }}
+                </td>
+                <!-- <td class="px-6 py-4">
+                    {{ question.number }}
+                </td> -->
+                <!-- <td class="px-6 py-4">
+                    {{ question.content|safe|truncatewords:3 }}
+                </td> -->
+                <td class="px-6 py-4">
+                    {{ question.image|default:"none" }}
+                </td>
+                <td class="w-full px-6 py-4">
+                    {{ question.topic.name|truncatewords:3|default:"None" }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ question.explanation|safe|truncatewords:3 }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include "main/components/paginator.html" with paginator_object=questions_to_display table_id="preview-question-table-section" %}

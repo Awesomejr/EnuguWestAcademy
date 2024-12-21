@@ -1,0 +1,21 @@
+{% extends "./baseTS.html" %}
+{% block title %} Register Mini Tech Support {% endblock title %}
+
+{% block main %}
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title="Mini Tech Support Registration" text_align="center" %}
+    </header>
+    <section class="flex flex-col justify-around gap-4 md:flex-row">
+        <form action="" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-around gap-6 p-4 py-4 mx-auto md:w-4/5 bg-gray-50 form-style">
+            {% csrf_token %}
+            {% include "techsupport/components/createUserForm.html" %}
+            {% include "techsupport/components/miniTechSupportProfileForm.html" %}
+            <div class="self-center mx-auto my-4 md:w-1/3">
+                {% include "main/components/saveButton.html" with title="Submit" %}
+            </div>
+        </form>
+    </section>
+</section>
+
+{% endblock main %}

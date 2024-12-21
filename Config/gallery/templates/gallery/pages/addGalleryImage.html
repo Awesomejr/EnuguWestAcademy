@@ -1,0 +1,159 @@
+{% extends "./createGallery.html" %}
+{% block title %} Add Gallery Image {% endblock title %}
+{% load static %}
+
+
+{% block main %}
+<section class="container flex flex-col gap-4 py-4 mx-auto">
+    <div class="self-center w-full space-y-4 md:w-1/2">
+        {% include "main/components/pageHeader.html" with title="Create Event Image" current_session=" " %}
+        <form action="" method="post" enctype="multipart/form-data" class="p-4 bg-gray-100 rounded-xl form-col-layout">
+            {% csrf_token %}
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.category.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.category.help_text }}</span>
+                    <span class="errorlist">{{ form.category.errors }}</span>
+                    {{ form.category }}
+                </div>
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.event.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.event.help_text }}</span>
+                    <span class="errorlist">{{ form.event.errors }}</span>
+                    {{ form.event }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    {% include "main/components/previewUploadImage.html" with width=32 height=32 %}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold"> <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.image.help_text }}</span>
+                    <span class="errorlist">{{ form.image.errors }}</span>
+                    {{ form.image }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.description.label }} <span class="text-red-600"></span></label>
+                    <span class="helptext">{{ form.description.help_text }}</span>
+                    <span class="errorlist">{{ form.description.errors }}</span>
+                    {{ form.description }}
+                </div>
+            </section>
+            <div class="self-center w-full md:w-1/3">
+                {% include "main/components/saveButton.html" with title="Save" %}
+            </div>
+        </form>
+    </div>
+    <br>
+    {% include "main/components/pageHeader.html" with title="List of Event Images" current_session=" " %}
+    {% if event_images %}
+    <section>
+        <div class="text-right">
+            {% include "main/components/tableRowCount.html" with count=events.count instances="Result" %}
+        </div>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-green-600 dark:text-boneWhite">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            S/N
+                        </th>
+                        <th scope="col" class="p-4">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            category
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            title
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Image
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Description
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Created On
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Created By
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event_image in event_images %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">
+                            {{ forloop.counter }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event_image.id }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event_image.category.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event_image.event.title }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event_image.image }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event_image.description }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event_image.created_on }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ event_image.created_by.getFullName|default:'N/A' }}
+                        </td>
+                        <td class="flex flex-row gap-4 px-6 py-4">
+                            <a href="">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% else %}
+    {% include "main/components/resultNotFound.html" %}
+    {% endif %}
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-add-gallery-image");
+        button.style.color = "white";
+    });
+    
+    function previewImage() {
+        var input = document.getElementById('postImageInput');
+        var preview = document.getElementById('imagePreview');
+    
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+
+</script>
+{% endblock main %}

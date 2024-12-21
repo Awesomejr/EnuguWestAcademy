@@ -1,0 +1,45 @@
+{% load static %}
+
+{% if student_profile %}
+    {% if student_profile.display %}
+    <a href="{{  student_profile.user.displayAvata }}">
+        <img src="{{ student_profile.user.displayAvatar }}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+    </a>
+    {% elif student_profile.gender == "Male" %}
+    <a href="{% static 'images/icons/iconfinder-3-avatar-2754579_120516.svg' %}">
+        <img src="{% static 'images/icons/iconfinder-3-avatar-2754579_120516.svg' %}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+    </a>
+    {% elif student_profile.gender == "Female" %}
+    <a href="{% static 'images/icons/iconfinder-11-avatar-2754576_120520.svg' %}">
+        <img src="{% static 'images/icons/iconfinder-11-avatar-2754576_120520.svg' %}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+    </a>
+    {% else %}
+    <a href="{% static 'images/defaults/avatar.svg' %}">
+        <img src="{% static 'images/defaults/avatar.svg' %}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+    </a>
+    {% endif %}
+{% elif custom_user %}
+<a href="{{ custom_user.displayAvatar }}">
+    <img src="{{ custom_user.displayAvatar }}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+</a>
+{% elif teacher_profile %}
+<a href="{{ teacher_profile.user.displayAvatar }}">
+    <img src="{{ teacher_profile.user.displayAvatar }}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+</a>
+{% elif parent_profile %}
+<a href="{{ parent_profile.user.displayAvatar }}">
+    <img src="{{ parent_profile.user.displayAvatar }}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+</a>
+{% elif guest_profile %}
+<a href="{{ guest_profile.user.displayAvatar }}">
+    <img src="{{ guest_profile.user.displayAvatar }}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+</a>
+{% elif previllaged_user_profile %}
+<a href="{{ previllaged_user_profile.user.displayAvatar }}">
+    <img src="{{ previllaged_user_profile.user.displayAvatar }}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+</a>
+{% else %}
+<a href="{% static 'images/icons/avatar.svg' %}">
+    <img src="{% static 'images/icons/avatar.svg' %}" alt="user image" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-{{width|default:20}} h-{{height|default:20}} border-green-700">
+</a>
+{% endif %}

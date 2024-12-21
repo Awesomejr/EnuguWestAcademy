@@ -1,0 +1,60 @@
+{% load static %}
+<style>
+    #attendanceChart {
+        max-width: 1000px;
+        max-height: 500px;
+        width: 100%; /* Adjust width percentage */
+        height: 500px; /* Fixed height */
+        margin: auto;
+    }
+</style>
+
+
+<div class="w-full">
+    <canvas id="studentAverageAttendance"></canvas>
+</div>
+
+<script>
+    const ctx3 = document.getElementById('studentAverageAttendance');
+
+    new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: {{ student_names|safe}},
+            datasets: [{
+                label: 'Student Average Attendance',
+                data: {{ student_average_attendances|safe }},
+                borderWidth: 1
+            }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: "Average Attendance Status(%)"
+                        },
+                        ticks: {
+                            stepSize: 1  // Set interval steps of 1
+                        }
+                    },
+                    x: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            //text: "Student Name"
+                        },
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                },
+            }
+        }
+    );
+</script>

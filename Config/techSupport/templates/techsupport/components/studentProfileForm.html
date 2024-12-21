@@ -1,0 +1,170 @@
+{% load static %}
+
+<section class="w-full form-col-layout">
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.session.label }}</label>
+            <span class="helptext">{{ student_profile_form.session.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.session.errors }}</span>
+            {{ student_profile_form.session }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.school_branch.label }}</label>
+            <span class="helptext">{{ student_profile_form.school_branch.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.school_branch.errors }}</span>
+            {{ student_profile_form.school_branch }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.registration_number.label }}</label>
+            <span class="helptext">{{ student_profile_form.registration_number.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.registration_number.errors }}</span>
+            <div class="flex flex-row w-full gap-1 text-xs">
+                {{ student_profile_form.registration_number }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.course.label }}</label>
+            <span class="helptext">{{ student_profile_form.course.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.course.errors }}</span>
+            {{ student_profile_form.course }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.classes.label }}</label>
+            <span class="helptext">{{ student_profile_form.classes.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.classes.errors }}</span>
+            {{ student_profile_form.classes }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.student_status.label }}</label>
+            <span class="helptext">{{ student_profile_form.student_status.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.student_status.errors }}</span>
+            {{ student_profile_form.student_status }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.gender.label }}</label>
+            <span class="helptext">{{ student_profile_form.gender.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.gender.errors }}</span>
+            {{ student_profile_form.gender }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.date_of_birth.label }}</label>
+            <span class="helptext">{{ student_profile_form.date_of_birth.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.date_of_birth.errors }}</span>
+            <div class="flex flex-row w-full gap-1">
+                {{ student_profile_form.date_of_birth }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.nationality.label }}</label>
+            <span class="helptext">{{ student_profile_form.nationality.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.nationality.errors }}</span>
+            {{ student_profile_form.nationality }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.state.label }}</label>
+            <span class="helptext">{{ student_profile_form.state.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.state.errors }}</span>
+            {{ student_profile_form.state }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.local_government_area.label }}</label>
+            <span class="helptext">{{ student_profile_form.local_government_area.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.local_government_area.errors }}</span>
+            {{ student_profile_form.local_government_area }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.town.label }}</label>
+            <span class="helptext">{{ student_profile_form.town.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.town.errors }}</span>
+            {{ student_profile_form.town }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.religion.label }}</label>
+            <span class="helptext">{{ student_profile_form.religion.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.religion.errors }}</span>
+            {{ student_profile_form.religion }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.is_first_child.label }}</label>
+            <span class="helptext">{{ student_profile_form.is_first_child.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.is_first_child.errors }}</span>
+            {{ student_profile_form.is_first_child }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.is_last_child.label }}</label>
+            <span class="helptext">{{ student_profile_form.is_last_child.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.is_last_child.errors }}</span>
+            {{ student_profile_form.is_last_child }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.phone_number.label }}</label>
+            <span class="helptext">{{ student_profile_form.phone_number.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.phone_number.errors }}</span>
+            {{ student_profile_form.phone_number }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.current_address.label }}</label>
+            <span class="helptext">{{ student_profile_form.current_address.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.current_address.errors }}</span>
+            {{ student_profile_form.current_address }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.permanent_address.label }}</label>
+            <span class="helptext">{{ student_profile_form.permanent_address.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.permanent_address.errors }}</span>
+            {{ student_profile_form.permanent_address }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.previous_school.label }}</label>
+            <span class="helptext">{{ student_profile_form.previous_school.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.previous_school.errors }}</span>
+            {{ student_profile_form.previous_school }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.previous_school_date.label }}</label>
+            <span class="errorlist">{{ student_profile_form.previous_school_date.errors }}</span>
+            <span class="helptext">{{ student_profile_form.previous_school_date.help_text }}</span>
+            <div class="flex flex-row w-full gap-1">
+                {{ student_profile_form.previous_school_date }}
+            </div>
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.reason_for_leaving.label }}</label>
+            <span class="helptext">{{ student_profile_form.reason_for_leaving.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.reason_for_leaving.errors }}</span>
+            {{ student_profile_form.reason_for_leaving }}
+        </div>
+    </section>
+    <section class="flex flex-col gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.any_disability.label }}</label>
+            <span class="helptext">{{ student_profile_form.any_disability.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.any_disability.errors }}</span>
+            {{ student_profile_form.any_disability }}
+        </div>
+        <div class="flex flex-col justify-around w-full">
+            <label for="" class="font-bold">{{ student_profile_form.disability_description.label }}</label>
+            <span class="helptext">{{ student_profile_form.disability_description.help_text }}</span>
+            <span class="errorlist">{{ student_profile_form.disability_description.errors }}</span>
+            {{ student_profile_form.disability_description }}
+        </div>
+    </section>
+</section>

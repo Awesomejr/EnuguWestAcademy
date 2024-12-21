@@ -1,0 +1,101 @@
+{% extends "main/pages/base.html" %}
+{% load static %}
+{% block title %} Explore {% endblock title %}
+
+{% block content %}
+<style>
+    @media (prefers-reduced-motion: no-preference){
+        .fade-in-scale{
+            scale: .8; opacity: 0;
+            animation: fade-in-scale linear forwards;
+            animation-timeline: view();
+            animation-range-start: 20px;
+            animation-range-end: 200px;
+        }
+        
+        @keyframes fade-in-scale {
+            to {scale: 1; opacity: 1;}
+        }
+    }
+
+    #blog-area header{
+        background-image: url("{% static 'images/siteImages/pexels-pixabay-247899.jpg' %}");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        height: 50vh;
+    }
+
+    .card-pop-up {
+        transition-property: all;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+    }
+    
+    .card-pop-up:hover {
+        box-shadow: 0.5em 0.5em 2em lightgrey;
+        transform: scale(1.03, 1.03);
+    }
+    
+    .card-pop-up img {
+        transition-property: all;
+        transition-duration: 500ms;
+        transition-timing-function: ease-in-out;
+    }
+    
+    .card-pop-up img:hover {
+        transform: scale(1.05, 1.05);
+        /* transform: rotate(360deg); */
+        transform: skew(30deg, -30deg);
+    }
+</style>
+
+
+<section id="blog-area" class="flex flex-col gap-4">
+    <header class="flex flex-row items-center justify-center">
+        <div class="flex flex-col items-center justify-center w-full h-full gap-2 bg-black8">
+            <h1 class="px-2 py-2 font-serif text-lg font-extrabold tracking-widest text-center capitalize text-boneWhite md:text-5xl">{{ site_name }} Explore</h1>
+            <p class="text-base text-boneWhite">Explore and discover more on your interests and different topics</p>
+        </div>
+    </header>
+    {% if request.user.role != "student" %}
+    <div class="text-center">
+        <h1 class="mb-4 text-2xl font-bold text-amber-500">{{ message }}</h1>
+        <span class="italic font-bold text-xm"><a href="{% url 'blog:createBlog' %}" class="underline uppercase underline-offset-2">Create Blog</a></span>
+    </div>
+    {% endif %}
+    {% if blogs %}
+    <section class="flex flex-col self-center w-full gap-2 px-4 md:w-1/2">
+        <form class="w-full mx-auto">
+            <div class="flex">
+                <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Blogs</label>
+                <a href="{% url 'blog:home' %}" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-boneWhite bg-green-500 border border-gray-300 rounded-s-lg hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700 dark:text-boneWhite dark:border-green-700">All categories</a>
+                {% include "main/components/searchBar.html" with querysets=querysets placeholder_text="Search category, title, author, subject" %}
+            </div>
+        </form>
+    </section>
+    <main id="#blog-main" class="container flex flex-col items-center justify-start gap-4 px-4 py-4 mx-auto">
+        {% include "main/components/pagePaginator.html" %}
+        {% include "blog/components/displayBlogs.html" with message="No result found for the searched category." %}
+        {% include "main/components/pagePaginator.html" %}
+    </main>
+    {% else %}
+    {% include "main/components/resultNotFound.html" with message="No blogs found." %}
+    {% endif %}
+    
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+
+        let filterButton = document.getElementsById("sort-button");
+        let searchInput= document.getElementById("search-dropdown");
+
+        filterButton.addEventListener("click", function(){
+            let buttonText = filterButton.textContent || filterButton.innerText;
+            searchInput.value = buttonText;
+        });
+
+    });
+</script>
+{% endblock content %}

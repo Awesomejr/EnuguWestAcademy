@@ -1,0 +1,100 @@
+{% load static %}
+
+{% include "main/components/pageHeader.html" with title=class_participants.first.classes.getClassName %}
+<section class="flex flex-row items-center justify-start gap-4">
+    {% include "main/components/tableRowCount.html" with count=class_participants.count instances="result" %}
+    <div class="flex flex-row items-center justify-start gap-4">
+        <p class="text-sm font-bold"><span>Male: </span><span>{{ male_count }}</span></p>
+        <p class="text-sm font-bold"><span>Female: </span><span>{{ female_count }}</span></p>
+    </div>
+</section>
+<div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg table-height">
+    <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+        <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    S/N
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Avatar
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Gender
+                </th>
+                {% if request.user.role != "student" %}
+                <th scope="col" class="px-6 py-3">
+                    Telephone
+                </th>
+                {% endif %}
+                <th scope="col" class="px-6 py-3">
+                    Email
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Clusters
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Course
+                </th>
+                {% if request.user.role != "student" %}
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for student_profile in class_participants %}
+            <tr class="border-b odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ forloop.counter }}
+                </th>
+                <td class="px-6 py-4">
+                    {% include 'main/components/userAvatar.html' with width="12" height="12" %}
+                </td>
+                <td class="px-6 py-4">
+                    {{ student_profile.user.getFullName }}
+                </td>
+                <td class="px-6 py-4 font-bold">
+                    {{ student_profile.gender }}
+                </td>
+                {% if request.user.role != "student" %}
+                <td class="px-6 py-4 font-bold">
+                    {{ student_profile.phone_number }}
+                </td>
+                {% endif %}
+                <td class="px-6 py-4 font-bold">
+                    {{ student_profile.user.email }}
+                </td>
+                <td class="px-6 py-4 font-bold">
+                    {{ student_profile.school_branch.name }}
+                </td>
+                <td class="px-6 py-4 font-bold">
+                    {{  student_profile.course.name }}
+                </td>
+                {% if request.user.role != "student" %}
+                    {% if request.user.role == "tech_support" %}
+                    <td class="px-6 py-4">
+                        {% include "main/components/view.html" with link="techsupport:viewStudentAttendance" object_id=student_profile.user.id %}
+                    </td>
+                    {% elif request.user.role == "guest" %}
+                    <td class="px-6 py-4">
+                        {% include "main/components/view.html" with link="guest:viewStudentAttendance" object_id=student_profile.user.id %}
+                    </td>
+                    {% elif request.user.role == "manager" %}
+                    <td class="px-6 py-4">
+                        {% include "main/components/view.html" with link="manager:viewStudentAttendance" object_id=student_profile.user.id %}
+                    </td>
+                    {% else %}
+                    <td class="px-6 py-4">
+                        <span>N/A</span>
+                    </td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

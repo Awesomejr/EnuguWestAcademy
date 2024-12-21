@@ -1,0 +1,99 @@
+{% load static %}
+
+<section>
+    {% if students_to_display %}
+    <header class="flex flex-col items-start justify-start w-full py-4 md:flex-row">
+        <form hx-get="{% url 'guest:studentsAttendance' %}" hx-target="#styled-mark-attendance" hx-swap="innerHTML" hx-indicator="#loading" class="flex flex-col items-center self-start mx-auto sm:gap-4 md:flex-row md:gap-0 sm:w-full md:w-3/5">
+            <div class="relative flex flex-col w-full gap-4 md:gap-1 md:flex-row">
+                {{ form.school_branch }}
+                {{ form.assigned_class }}
+                {{ form.class_section }}
+            </div>
+            <button type="submit" class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+                <span class="sr-only">Search</span>
+            </button>
+            <a href="{% url 'guest:studentsAttendance' %}" class="text-xs italic font-semibold text-center underline cursor-pointer underline-offset-2">View All</a>
+        </form>
+    </header>
+    <section class="relative space-y-2">
+        {% include "main/components/spinner.html" %}
+        {% include "main/components/tableRowCount.html" with count=students_to_display.object_list|length instances="Student" text_align="right" %}
+        {% csrf_token %}
+        <div id="table-display" class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-green-50 dark:bg-green-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            S/N
+                        </th>
+                        <th scope="col" class="p-4">
+                            Action
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Avatar
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Branch
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Class
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Section
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Session
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student_profile in students_to_display %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">
+                            {{ forloop.counter }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {% include "main/components/view.html" with title="View" link="guest:viewStudentAttendance" object_id=student_profile.user.id %}
+                        </td>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {% include "main/components/userAvatar.html" with width="12" height="12" %}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ student_profile.user.getFullName }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ student_profile.student_status }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ student_profile.school_branch.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ student_profile.classes.name.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ student_profile.classes.section }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ student_profile.session.getSessionName }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- Pagination controls -->
+    {% include "main/components/paginator.html" with paginator_object=students_to_display table_id="styled-mark-attendance" %}
+    {% else %}
+    {% include "main/components/resultNotFound.html" with message="Inavlid Search Query. Try Again." %}
+    {% endif %}
+</section>

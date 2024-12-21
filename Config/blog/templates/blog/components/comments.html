@@ -1,0 +1,33 @@
+{% load static %}
+
+<section id="post-comments" class="w-full space-y-6">
+    <header class="flex flex-row gap-4">
+        {% include "blog/components/likePost.html" %}
+        <span class="flex flex-row items-center gap-0.5 italic"><img src="{% static 'images/icons/icons8_comments.ico' %}" alt="" class="w-5 h-5"> {{ comments.count }}</span>
+    </header>
+    {% if comments %}
+    {% for comment in comments %}
+    <div class="flex flex-row items-start justify-start w-full gap-4">
+        <img class="w-8 h-8 rounded-full" src="{{ comment.author.displayAvatar }}" alt="{{ comment.email }} image">
+        <div class="flex flex-col w-full leading-1.5">
+            <div class="flex items-center justify-between space-x-2 rtl:space-x-reverse">
+                <span class="text-sm font-bold text-blackText dark:text-blackkText">{{ comment.author }}</span>
+                {% include "blog/components/ratings.html" %}
+            </div>
+            <p class="py-2 text-sm font-semibold text-blackText dark:text-blackText">{{ comment.content }}</p>
+            <div class="flex flex-row gap-4">
+                <span class="text-sm italic font-normal text-blackText dark:text-blackText opacity-80">{{ comment.created_on|timesince }} ago</span>
+                {% if request.user == comment.author.user %}
+                <a href="#" class="text-sm font-bold capitalize text-blackText dark:text-blackText">Edit</a>
+                {% endif %}
+                <a href="#" class="text-sm font-bold capitalize text-blackText dark:text-blackText">like</a>
+                <a href="#" class="text-sm font-bold capitalize text-blackText dark:text-blackText">comment</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    {% else %}
+    <h1 class="text-lg italic font-bold text-blackText opacity-70">No comments yet. Be the first to share your thoguht.</h1>
+    {% endif %}
+</section>

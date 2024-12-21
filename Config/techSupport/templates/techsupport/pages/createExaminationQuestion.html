@@ -1,0 +1,78 @@
+{% extends "./examination.html" %}
+{% block title %} Create Examination Question {% endblock title %}
+
+{% block examTabContent %}
+<form action="" method="post" enctype="multipart/form-data" class="flex flex-col gap-4 p-5 text-xs bg-gray-100 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+    {% csrf_token %}
+    {% include "main/components/pageHeader.html" with title="Create Question" text_align="center" text_color="blackText" current_session=" " %}
+    {{ question_form.media }}
+    <section class="relative flex flex-col w-full gap-2 md:flex-row">
+        {% include "main/components/spinner.html" %}
+        <div class="flex flex-col justify-around w-full form-col-child">
+            <label for="exam" class="font-bold">{{ question_form.exam.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ question_form.exam.help_text }}</span>
+            <span class="errorlist">{{ question_form.exam.errors }}</span>
+            {{ question_form.exam }}
+        </div>
+        <div class="relative flex flex-col justify-around w-full form-col-child">
+            <label for="topic" class="font-bold">{{ question_form.topic.label }} <span class="text-red-600"></span></label>
+            <span class="helptext">{{ question_form.topic.help_text }}</span>
+            <span class="errorlist">{{ question_form.topic.errors }}</span>
+            {{ question_form.topic }}
+        </div>
+    </section>
+    <section class="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
+        <div class="flex flex-col justify-around w-full form-col-child">
+            <label for="number" class="font-bold">{{ question_form.number.label }} <span class="text-red-600"></span></label>
+            <span class="helptext">{{ question_form.number.help_text }}</span>
+            <span class="errorlist">{{ question_form.number.errors }}</span>
+            {{ question_form.number }}
+        </div>
+        <div class="flex flex-col justify-around w-full form-col-child">
+            <label for="q-image" class="font-bold">{{ question_form.image.label }} <span class="text-red-600"></span></label>
+            <span class="helptext">{{ question_form.image.help_text }}</span>
+            <span class="errorlist">{{ question_form.image.errors }}</span>
+            {{ question_form.image }}
+        </div>
+    </section>
+    <section class="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
+        <div class="flex flex-col justify-around w-full form-col-child">
+            <label for="" class="font-bold">{{ question_form.content.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ question_form.content.help_text }}</span>
+            <span class="errorlist">{{ question_form.content.errors }}</span>
+            <div>
+                {{ question_form.content|safe }}
+            </div>
+        </div>
+        <div class="flex flex-col justify-around w-full form-col-child">
+            <label for="" class="font-bold">{{ question_form.explanation.label }} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ question_form.explanation.help_text }}</span>
+            <span class="errorlist">{{ question_form.explanation.errors }}</span>
+            <div>
+                {{ question_form.explanation|safe }}
+            </div>
+        </div>
+    </section>
+    <section class="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
+        <div class="flex flex-col justify-around w-full form-col-child">
+            <label for="" class="font-bold">{{ form.level.label }} <span class="text-red-600"></span></label>
+            <span class="helptext">{{ form.level.help_text }}</span>
+            <span class="errorlist">{{ form.level.errors }}</span>
+            <div>
+                {{ form.level }}
+            </div>
+        </div>
+    </section>
+    <div class="self-center w-1/2 my-4 mb-4 md:w-1/3">
+        {% include "main/components/saveButton.html" with title="Create Question" %}
+    </div>
+</form>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-create-examination-question");
+        button.style.color = "white";
+    });
+</script>
+{% endblock examTabContent %}

@@ -1,0 +1,87 @@
+{% extends "main/pages/base.html" %}
+{% block title %} E-Library {% endblock title %}
+{% load static %}
+
+{% block content %}
+<style>
+    #about-area header{
+        background-image: url("{% static 'images/siteImages/pexels-divinetechygirl-1181571.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: 100% 100%;
+        height: 50vh;
+    }
+</style>
+
+<section id="about-area" class="pb-4 bg-gray-300">
+    <header class="flex flex-row items-center justify-center bg-gray-700 text-gray-50">
+        <div class="flex flex-row items-center justify-center w-full h-full p-4 bg-black6">
+            <div class="w-4/5 space-y-4 text-center text-gray-100">
+                <div class="space-y-2">
+                    <h1 class="text-lg font-extrabold tracking-widest uppercase md:text-5xl">E-Library</h1>
+                    
+                </div>
+                <p class="font-sans text-xs font-medium md:text-base">with a vision to provide a learning space that not.</p>
+            </div>
+        </div>
+    </header>
+    {% if books %}
+    <div class="flex flex-row justify-center py-4 mb-2">
+        <ul class="flex items-center flex-grow -mb-px overflow-x-auto text-xs font-bold text-center text-boneWhite dark:text-boneWhite">
+            {% for class in all_class %}
+            <li class="h-full me-2">
+                <a href="#" class="inline-block h-full px-6 py-4 transition-colors duration-300 ease-in bg-green-700 rounded-lg hover:text-boneWhite dark:hover:text-boneWhite hover:bg-opacity-90">{{ class.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <form class="w-full mx-auto md:w-1/2">
+        <div class="flex">
+            <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
+            <button id="dropdown-button" data-dropdown-toggle="dropdown" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button"> 
+                Sort by
+                <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </button>
+            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+                <li>
+                    <a href="{% url 'library:books' %}" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All Categories</a>
+                </li>
+                <li>
+                    <a hx-get="{% url 'library:sortByClass' %}" hx-target="#library" class="inline-flex w-full px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Class</a>
+                </li>
+                <li>
+                    <a hx-get="{% url 'library:sortBySubject' %}" hx-target="#library" class="inline-flex w-full px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Subject</a>
+                </li>
+                <li>
+                    <a hx-get="{% url 'library:sortByNewest' %}" hx-target="#library" class="inline-flex w-full px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Newest</a>
+                </li>
+                </ul>
+            </div>
+            {% include "main/components/searchBar.html" with querysets=books placeholder_text="Category, Class, Subject..." %}
+        </div>
+    </form>
+    {% if request.user.role == "tech_support" or request.user.role == "mini_tech_support" or request.user.role == "manager" or request.user.role == "academic_manager" or request.user.role == "mini_manager" or request.user.role == "administrator" or request.user.is_superuser %}
+    <div class="flex flex-row justify-center my-4">
+        <a href="#" class="italic font-bold text-center underline underline-offset-2 text-blackText ">Add a book to e-library</a>
+    </div>
+    {% endif %}
+    <section id="library" class="container grid h-screen gap-4 px-4 mx-auto bg-gray-200 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-evenly">
+        {% for book in books %}
+        {% include "library/components/bookCard.html" %}
+        {% endfor %}
+    </section>
+    {% else %}
+    <section class="h-screen">
+        {% include "main/components/resultNotFound.html" %}
+        {% if request.user.role == "tech_support" or request.user.role == "mini_tech_support" or request.user.role == "manager" or request.user.role == "academic_manager" or request.user.role == "mini_manager" or request.user.role == "administrator" or request.user.is_superuser %}
+        <div class="flex flex-row justify-center my-4">
+            <a href="#" class="italic font-bold text-center underline underline-offset-2 text-blackText ">Add a book to e-library</a>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+</section>
+{% endblock content %}

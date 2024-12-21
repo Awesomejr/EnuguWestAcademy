@@ -1,0 +1,44 @@
+{% extends "./index.html" %}
+{% load static %}
+
+{% block main %}
+{% if events %}
+<section class="bg-boneWhite">
+    <!-- Event Cards -->
+    {% for event in events %}
+    <div class="flex flex-col items-start justify-around gap-6 p-6 md:flex-row bg-gray-50">
+        <div class="fade-in-scale">
+            <h3 class="text-xl font-bold">{{ event.date | date:"l" }}</h3>
+            <h1 class="text-5xl font-extrabold">{{ event.date | date:"d" }}</h1>
+        </div>
+        <div class="w-full fade-in-scale">
+            <a href="">
+                <img src="{{ event.image.url }}" alt="event_image" class="w-full h-auto rounded-lg">
+            </a>
+        </div>
+        <div class="flex flex-col items-start justify-around w-full gap-2">
+            <h1 class="text-3xl font-extrabold">{{ event.title }}</h1>
+            <p class="text-base text-justify md:text-lg">{{ event.description | truncatewords:78}}
+                <span><a href="#" class="underline lowercase underline-offset-2 text-myBlue">more</a></span>
+            </p>
+            <div class="flex flex-col items-start justify-around w-full p-4 bg-gray-500 text-gray-50">
+                <p class="italic"><span class="not-italic font-bold uppercase">Date:</span> {{ event.date }}</p>
+                <p class="italic"><span class="not-italic font-bold uppercase">Location:</span> {{ event.location }}</p>
+                <p class="italic"><span class="not-italic font-bold uppercase">Time:</span> {{ event.start_time }} till {{ event.close_time }}</p>
+            </div>
+            <p class="italic"><span class="not-italic font-bold uppercase">Host:</span> {{ event.host }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+{% else %}
+{% include "main/components/resultNotFound.html" with message="No recent event yet. Try again later." %}
+{% endif %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-events");
+        button.style.color = "white";
+    });
+</script>
+{% endblock main %}

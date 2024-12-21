@@ -1,0 +1,31 @@
+{% load static %}
+<style>
+    .whatsappButton {
+        background-color: rgba(3, 109, 3, .85);
+        display: block;
+        position: fixed;
+        bottom: 5em;
+        right: 0;
+        margin: 2em;
+        border-radius: 50%;
+
+    }
+
+    .scale-button {
+        transition-property: all;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+    }
+    
+    .scale-button:hover {
+        box-shadow: 0.5em 0.5em 2em lightgrey;
+        transform: scale(1.3, 1.3);
+    }
+</style>
+{% if request.user.is_authenticated %}
+<button id="whatsapp" class="whatsappButton scale-button">
+    <a href="#">
+        <img src="{% static 'images/icons/whatsapp_logo_icon_186881.svg' %}" alt="none" width="50">
+    </a>
+</button>
+{% endif %}

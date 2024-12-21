@@ -1,0 +1,13 @@
+{% extends "./baseMG.html" %}
+{% block title %} Students Attendance {% endblock title %}
+
+{% block main %}
+<section class="w-full">
+    {% include "techsupport/components/attendanceTab.html" with mark_attendance_link="manager:studentsAttendance" preview_marked_attendance_link="manager:previewStudentsMarkedAttendance" students_attendance_statistics_link="manager:studentsAttendanceStatistics" %}
+    <main class="h-screen">
+    {% block attendanceTabContent %}
+    <!-- Some dynamic content here -->
+    {% endblock attendanceTabContent %}
+    </main>
+</section>
+{% endblock main %}

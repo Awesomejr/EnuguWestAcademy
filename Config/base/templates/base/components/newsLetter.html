@@ -1,0 +1,76 @@
+{% load static %}
+
+<style>
+    .custom-shape-divider-bottom-1703784186 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+    }
+    
+    .custom-shape-divider-bottom-1703784186 svg {
+        position: relative;
+        display: block;
+        width: calc(278% + 1.3px);
+        height: 100px;
+    }
+    
+    .custom-shape-divider-bottom-1703784186 .shape-fill {
+        fill: #f9f6ee;
+    }
+    
+    /** For mobile devices **/
+    @media (max-width: 767px) {
+        .custom-shape-divider-bottom-1703784186 svg {
+            width: calc(278% + 1.3px);
+            height: 70px;
+        }
+    }
+</style>
+
+<section id="newsletter" class="relative flex flex-col items-center justify-around gap-4 px-4 py-10 shadow-xl bg-boneWhite md:px-8 md:flex-row shadow-white">
+    <!-- <div class="custom-shape-divider-top-1698942378">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+        </svg>
+    </div> -->
+
+    <div class="flex flex-row items-center self-center justify-center w-full fade-in-scale">
+        <img src="{% static 'images/location.png' %}" class="w-80 h-80">
+    </div>
+    <div class="w-full">
+        <label for="input-group-1" class="block mb-2 text-xl font-medium text-gray-900 capitalize dark:text-white">Subscribe to our news letter and get the latest news updates</label>
+        <div class="relative mb-6">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+            </svg>
+          </div>
+            <form class="flex flex-row items-center justify-around space-x-4">
+                <input type="email" id="input-group-1" class="bg-black border border-black text-gray-50 text-base rounded-lg focus:border-myBlue block w-full pl-10 p-2.5  dark:bg-black dark:border-black dark:placeholder-gray-300 dark:text-gray-50 dark:focus:border-myBlue shadow-lg shadow-black" placeholder="johndoe@gmail.com">
+                <a href="#" class="w-1/2 px-2 py-3 text-center transition-colors duration-500 ease-in rounded-lg md:px-4 md:w-auto bg-myGreen text-gray-50 hover:bg-opacity-90">Subscribe</a>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const newsletterLink = document.querySelector('a[href="#newsletter"]');
+        if (newsletterLink) {
+            newsletterLink.addEventListener("click", function(event) {
+                event.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute("href"));
+                if (targetElement) {
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top: targetElement.getBoundingClientRect().top + window.scrollY,
+                    });
+                }
+            });
+        }
+    });
+</script>

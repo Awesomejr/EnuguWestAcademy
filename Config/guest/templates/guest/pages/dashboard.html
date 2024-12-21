@@ -1,0 +1,36 @@
+{% extends "./baseGT.html" %}
+{% block title %} Support Dashboard {% endblock title %}
+
+
+{% block main %}
+<section class="mt-2 mb-4 space-y-4">
+    {% include "techsupport/components/dashboardInsight.html" %}
+    <section class="container flex flex-col gap-4 mx-auto">
+        {% include "main/components/pageHeader.html" with title="School Branch Analysis" text_align="center" text_color="myGreen" %}
+        <div class="flex flex-row">
+            {% include "main/charts/schoolBranchStudentTeacherChart.html" %}
+        </div>
+        <div class="flex flex-col gap-4 md:flex-row">
+            {% include "techsupport/components/schoolBranchTeacherTable.html" %}
+            {% include "techsupport/components/schoolBranchStudentTable.html" %}
+        </div>
+    </section>
+    <section class="container pt-4 mx-auto mt-4">
+        {% if students_preview and parents_preview %}
+        {% include "main/components/pageHeader.html" with title="Recently Added" text_align="center" text_color="myGreen" %}
+        <div class="flex flex-col items-start justify-start w-full gap-4">
+            {% include "techsupport/components/previewStudentsTable.html" %}
+            {% include "techsupport/components/previewParentsTable.html" %}
+        </div>
+        {% else %}
+        {% include "main/components/resultNotFound.html" with message="No Student And Parent Profile Found. Try Again Later." %}
+        {% endif %}
+    </section>
+    <!-- <section class="flex flex-col gap-4 md:flex-row">
+        <div class="w-full">
+
+        </div>
+    </section> -->
+
+</section>
+{% endblock main %}

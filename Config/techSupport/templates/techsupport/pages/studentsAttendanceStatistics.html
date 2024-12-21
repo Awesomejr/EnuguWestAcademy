@@ -1,0 +1,13 @@
+{% extends "./studentsAttendance.html" %}
+{% block title %} Preview Students Attendance Statistics {% endblock title %}
+
+{% block attendanceTabContent %}
+{% include "techsupport/components/studentsAttendanceAnalysis.html" %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-attendance-statistics");
+        button.style.color = "white";
+    });
+</script>
+{% endblock attendanceTabContent %}

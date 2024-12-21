@@ -1,0 +1,43 @@
+{% load static %}
+
+<section id="contact-us" class="flex flex-col self-center justify-around w-full md:w-1/2 md:px-8">
+    <div class="flex flex-col items-center justify-around w-full gap-4 py-4 my-8 shadow-xl shadow-black bg-blackBg text-gray-50 rounded-xl cards fade-in-scale">
+        <h1 class="text-2xl font-bold uppercase">Contact us</h1>
+        <form action="{% url 'base:contactUs' %}" method="post" class="w-4/5 space-y-4">
+            {% csrf_token %}
+            <div class="flex flex-col justify-around gap-1">
+                <label for="name">Full Name:</label>
+                <input type="text" name="name" id="name" placeholder="Your Name..." class="text-gray-900">
+            </div>
+            <div class="flex flex-col justify-around gap-1">
+                <label for="email">Email:</label>
+                <input type="email" name="email" placeholder="Your Email..." class="text-gray-900">
+            </div>
+            <div class="flex flex-col justify-around gap-1">
+                <label for="message">Message: </label>
+                <textarea id="message" name="messages" cols="30" rows="10" placeholder="Your Message..." class="text-gray-900"></textarea>
+            </div>
+            <div class="w-1/2">
+                {% include "main/components/saveButton.html" with title="Send" %}
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const contactUsLink = document.querySelector('a[href="#contact-us"]');
+        if (contactUsLink) {
+            contactUsLink.addEventListener("click", function(event) {
+                event.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute("href"));
+                if (targetElement) {
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top: targetElement.getBoundingClientRect().top + window.scrollY,
+                    });
+                }
+            });
+        }
+    });
+</script>

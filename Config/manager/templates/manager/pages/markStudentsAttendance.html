@@ -1,0 +1,14 @@
+{% extends "./studentsAttendance.html" %}
+{% block title %} Mark Students Attendance {% endblock title %}
+
+{% block attendanceTabContent %}
+{% include "main/components/pageHeader.html" with title="Students Attendance" text_align="center" %}
+{% include "techsupport/components/studentsAttendanceTable.html" %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-mark-attendance");
+        button.style.color = "white";
+    });
+</script>
+{% endblock attendanceTabContent %}

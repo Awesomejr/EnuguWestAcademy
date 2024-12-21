@@ -1,0 +1,13 @@
+{% extends "./baseTC.html" %}
+{% block title %}  Question {% endblock title %}
+
+{% block main %}
+<section class="w-full">
+    {% include "techsupport/components/questionTab.html" with link='teacher:createQuestion' %}
+    <main class="h-screen">
+    {% block createQuestionTabContent %}
+    <!-- Some dynamic content here -->
+    {% endblock createQuestionTabContent %}
+    </main>
+</section>
+{% endblock main %}

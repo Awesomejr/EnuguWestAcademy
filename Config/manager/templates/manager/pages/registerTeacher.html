@@ -1,0 +1,22 @@
+{% extends "./baseMG.html" %}
+{% block title %} Register Teacher {% endblock title %}
+
+
+{% block main %}
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title="Teacher Registration" text_align="center" %}
+    </header>
+    <section class="flex flex-col justify-around gap-4 md:flex-row">
+        <form action="" method="post" enctype="multipart/form-data" class="flex flex-col justify-around w-full gap-6 p-4 py-4 mx-auto md:w-4/5 bg-gray-50 form-style">
+            {% csrf_token %}
+            {% include "techsupport/components/createUserForm.html" %}
+            {% include "techsupport/components/teacherProfileForm.html" %}
+            <div class="self-start w-1/2">
+                {% include "main/components/saveButton.html" with title="Submit" %}
+            </div>
+        </form>
+    </section>
+</section>
+
+{% endblock main %}

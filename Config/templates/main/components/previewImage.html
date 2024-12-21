@@ -1,0 +1,37 @@
+{% load static %}
+
+<div class="flex flex-col items-center justify-center">
+    {% if request.user == custom_user %}
+    <a href="{{ request.user.displayAvatar }}">
+        <img id="imagePreview" src="{{ request.user.displayAvatar }}" alt="Image Preview"
+            style="border: 1px solid rgba(0, 0, 0, .1); padding: 5px;" class="w-{{ width|default:20 }} h-{{ height|default:20 }} rounded-full bg-gray-50">
+    </a>
+    {% else %}
+    <a href="{% static 'images/icons/avatar.svg' %}">
+        <img id="imagePreview" src="{% static 'images/icons/avatar.svg' %}" alt="Image Preview"
+            style="border: 1px solid rgba(0, 0, 0, .1); padding: 5px;" class="w-{{ width|default:20 }} h-{{ height|default:20 }} rounded-full bg-gray-50">
+    </a>
+    {% endif %}
+        
+</div>
+
+<script>
+    function previewImage() {
+        var input = document.getElementById('postImageInput');
+        var preview = document.getElementById('imagePreview');
+    
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+</script>

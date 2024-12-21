@@ -1,0 +1,6 @@
+{% extends "./question.html" %}
+{% block title %} View Question {% endblock title %}
+
+{% block createQuestionTabContent %}
+{% include "techsupport/components/viewQuestionsHeader.html" with link='techsupport:viewQuestions' %}
+{% endblock createQuestionTabContent %}

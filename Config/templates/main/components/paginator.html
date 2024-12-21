@@ -1,0 +1,19 @@
+
+
+<!-- Pagination controls -->
+<div class="flex items-center justify-between py-3">
+    <div>
+        Page {{ paginator_object.number }} of {{ paginator_object.paginator.num_pages }}
+    </div>
+    <div class="space-x-2">
+        {% if paginator_object.has_previous %}
+        <a hx-get="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" hx-target="#{{table_id}}" hx-swap="innerHtML" hx-indicator="#loading" class="px-3 py-1 text-white bg-green-600 rounded cursor-pointer">First</a>
+        <a hx-get="?page={{ paginator_object.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" hx-target="#{{table_id}}" hx-swap="innerHtML" hx-indicator="#loading" class="px-3 py-1 text-white bg-green-600 rounded cursor-pointer">Previous</a>
+        {% endif %}
+
+        {% if paginator_object.has_next %}
+        <a hx-get="?page={{ paginator_object.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" hx-target="#{{table_id}}" hx-swap="innerHtML" hx-indicator="#loading" class="px-3 py-1 text-white bg-green-600 rounded cursor-pointer">Next</a>
+        <a hx-get="?page={{ paginator_object.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" hx-target="#{{table_id}}" hx-swap="innerHtML" hx-indicator="#loading" class="px-3 py-1 text-white bg-green-600 rounded cursor-pointer">Last</a>
+        {% endif %}
+    </div>
+</div>

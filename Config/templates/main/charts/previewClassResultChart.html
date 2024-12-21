@@ -1,0 +1,61 @@
+{% load static %}
+<style>
+    #studentAgeChart {
+        max-width: 80%;
+        max-height: 500px;
+        width: 80%; /* Adjust width percentage */
+        height: 300px; /* Fixed height */
+        margin: auto;
+    }
+</style>
+
+<section class="flex flex-row gap-4">
+    <div class="w-full">
+        <canvas id="classPositionChart"></canvas>
+    </div>
+</section>
+
+
+<script>
+    const classPositionChart = document.getElementById('classPositionChart');
+
+    new Chart(classPositionChart, {
+        type: 'bar',
+        data: {
+            labels: {{ student_names|safe}},
+            datasets: [{
+                label: 'Student Posistions',
+                data: {{ student_positions|safe }},
+                borderWidth: 1,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)', /* Optional: customize color */
+                borderColor: 'rgba(54, 162, 235, 1)'
+            }]
+            },
+            options: {
+                //indexAxis: 'y', // Switches the bars to horizontal
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Position" /* Display label on the Y-axis */
+                        }
+                    },
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Student Name" /* Display label on the X-axis */
+                        },
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                },
+            }
+        }
+    );
+</script>

@@ -1,0 +1,86 @@
+{% load static %}
+
+{% if students %}
+<section class="p-2 bg-gray-200 md:p-4">
+    <header class="space-y-4">
+        {% include "main/components/pageHeader.html" with title="All Students" text_align="center" %}
+        <section class="flex flex-col flex-wrap items-end justify-between pb-4 space-y-4 md:flex-row sm:space-y-0">
+            <div class="flex flex-col gap-4 md:flex-row">
+                <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">Filter Results <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+                </button>
+                <!-- Dropdown menu -->
+                <div id="dropdownDelay" class="z-10 hidden bg-green-700 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-green-700">
+                    <ul class="py-2 text-sm text-boneWhite dark:text-boneWhite" aria-labelledby="dropdownDelayButton">
+                        <li>
+                            <a hx-get="{% url link %}?filter=50#" hx-target="#student-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">50 Results</a>
+                        </li>
+                        <li>
+                            <a hx-get="{% url link %}?filter=100#" hx-target="#student-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">100 Results</a>
+                        </li>
+                        <li>
+                            <a hx-get="{% url link %}?filter=500#" hx-target="#student-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">500 Results</a>
+                        </li>
+                        <li>
+                            <a hx-get="{% url link %}?filter=1000#" hx-target="#student-table-section" hx-swap="innerHTML" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">1000 Results</a>
+                        </li>
+                        <!-- <hr>
+                        <li>
+                            <a href="{% url link %}?filter=all#"  class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">All Results</a>
+                        </li>
+                        <li>
+                            <a href="{% url link %}?filter=suspended#" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">Suspended</a>
+                        </li> -->
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="w-full md:w-1/2">
+                <span class="helptext">Type 'suspended' to get the list of suspended students</span>
+                <form hx-get="{% url link %}" hx-target="#student-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="relative flex flex-row items-center w-full gap-1">
+                    <div class="relative flex flex-col w-full gap-1 md:flex-row">
+                        <input type="search" id="student" name="q" list="student-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search reg. number | email | username" required />
+                        <datalist id="student-list">
+                            {% for student in students %}
+                            <option value="{{ student.user.username }}">{{ student.user.username }}</option>
+                            {% endfor %}
+                            {% for student in students %}
+                            <option value="{{ student.user.first_name }}">{{ student.user.first_name }}</option>
+                            {% endfor %}
+                            {% for student in students %}
+                            <option value="{{ student.user.last_name }}">{{ student.user.last_name }}</option>
+                            {% endfor %}
+                            {% for student in students %}
+                            <option value="{{ student.user.middle_name }}">{{ student.user.middle_name }}</option>
+                            {% endfor %}
+                            {% for student in students %}
+                            <option value="{{ student.user.email }}">{{ student.user.email }}</option>
+                            {% endfor %}
+                            {% for student in students %}
+                            <option value="{{ student.registration_number }}">{{ student.registration_number }}</option>
+                            {% endfor %}
+                            {% for name in branch_names %}
+                            <option value="{{ name }}">{{ name }}</option>
+                            {% endfor %}
+                            <option value="Part-time">Part-time</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="suspended">Suspended</option>
+                            <option value="suspend">Suspend</option>
+                            <option value="deleted">Deleted</option>
+                            <option value="delete">Delete</option>
+                        </datalist>
+                    </div>
+                    {% include "main/components/searchButton.html" %}
+                    <a href="{% url link %}" class="text-xs italic font-semibold text-center underline cursor-pointer underline-offset-2">Reset</a>
+                </form>
+            </div>
+        </section>
+    </header>
+    <section id="student-table-section">
+            {% include "techsupport/components/viewStudentsTable.html" %}
+    </section>
+</section>
+{% else %}
+{% include "main/components/resultNotFound.html" with message="No students yet. Register student to view them here." %}
+{% endif %}

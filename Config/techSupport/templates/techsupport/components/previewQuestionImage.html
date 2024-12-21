@@ -1,0 +1,27 @@
+{% load static %}
+
+<div class="flex flex-col items-center justify-center">
+    <img id="questionImagePreview" src="{% static 'images/icons/icons8_comments.ico' %}" alt="Image Preview"
+        style="border: 1px solid rgba(0, 0, 0, .1); padding: 5px;" class="w-20 h-20 rounded-full bg-gray-50">
+</div>
+
+<script>
+    function previewImage() {
+        var input = document.getElementById('questionImageInput');
+        var preview = document.getElementById('questionImagePreview');
+    
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+</script>

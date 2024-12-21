@@ -1,0 +1,18 @@
+{% extends "./baseTC.html" %}
+{% block title %} Preview Question {% endblock title %}
+
+{% block main %}
+<section class="h-full p-4 rounded-lg bg-gray-50">
+    {% include "main/components/pageHeader.html" with title="Preview Question" current_session=" " %}
+    <hr>
+    <br>
+    <div class="flex flex-row flex-wrap gap-4">
+        <a href="{% url 'teacher:editQuestion' questionId=question.id %}" class="text-xs font-bold text-blue-600 underline dark:text-blue-500 hover:underline underline-offset-2">Edit Question</a>
+        <a href="{% url 'teacher:editQuestionOptions' questionId=question.id %}" class="text-xs font-bold text-blue-600 underline dark:text-blue-500 hover:underline underline-offset-2">Edit Options</a>
+    </div>
+    <br>
+    <hr>
+    {% include "techsupport/components/viewQuestionCard.html" %}
+    <br>
+</section>
+{% endblock main %}

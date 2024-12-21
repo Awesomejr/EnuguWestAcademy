@@ -1,0 +1,15 @@
+{% load static %}
+<header>
+    <nav class="flex flex-row justify-center text-sm font-medium text-center bg-green-500 border-b border-green-500 text-blackText dark:text-blackText dark:border-green-500">
+        <ul class="flex -mb-px overflow-x-auto text-base font-bold text-center">
+            <li id="nav-create-question"  class="me-2">
+                <a href="{% url link %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Create Question</a>
+            </li>
+            {% if request.user.role == "tech_support" or request.user.role == "mini_tech_support" or request.user.role == "academic_director" or request.user.role == "data_entry" %}
+            <li id="nav-view-questions"  class="me-2">
+                <a href="{% url 'techsupport:viewQuestions' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Preview Questions</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>

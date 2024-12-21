@@ -1,0 +1,120 @@
+{% extends "./baseSTD.html" %}
+{% block title %} View Examination {% endblock title %}
+
+{% block main %}
+<section class="w-full mx-auto md:w-full md:px-4">
+    {% include "main/components/pageHeader.html" with title="Objective Examination" text_align="center" %}
+    <main>
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <ul class="flex flex-wrap justify-center -mb-px text-sm font-medium text-center" id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="objective-exam-styled-tab" data-tabs-target="#styled-objective-exam" type="button" role="tab" aria-controls="objective-exam" aria-selected="false">Objectives</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="objective-results-styled-tab" data-tabs-target="#styled-objective-results" type="button" role="tab" aria-controls="objective-results" aria-selected="false">Results</button>
+                </li>
+                <li role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="statistics-info-styled-tab" data-tabs-target="#styled-statistics-info" type="button" role="tab" aria-controls="statistics-info" aria-selected="false">Statistics</button>
+                </li>
+            </ul>
+        </div>
+        <div id="default-styled-tab-content">
+            <div class="hidden p-4 bg-gray-100 rounded-lg dark:bg-gray-100" id="styled-objective-exam" role="tabpanel" aria-labelledby="objective-exam-tab">
+                {% if exams %}
+                {% include "main/components/pageHeader.html" with title="Avalaible Examination" current_session=" " text_align="center" %}
+                {% include "exams/components/previewExaminationTable.html" %}
+                {% else %}
+                {% include "main/components/resultNotFound.html" %}
+                {% endif %}
+            </div>
+            <div class="hidden p-4 bg-gray-100 rounded-lg dark:bg-gray-100" id="styled-objective-results" role="tabpanel" aria-labelledby="objective-results-tab">
+                {% if exam_results %}
+                {% include "main/components/pageHeader.html" with title="Exam Results" text_align="center" %}
+                {% include "main/components/tableRowCount.html" with count=students.count instances="result" %}
+                <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg table-height">
+                    <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                        <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    S/N
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Examination
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Year
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Number Of Questions
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Total Mark
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Your Score
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Your Score %
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Remark
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in exam_results %}
+                            <tr class="border-b odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ forloop.counter }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ result.exam.subject.name }}
+                                </td>
+                                <td class="px-6 py-4 font-bold">
+                                    {{ result.exam.year }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ result.exam.questions.count }}
+                                </td>
+                                <td class="px-6 py-4 font-bold">
+                                    {{ result.exam.total_marks }}
+                                </td>
+                                <td class="px-6 py-4 font-bold">
+                                    {{ result.score }}
+                                </td>
+                                <td class="px-6 py-4 font-bold">
+                                    {{ result.score_percentage }}%
+                                </td>
+                                <td class="px-6 py-4 font-bold">
+                                    {% if result.score_percentage >= 50 and result.score_percentage < 70 %}
+                                        <span class="font-bold text-yellow-500">Almost There</span>
+                                    {% elif result.score_percentage > 30 and result.score_percentage < 50 %}
+                                        <span class="font-bold text-yellow-500">Keep Practicing</span>
+                                    {% elif result.score_percentage <= 30 %}
+                                        <span class="font-bold text-red-500">Too Bad</span>
+                                    {% else %}
+                                        <span class="font-bold text-myGreen">Impressive</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                {% include "main/components/resultNotFound.html" %}
+                {% endif %}
+            </div>
+            <div class="hidden p-4 bg-gray-100 rounded-lg dark:bg-gray-100" id="styled-statistics-info" role="tabpanel" aria-labelledby="statistics-info-tab">
+                {% include "main/charts/examScoreChart.html" %}
+            </div>
+        </div>
+    </main>
+</section>
+{% endblock main %}

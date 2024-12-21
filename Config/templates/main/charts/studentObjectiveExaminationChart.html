@@ -1,0 +1,66 @@
+{% load static %}
+
+<style>
+    #plot-area {
+        max-width: 1000px;
+        max-height: 500px;
+        /*width: 100%;*/ /* Adjust width percentage */
+        /*height: 50%;*/ /* Fixed height */
+        margin: auto;
+    }
+</style>
+
+<section class="flex flex-col gap-4">
+    {% include "main/components/pageHeader.html" with title="Objective Examinations Analysis" %}
+    {% if exam_attempt_courses and exam_attempt_scores %}
+    <div id="plot-area" class="w-full">
+        <canvas id="studentObjectiveExaminationChart"></canvas>
+    </div>
+    {% endif %}
+</section>
+
+<script>
+    const studentObjectiveExaminationChart = document.getElementById('studentObjectiveExaminationChart');
+
+    new Chart(studentObjectiveExaminationChart, {
+        type: 'line',
+        data: {
+            labels: {{ exam_attempt_courses|safe}},
+            datasets: [{
+                label: 'Examination Attempts',
+                data: {{ exam_attempt_scores|safe }},
+                borderWidth: 1,
+            }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: "Scores"
+                        },
+                        ticks: {
+                            stepSize: 1,  // Set interval steps of 1
+                        },
+                        min: 0,  // Start y-axis at 0
+                        max: 100,   // End y-axis at 60
+                    },
+                    x: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: "Course"
+                        },
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                },
+            }
+        }
+    );
+</script>

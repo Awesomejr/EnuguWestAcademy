@@ -1,0 +1,47 @@
+{% load static %}
+
+
+{% if students_in_each_branch %}
+<section class="flex flex-col items-center justify-around w-full gap-4 space-y-4 md:flex-row">
+    <div class="relative w-full overflow-x-auto shadow-md md:w-4/5 sm:rounded-lg table-height">
+        <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+            <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-tableHeadBg dark:text-green-600">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        S/N
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Branch Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Students
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Manager
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for branch in students_in_each_branch %}
+                <tr class="border-b odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ forloop.counter }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ branch.name }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{branch.branch_count }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ branch.manager.getFullName }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% else %}
+{% include "main/components/resultNotFound.html" %}
+{% endif %}

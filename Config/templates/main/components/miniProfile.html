@@ -1,0 +1,46 @@
+{% load static %}
+
+<section class="flex flex-row items-center justify-between">
+    <div class="flex flex-row items-center justify-start gap-4">
+        <div>
+            <a href="{{ request.user.displayAvatar }}">
+                <img src="{{ request.user.displayAvatar }}" alt="profile picture" class="p-0.5 border-2 shadow-lg shadow-black rounded-full w-20 h-20 border-green-700">
+            </a>
+        </div>
+        <div>
+            <h1 class="text-sm font-medium">Welcome</h1>
+            <h2 class="text-lg font-extrabold capitalize">{{ user.getFullName }}</h2>
+            <p class="text-xs italic font-bold">{{ user.email }}</p>
+            {% if user.is_superuser %}
+            <p class="text-base font-semibold">Admin/Superuser</p>
+            {% elif user.role == "tech_support" or user.role == "mini_tech_support" %}
+            <p class="text-base font-semibold">Tech Support</p>
+            {% elif user.role == "data_entry" %}
+            <p class="text-base font-semibold">Data Entry</p>
+            {% elif user.role == "academic_director" %}
+            <p class="text-base font-semibold">Academic Director</p>
+            {% elif user.role == "student" %}
+            <p class="text-base font-semibold">{{ user.studentprofile.student_status }} Student</p>
+            {% elif user.role == "teacher" %}
+            <p class="text-base font-semibold">Teacher - {{ user.teacherprofile.school_branch.name }}</p>
+            {% elif user.role == "parent" %}
+            <p class="text-base font-semibold">Parent</p>
+            {% elif user.role == "guest" and request.user.username == "kanayoani4292" %}
+            <p class="text-base font-semibold">Project Manager</p>
+            {% elif user.role == "guest"%}
+            <p class="text-base font-semibold">Guest</p>
+            {% elif user.role == "manager" or user.role == "mini_manager" %}
+            <p class="text-base font-semibold">Manager ({{user.previllageduserprofile.school_branch.name}})</p>
+            {% endif %}
+            <p class="text-sm font-medium">{{ session.getSessionName }}</p>
+            <div class="flex flex-row flex-wrap gap-4 mt-2">
+                {% if user.role == "student" %}
+                <p class="text-base font-semibold"><strong>Course:</strong> <span>{{user.studentprofile.course.name}}</span></p>
+                <p class="text-base font-semibold"><strong>Class:</strong> <span>{{user.studentprofile.classes.getClassName}}</span></p>
+                <!-- <p class="text-base font-semibold"> <span>{{user.studentprofile.classes.section.name}}</span></p> -->
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</section>

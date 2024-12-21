@@ -1,0 +1,33 @@
+{% extends "./baseTS.html" %}
+{% block title %} CBT {% endblock title %}
+
+{% block main %}
+<section class="w-full">
+    <header>
+        <nav class="flex flex-row justify-center text-sm font-medium text-center bg-green-500 border-b border-green-500 text-blackText dark:text-blackText dark:border-green-500">
+          <ul class="flex -mb-px overflow-x-auto text-base font-bold text-center">
+                <li id=nav-create-cbt-category  class="me-2">
+                    <a href="{% url 'techsupport:createCBTCategory' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-black hover:border-gray-300 dark:hover:text-black">Create CBT Category</a>
+                </li>
+                <li id=nav-create-cbt-exam  class="me-2">
+                    <a href="{% url 'techsupport:createCBTExam' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-black hover:border-gray-300 dark:hover:text-black">Create CBT Exam</a>
+                </li>
+                <li id="nav-create-cbt-question"  class="me-2">
+                    <a href="" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Create Questions</a>
+                </li>
+                <li id="nav-preview-cbt"  class="me-2">
+                    <a href="{% url 'techsupport:previewCBTCategory' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">Preview CBT</a>
+                </li>
+                <li id="nav-preview-cbt-results"  class="me-2">
+                    <a href="{% url 'techsupport:previewCBTResults' %}" class="inline-block p-4 transition-colors duration-300 ease-in border-b-2 border-transparent rounded-t-lg hover:text-blue-800 hover:border-gray-300 dark:hover:text-blue-800">CBT Results</a>
+                </li>
+          </ul>
+        </nav>
+    </header>
+    <main class="h-screen">
+    {% block cbtTabContent %}
+    <!-- Some dynamic content here -->
+    {% endblock cbtTabContent %}
+    </main>
+</section>
+{% endblock main %}

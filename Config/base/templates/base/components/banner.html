@@ -1,0 +1,34 @@
+{% load static %}
+
+<!-- background-image: url("{% static 'images/pexels-emily-ranquist-493228-1205651.jpg' %}"); -->
+<style>
+    #banner {
+        background-image: url("{% static 'images/siteImages/pexels-divinetechygirl-1181571.jpg' %}");
+        background-size: 100% 100%; 
+        height: 70vh;
+    }
+
+    #banner a:hover{
+        transform: translateY(-.12rem);
+    }
+</style>
+
+<section id="banner" class="bg-gray-700 bg-center bg-no-repeat bg-cover border-b-2 border-gray-700 bg-blend-multiply">
+    <div class="flex flex-col items-start justify-center w-full h-full px-8 py-24 mx-auto text-left lg:py-56 bg-black6">
+        <h1 class="mb-4 text-3xl font-extrabold leading-none tracking-wide text-white md:text-5xl lg:text-6xl">
+            <span class="text-yellow-300">Enugu West</span> <span class="text-green-400"> Academy</span>
+        </h1>
+        <p class="mb-8 text-xl font-normal text-gray-300 md:text-2xl lg:text-xl">Where Education Meets Inspiration: Empowering Young Minds for a Brighter Tomorrow</p>
+        <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+            <a href="" class="inline-flex items-center justify-center w-full px-8 py-3 my-4 text-2xl font-medium text-center text-white transition-all duration-300 ease-in bg-green-400 border-2 border-green-400 rounded-lg bg-none hover:bg-green-500 animate-pulse">
+                Enroll
+                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+            </a>
+           {% comment %} <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white border border-white rounded-lg hover:text-gray-900 hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
+               Learn more
+            </a> {% endcomment %}
+        </div>
+    </div>
+</section>

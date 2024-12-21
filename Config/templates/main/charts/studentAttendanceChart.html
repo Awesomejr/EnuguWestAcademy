@@ -1,0 +1,69 @@
+{% load static %}
+<style>
+    #attendanceChart {
+        max-width: 1000px;
+        max-height: 500px;
+        width: 80%; /* Adjust width percentage */
+        height: 300px; /* Fixed height */
+        margin: auto;
+    }
+</style>
+
+<section class="flex flex-row gap-4">
+    {% if dates and status_values %}
+    <div class="w-full">
+        <canvas id="studentAttendance"></canvas>
+    </div>
+    {% endif %}
+</section>
+
+<script>
+    // Get the data from Django context (passed via the view)
+    var dates = JSON.parse('{{ dates|escapejs }}');
+    var statusValues = JSON.parse('{{ status_values|escapejs }}');
+    
+    const ctx2 = document.getElementById('studentAttendance');
+    new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Student Attendance',
+                data: statusValues,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
+            }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: "Attendance Status"
+                        },
+                        min: -0.5,  // Start y-axis at -1
+                        max: 1.5,   // End y-axis at 2
+                        ticks: {
+                            stepSize: 1  // Set interval steps of 1
+                        }
+                    },
+                    x: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: "Dates"
+                        },
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                },
+            }
+        }
+    );
+</script>

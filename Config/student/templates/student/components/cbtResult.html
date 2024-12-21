@@ -1,0 +1,96 @@
+{% load static %}
+{% load option_filters %}
+
+<div class="flex flex-col w-full py-8 mx-auto">
+    <section class="flex flex-col gap-2 mb-2">
+        <h2 class="text-sm font-bold md:text-base">{{ cbt_category.description }} - Exam Results</h2>
+        <h2 class="text-sm font-bold md:text-base">{{ cbt_category.assigned_class }}</h2>
+        <div class="flex flex-row gap-2 text-sm font-bold md:text-base">
+            <p>Subjects:</p>
+            <div class="flex flex-col gap-2 md:flex-row">
+                {% for exam in cbt_category.exams.all %}
+                <h2>{{ exam.subject.name }}, </h2>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <hr>
+    <!-- Display total score in "correct/total" format -->
+    <div class="my-4 text-base font-bold">
+        <p>Total Score: {{ total_score }} / {{ total_questions }}</p>
+        <p>Total Score Percentage: {{ total_percentage|floatformat:2 }}%</p>
+    </div>
+
+    <!-- <div class="self-end w-full my-4 md:w-1/2">
+        <a href="{% url 'student:viewCBTExamination' %}" class="w-full p-2 px-4 font-bold rounded-md bg-myBlue text-boneWhite">Leave</a>
+    </div> -->
+
+    <ul class="space-y-6">
+        {% for exam_data in exams_data %}
+            <li class="p-4 py-4 mb-2 border border-gray-300 rounded-md bg-boneWhiteBg">
+                <h3 class="text-xl font-bold">{{ exam_data.exam.subject.name }} - {{ exam_data.exam.cbt_questions.count }} Questions</h3>
+                <p class="mb-2 text-sm text-gray-600">
+                    Score: {{ exam_data.score|floatformat:2 }}%
+                </p>
+
+                <ul class="space-y-4">
+                    {% for question_data in exam_data.questions %}
+                        <li>
+                            <h4><strong>Question {{ forloop.counter }}:</strong> {{ question_data.question.content|safe }}</h4>
+                            <ul class="grid grid-cols-1 gap-2 my-4 ml-4 md:grid-cols-2">
+                                {% for option in question_data.options %}
+                                    <li>
+                                        <strong>{{ option_labels|index:forloop.counter0 }}. </strong>{{ option.content|safe }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <div class="mt-2">
+                                <p><strong>Selected Answer:</strong> 
+                                    {% if question_data.selected_option %}
+                                        <span class="text-yellow-500">{{ question_data.selected_option.content|safe }}</span>
+                                    {% else %}
+                                        <span>Not Answered</span>
+                                    {% endif %}
+                                </p>
+                                <p><strong>Correct Answer:</strong> {{ question_data.correct_option.content|safe }}</p>
+                                <p class="font-bold"><strong>Status: </strong>
+                                    {% if question_data.is_correct %}
+                                        <span style="color: green;">Correct</span>
+                                    {% else %}
+                                        <span style="color: red;">Incorrect</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <!-- Toggle explanation section with unique ID -->
+                            <button type="button" class="my-4 font-bold underline toggle-explanation text-myBlue" data-explanation-id="explanation_{{ exam_data.exam.id }}_{{ question_data.question.id }}">
+                                Show Explanation
+                            </button>
+                            <div id="explanation_{{ exam_data.exam.id }}_{{ question_data.question.id }}" class="w-full p-4 mt-2 bg-gray-100 explanation" style="display: none;">
+                                <p><strong>Explanation:</strong> {{ question_data.explanation|safe }}</p>
+                                <br>
+                                <p><strong>Topic:</strong> {{ question_data.topic }}</p>
+                            </div>
+                        </li>
+                        <hr>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="self-end w-full my-4 md:w-1/2">
+        <a href="{% url 'student:viewCBTExamination' %}" class="w-full p-2 px-4 font-bold rounded-md bg-myBlue text-boneWhite">Leave</a>
+    </div>
+</div>
+
+<script>
+    // JavaScript to toggle explanation visibility for each unique button
+    document.querySelectorAll('.toggle-explanation').forEach(button => {
+        button.addEventListener('click', () => {
+            const explanationId = button.getAttribute('data-explanation-id');
+            const explanationDiv = document.getElementById(explanationId);
+            explanationDiv.style.display = explanationDiv.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+</script>

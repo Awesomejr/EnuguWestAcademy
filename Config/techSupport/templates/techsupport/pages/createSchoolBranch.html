@@ -1,0 +1,93 @@
+{% extends "./baseTS.html" %}
+{% block title %} Create Cluster {% endblock title %}
+
+{% block main %}
+{% if school_branches %}
+<section class="p-2 bg-gray-200 md:p-4">
+    {% if request.user.role == "tech_support" or request.user.role == "min_tech_support" or request.user.is_superuser %}
+    {% include "main/components/pageHeader.html" with title=page_title text_align="center" current_session=" " %}
+    <form method="post" action="" class="flex flex-col self-center w-full gap-4 p-4 mx-auto my-4 rounded-xl bg-gray-50 md:w-4/5 form-style">
+        {% csrf_token %}
+        <section class="flex flex-col gap-2 md:flex-row">
+            <div class="flex flex-col justify-around w-full">
+                <label for="" class="font-bold">{{ form.name.label }} <span class="text-red-600">*</span></label>
+                <span class="helptext">{{ form.name.help_text }}</span>
+                <span class="errorlist">{{ form.name.errors }}</span>
+                {{ form.name }}
+            </div>
+            <div class="flex flex-col justify-around w-full">
+                <label for="" class="font-bold">{{ form.manager.label }} <span class="text-red-600"></span></label>
+                <span class="helptext">{{ form.manager.help_text }}</span>
+                <span class="errorlist">{{ form.manager.errors }}</span>
+                {{ form.manager }}
+            </div>
+        </section>
+        <div class="self-center sm:w-full md:w-1/2">
+            {% include "main/components/saveButton.html" with title=page_title %}
+        </div>
+    </form>
+    {% endif %}
+    {% include "main/components/pageHeader.html" with title="Preview Cluster" text_align="center" current_session=" " %}
+    {% include "main/components/tableRowCount.html" with count=school_branches.count instances="Result" %}
+    <div id="table-display" class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+        <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+            <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        S/N
+                    </th>
+                    <th scope="col" class="p-4">
+                        ID
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Manager
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Created_on
+                    </th>
+                    {% if request.user.role == "tech_support" or request.user.role == "min_tech_support" or request.user.is_superuser %}
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for school_branch in school_branches %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <td class="px-6 py-4">
+                        {{ forloop.counter }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ school_branch.id }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ school_branch.name }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ school_branch.manager.getFullName|default:"N/A" }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ school_branch.created_on }}
+                    </td>
+                    {% if request.user.role == "tech_support" or request.user.role == "min_tech_support" or request.user.is_superuser %}
+                    <td class="flex flex-row items-center gap-2 px-6 py-4">
+                        {% include "main/components/edit.html" with link="techsupport:editSchoolBranch" object_id=school_branch.id %}
+                        {% include "main/components/delete.html" with link="techsupport:deleteSchoolBranch" object_id=school_branch.id %}
+                        <!-- <a href="{% url 'techsupport:editSchoolBranch' schoolBranchId=school_branch.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        <a href="{% url 'techsupport:deleteSchoolBranch' schoolBranchId=school_branch.id %}" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a> -->
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% else %}
+{% include "main/components/resultNotFound.html" %}
+{% endif %}
+{% endblock main %}

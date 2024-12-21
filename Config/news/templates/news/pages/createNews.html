@@ -1,0 +1,75 @@
+{% extends "./index.html" %}
+{% block title %} Create News  {% endblock title %}
+{% load static %}
+
+{% block main %}
+<style>
+    #create-news-area{
+        background-image: url("{% static 'images/pexels-pixabay-159579.jpg' %}");
+        background-position: 100% 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<section id="create-news-area" class="bg-gray-300">
+    <section class="flex flex-col items-center justify-start gap-4 p-4">
+        {% include "main/components/pageHeader.html" with title="Create News" current_session=" " text_color="blackText" %}
+        <form action="" method="post" enctype="multipart/form-data" class="flex flex-col items-start justify-start w-full gap-4 p-4 rounded-lg bg-boneWhiteBg md:p-6 md:w-1/2">
+            {% csrf_token %}
+            <div class="flex flex-col items-center self-center w-full space-y-4 cursor-pointer text-blackText">
+                {% include "main/components/previewUploadImage.html" with width=24 height=24 %}
+                {{ form.image }}
+            </div>
+            <div class="flex flex-col self-center w-full space-y-1">
+                <label for="" class="text-base font-bold text-blackText">{{ form.title.label }}</label>
+                {{ form.title }}
+            </div>
+            <div class="w-full space-y-1">
+                <label for="" class="text-base font-bold text-blackText">{{ form.description.label }}</label>
+                {{ form.description }}
+            </div>
+            <section class="flex flex-col w-full md:flex-row md:items-start md:gap-4">
+                <div class="w-full space-y-1">
+                    <label for="" class="text-base font-bold text-blackText">{{ form.author.label }}</label>
+                    {{ form.author }}
+                </div>
+                <div class="w-full space-y-1">
+                    <label for="" class="text-base font-bold text-blackText">{{ form.date.label }}</label>
+                    {{ form.date }}
+                </div>
+            </section>
+            <div class="self-center w-1/2 mt-4">
+                {% include "main/components/saveButton.html" with title="Post News" %}
+            </div>
+        </form>
+    </section>
+</section>
+
+<script>
+    function previewImage() {
+        var input = document.getElementById('postImageInput');
+        var preview = document.getElementById('imagePreview');
+    
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-create-news");
+        button.style.color = "white";
+
+    });
+</script>
+{% endblock main %}

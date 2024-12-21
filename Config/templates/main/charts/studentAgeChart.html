@@ -1,0 +1,101 @@
+{% load static %}
+<style>
+    #studentAgeBarChart, #studentAgeRadarChart {
+        max-width: 1000px;
+        max-height: 500px;
+        width: 80%; /* Adjust width percentage */
+        height: 300px; /* Fixed height */
+        margin: auto;
+    }
+</style>
+
+<section class="flex flex-row items-start justify-between w-full gap-4">
+    <div class="block md:hidden">
+        <canvas id="studentAgeBarChart"></canvas>
+    </div>
+    <div class="hidden w-full md:block">
+        <canvas id="studentAgeRadarChart"></canvas>
+    </div>
+</section>
+
+
+<script>
+    const studentAgeBarChart = document.getElementById('studentAgeBarChart');
+
+    new Chart(studentAgeBarChart, {
+        type: 'bar',
+        data: {
+            labels: {{ student_name|safe}},
+            datasets: [{
+                label: 'Student Age',
+                data: {{ student_age|safe }},
+                borderWidth: 1
+            }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            //text: "Student Age"
+                        }
+                    },
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            //text: "Student Name"
+                        },
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                },
+            }
+        }
+    );
+
+
+    const studentAgeCRadarhart = document.getElementById('studentAgeRadarChart');
+
+    new Chart(studentAgeRadarChart, {
+        type: 'bar',
+        data: {
+            labels: {{ student_name|safe}},
+            datasets: [{
+                label: 'Student Age',
+                data: {{ student_age|safe }},
+                borderWidth: 1
+            }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            //text: "Student Age"
+                        }
+                    },
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            //text: "Student Name"
+                        },
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                },
+            }
+        }
+    );
+</script>

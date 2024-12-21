@@ -1,0 +1,149 @@
+{% extends "./baseTS.html" %}
+{% block title %} Create Session {% endblock title %}
+
+{% block main %}
+<section class="flex flex-col gap-4 p-2 bg-gray-200 md:p-4">
+    <section class="flex flex-col items-center w-full md:full">
+        {% if request.user.role == "tech_support" or request.user.role == "min_tech_support" or request.user.is_superuser %}
+        {% include "main/components/pageHeader.html" with title=page_title text_align="center" current_session=" " %}
+        <form method="post" action="" class="flex flex-col self-center w-full gap-4 p-4 my-4 rounded-xl bg-gray-50 md:w-4/5">
+            {% csrf_token %}
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.name.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.name.help_text }}</span>
+                    <span class="errorlist">{{ form.name.errors }}</span>
+                    {{ form.name }}
+                </div>
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.session.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.session.help_text }}</span>
+                    <span class="errorlist">{{ form.session.errors }}</span>
+                    {{ form.session }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-2 md:flex-row">
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.start_date.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.start_date.help_text }}</span>
+                    <span class="errorlist">{{ form.start_date.errors }}</span>
+                    {{ form.start_date }}
+                </div>
+                <div class="flex flex-col justify-around w-full">
+                    <label for="" class="font-bold">{{ form.closing_date.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.closing_date.help_text }}</span>
+                    <span class="errorlist">{{ form.closing_date.errors }}</span>
+                    {{ form.closing_date }}
+                </div>
+            </section>
+            <div class="self-center w-1/3 my-4">
+                {% include "main/components/saveButton.html" with title=page_title %}
+            </div>
+        </form>
+        {% endif %}
+    </section>
+    <section class="space-y-4">
+        {% include "main/components/pageHeader.html" with title="Preview Sessions" text_align="center" current_session=" " %}
+        {% if sessions_to_display %}
+        <div class="flex flex-row items-center justify-between">
+            <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">Filter Results <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="dropdownDelay" class="z-10 hidden bg-green-700 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-green-700">
+                <ul class="py-2 text-sm text-boneWhite dark:text-boneWhite" aria-labelledby="dropdownDelayButton">
+                    <li>
+                        <a href="{% url 'techsupport:createSession' %}?filter=200#" class="block px-4 py-2 hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">200 Results</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'techsupport:createSession' %}?filter=500#" class="block px-4 py-2 hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">500 Results</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'techsupport:createSession' %}?filter=750#" class="block px-4 py-2 hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">750 Results</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'techsupport:createSession' %}?filter=1000#" class="block px-4 py-2 hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">1000 Results</a>
+                    </li>
+                    <hr>
+                    <li>
+                        <a href="{% url 'techsupport:createSession' %}?filter=all#" class="block px-4 py-2 hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">All Results</a>
+                    </li>
+
+                </ul>
+            </div>
+            {% include "main/components/tableRowCount.html" with count=sessions_to_display.count instances="Session" %}
+        </div>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs uppercase bg-green-600 text-boneWhite dark:bg-boneWhite dark:text-gray-500">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            S/N
+                        </th>
+                        <!-- <th scope="col" class="p-4">
+                            ID
+                        </th> -->
+                        <th scope="col" class="px-6 py-3">
+                            Name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Session
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Start Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Closing Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Created On
+                        </th>
+                        {% if request.user.role == "tech_support" or request.user.role == "min_tech_support" or request.user.is_superuser %}
+                        <th scope="col" class="px-6 py-3">
+                            Action
+                        </th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in sessions_to_display %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">
+                            {{ forloop.counter }}
+                        </td>
+                        <!-- <td class="px-6 py-4">
+                            {{ session.id }}
+                        </td> -->
+                        <td class="px-6 py-4">
+                            {{ session.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ session.session }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ session.start_date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ session.closing_date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ session.created_on }}
+                        </td>
+                        {% if request.user.role == "tech_support" or request.user.role == "min_tech_support" or request.user.is_superuser %}
+                        <td class="flex flex-row items-center gap-2 px-6 py-4">
+                            {% include "main/components/edit.html" with link="techsupport:editSession" object_id=session.id %}
+                            {% include "main/components/delete.html" with link="techsupport:deleteSession" object_id=session.id %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        {% include "main/components/resultNotFound.html" %}
+        {% endif %}
+    </section>
+</section>
+{% endblock main %}

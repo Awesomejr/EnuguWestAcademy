@@ -1,0 +1,146 @@
+{% extends "./baseTS.html" %}
+{% block title %} Edit Previallaged User {% endblock title %}
+
+{% block main %}
+<section>
+    <header>
+        {% include "main/components/pageHeader.html" with title="Edit Previllaged User" current_session=" " text_align="center" text_color="green-700" %}
+        <h1 class="mb-4 font-extrabold text-center underline underline-offset-2 md:text-xl">{{previllaged_user.getFullName}}</h1>
+    </header>
+    <section class="flex flex-col justify-around gap-4 md:flex-row">
+        <form action="" method="post" enctype="multipart/form-data" class="flex flex-col justify-around gap-6 p-4 py-4 mx-auto shadow-xl bg-gray-50 md:w-4/5 shadow-black form-style">
+            {% csrf_token %}
+            <section class="w-full form-col-layout">
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.first_name.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.first_name.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.first_name.errors }}</span>
+                        {{ update_user_form.first_name }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.last_name.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.last_name.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.last_name.errors }}</span>
+                        {{ update_user_form.last_name }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.middle_name.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.middle_name.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.middle_name.errors }}</span>
+                        {{ update_user_form.middle_name }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.username.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.username.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.username.errors }}</span>
+                        {{ update_user_form.username }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.email.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.email.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.email.errors }}</span>
+                        {{ update_user_form.email }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_user_form.role.label }} <span class="text-red-600">*</span></label>
+                        <span class="helptext">{{ update_user_form.role.help_text }}</span>
+                        <span class="errorlist">{{ update_user_form.role.errors }}</span>
+                        {{ update_user_form.role }}
+                    </div>
+                </section>
+            </section>
+            <hr>
+            <section class="w-full form-col-layout">
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.school_branch.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.school_branch.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.school_branch.errors }}</span>
+                        {{ update_previllaged_user_profile_form.school_branch }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.gender.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.gender.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.gender.errors }}</span>
+                        {{ update_previllaged_user_profile_form.gender }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.date_of_birth.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.date_of_birth.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.date_of_birth.errors }}</span>
+                        <div class="flex flex-row w-full gap-1">
+                            {{ update_previllaged_user_profile_form.date_of_birth }}
+                        </div>
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.nationality.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.nationality.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.nationality.errors }}</span>
+                        {{ update_previllaged_user_profile_form.nationality }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.state.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.state.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.state.errors }}</span>
+                        {{ update_previllaged_user_profile_form.state }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.local_government_area.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.local_government_area.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.local_government_area.errors }}</span>
+                        {{ update_previllaged_user_profile_form.local_government_area }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.town.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.town.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.town.errors }}</span>
+                        {{ update_previllaged_user_profile_form.town }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.religion.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.religion.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.religion.errors }}</span>
+                        {{ update_previllaged_user_profile_form.religion }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.relationship.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.relationship.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.relationship.errors }}</span>
+                        {{ update_previllaged_user_profile_form.relationship }}
+                    </div>
+                </section>
+                <section class="flex flex-col gap-2 md:flex-row">
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.phone_number.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.phone_number.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.phone_number.errors }}</span>
+                        {{ update_previllaged_user_profile_form.phone_number }}
+                    </div>
+                    <div class="flex flex-col justify-around w-full">
+                        <label for="" class="font-bold">{{ update_previllaged_user_profile_form.address.label }}</label>
+                        <span class="helptext">{{ update_previllaged_user_profile_form.address.help_text }}</span>
+                        <span class="errorlist">{{ update_previllaged_user_profile_form.address.errors }}</span>
+                        {{ update_previllaged_user_profile_form.address }}
+                    </div>
+                </section>
+            </section>
+            <div class="self-start w-1/2">
+                {% include "main/components/saveButton.html" with title="Save Changes" %}
+            </div>
+        </form>
+    </section>
+</section>
+{% endblock main %}

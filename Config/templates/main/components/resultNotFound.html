@@ -1,0 +1,7 @@
+{% load static %}
+<section class="h-screen">
+    <div class="flex flex-col items-center justify-center gap-4 py-4">
+        <img src="{% static 'images/icons/too_sad_26009.png' %}" alt="not founf img" class="w-32 h-32">
+        <p class="text-sm italic font-bold text-center text-myRed">{{ message|default:"No result found. Try again later."|title }}</p>
+    </div>
+</section>

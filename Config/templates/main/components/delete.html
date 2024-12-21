@@ -1,0 +1,6 @@
+{% load static %}
+
+<a href="{% url link object_id %}" class="flex flex-row items-center mx-2 text-xs font-bold text-red-600 underline dark:text-red-500 hover:underline">
+    <img src="{% static 'images/icons/icons8_delete_bin.ico' %}" alt="delete-icon" class="w-5 h-5">
+    {{ title|default:"Delete" }}
+</a>

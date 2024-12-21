@@ -1,0 +1,22 @@
+{% extends "./baseTS.html" %}
+{% block title %} Created CBT Question {% endblock title %}
+
+
+{% block main %}
+<section class="px-2 pb-8 mb-4 space-y-4 md:px-4">
+    {% include "main/components/pageHeader.html" with title=cbt_category.getCBTName current_session=" " %}
+    <div class="relative h-full md:flex">
+        <ul class="mb-4 space-y-4 text-xs font-medium text-gray-500 flex-column space-y dark:text-gray-400 md:me-4 md:mb-0">
+            {% for cbt_exam in cbt_exams %}
+            <li>
+                <a hx-get="{% url 'techsupport:loadCBTExamQuestions' cbtExamId=cbt_exam.id %}" hx-target="#cbt-exam-question-preview-section" hx-swap="outerHTML" hx-indicator="#loading" class="inline-flex items-center w-full px-4 py-3 text-white bg-green-700 rounded-lg cursor-pointer active dark:bg-green-600" aria-current="page">
+                    {{ cbt_exam.subject.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% include "main/components/spinner.html" %}
+        {% include "techsupport/components/cbtExamQuestionsSection.html" %}
+    </div>
+</section>
+{% endblock main %}

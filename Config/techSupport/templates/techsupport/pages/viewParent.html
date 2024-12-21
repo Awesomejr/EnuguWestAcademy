@@ -1,0 +1,9 @@
+{% extends "./baseTS.html" %}
+{% block title %} View Parent {% endblock title %}
+
+{% block main %}
+<section class="py-4 bg-gray-200 rounded-md">
+    {% include "main/components/pageHeader.html" with title=parent.getFullName current_session=" - Parent Profile" %}
+    {% include "techsupport/components/parentProfile.html" %}
+</section>
+{% endblock main %}

@@ -1,0 +1,10 @@
+<p class="text-sm font-medium text-{{text_align|default:'left'}} capitalize">
+    {% if count > 1 %}
+    <span class="font-extrabold">{{ count }}</span> {{ instances }}s found
+    {% elif count == 1 %}
+    <span class="font-extrabold">{{ count }}</span> {{ instances }} found
+    {% else %}
+    <span class="font-extrabold">{{ count }}</span> {{ instances }} found
+    {% endif %}
+
+</p>

@@ -1,0 +1,15 @@
+{% extends "./baseTS.html" %}
+{% block title %} Create School Branch {% endblock title %}
+
+{% block main %}
+<section class="p-2 bg-gray-200 md:p-4">
+    {% include "main/components/pageHeader.html" with title="Edit School Branches" text_align="center" current_session=" " %}
+    <form action="" method="post" class="form-col-layout form-style">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <div class="self-center w-full md:w-1/3">
+            {% include "main/components/saveButton.html" with title="Save Changes" %}
+        </div>
+    </form>
+</section>
+{% endblock main %}

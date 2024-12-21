@@ -1,0 +1,9 @@
+{% load static %}
+
+<button id="post-likes">
+    {% if request.user in post.liked_by.all %}
+    <a hx-get="{% url 'blog:likePost' post.id %}" hx-target="#post-likes" class="flex flex-row items-center gap-0.5 italic"><img src="{% static 'images/icons/icons8_heart_suit.ico' %}" alt="" class="w-5 h-5"> {{ post.liked_by.count }}</a>
+    {% else %}
+    <a hx-get="{% url 'blog:likePost' post.id %}" hx-target="#post-likes" class="flex flex-row items-center gap-0.5 italic"><img src="{% static 'images/icons/icons8_heart_1.ico' %}" alt="" class="w-5 h-5"> {{ post.liked_by.count }}</a>
+    {% endif %}
+</button>

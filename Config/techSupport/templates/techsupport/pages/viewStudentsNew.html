@@ -1,0 +1,334 @@
+{% extends "./baseTS.html" %}
+{% block title %} View Students {% endblock title %}
+{% load static %}
+
+{% block main %}
+{% if students %}
+<section class="p-2 bg-gray-200 md:p-4">
+    <header class="space-y-4">
+        {% include "main/components/pageHeader.html" with title="All Students" text_align="center" %}
+    </header>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-height">
+        <table id="export-table">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="flex items-center">
+                            S/N
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th scope="col" class="p-4">
+                        <div class="flex items-center">
+                            <input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="checkbox-all" class="sr-only">checkbox</label>
+                        </div>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Avatar
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Username
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Reg. Number
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Name
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th data-type="date" data-format="YYYY/DD/MM">
+                        <span class="flex items-center">
+                            Status
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Cluster
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Class
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Section
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Session
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Is Suspended?
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Date Created 
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Time Created
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Created By
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Action
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                            </svg>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student_profile in students %}
+                <tr class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <td>{{ forloop.counter }}</td>
+                    <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <div class="flex items-center">
+                            <input id="{{ student_profile.user.id }}-{{ forloop.counter }}" type="checkbox" value="{{ student_profile.user.id }}"  name="selected_students" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded checkbox-item focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="{{ student_profile.user.id }}-{{ forloop.counter }}" class="sr-only">checkbox</label>
+                        </div>
+                    </td>
+                    <td>
+                        {% include "main/components/userAvatar.html" with width="12" height="12" %}
+                    </td>
+                    <td>{{ student_profile.user.username }}</td>
+                    <td>{{ student_profile.registration_number }}</td>
+                    <td>{{ student_profile.user.getFullName }}</td>
+                    <td>{{ student_profile.student_status }}</td>
+                    <td>{{ student_profile.school_branch.name }}</td>
+                    <td>{{ student_profile.classes.name.name }}</td>
+                    <td>{{ student_profile.classes.section.name }}</td>
+                    <td>{{ student_profile.session.getSessionName }}</td>
+                    <td>
+                        {% if student_profile.user.is_suspended %}
+                        <p class="font-bold text-red-500">Yes</p>
+                        {% else %}
+                        <p class="font-bold text-green-500">No</p>
+                        {% endif %}
+                    </td>
+                    <td>{{ student_profile.created_on|date }}</td>
+                    <td>{{ student_profile.created_on|time }}</td>
+                    <td>{{ student_profile.created_by.getFullName|default:"N/A" }}</td>
+                    <td>
+                        {% include "main/components/view.html" with link="techsupport:viewStudentAttendance" object_id=student_profile.user.id %}
+                        {% include "main/components/edit.html" with link="techsupport:editStudent" object_id=student_profile.user.id %}
+                        <a href="{% url 'techsupport:deleteStudent' studentId=student_profile.user.id parentId=student_profile.parent.user.id %}" class="flex items-center mx-2 font-medium text-red-600 underline dark:text-red-500 hover:underline">
+                            <img src="{% static 'images/icons/icons8_delete_bin.ico' %}" alt="delete-icon" class="w-5 h-5">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script>
+    
+    if (document.getElementById("export-table") && typeof simpleDatatables.DataTable !== 'undefined') {
+    
+        const exportCustomCSV = function(dataTable, userOptions = {}) {
+            // A modified CSV export that includes a row of minuses at the start and end.
+            const clonedUserOptions = {
+                ...userOptions
+            }
+            clonedUserOptions.download = false
+            const csv = simpleDatatables.exportCSV(dataTable, clonedUserOptions)
+            // If CSV didn't work, exit.
+            if (!csv) {
+                return false
+            }
+            const defaults = {
+                download: true,
+                lineDelimiter: "\n",
+                columnDelimiter: ";"
+            }
+            const options = {
+                ...defaults,
+                ...clonedUserOptions
+            }
+            const separatorRow = Array(dataTable.data.headings.filter((_heading, index) => !dataTable.columns.settings[index]?.hidden).length)
+                .fill("+")
+                .join("+"); // Use "+" as the delimiter
+    
+            const str = separatorRow + options.lineDelimiter + csv + options.lineDelimiter + separatorRow;
+    
+            if (userOptions.download) {
+                // Create a link to trigger the download
+                const link = document.createElement("a");
+                link.href = encodeURI("data:text/csv;charset=utf-8," + str);
+                link.download = (options.filename || "datatable_export") + ".txt";
+                // Append the link
+                document.body.appendChild(link);
+                // Trigger the download
+                link.click();
+                // Remove the link
+                document.body.removeChild(link);
+            }
+    
+            return str
+        }
+        const table = new simpleDatatables.DataTable("#export-table", {
+            template: (options, dom) => "<div class='" + options.classes.top + "'>" +
+                "<div class='flex flex-col w-full space-y-4 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3 rtl:space-x-reverse sm:w-auto'>" +
+                (options.paging && options.perPageSelect ?
+                    "<div class='" + options.classes.dropdown + "'>" +
+                        "<label>" +
+                            "<select class='" + options.classes.selector + "'></select> " + options.labels.perPage +
+                        "</label>" +
+                    "</div>" : ""
+                ) + "<button id='exportDropdownButton' type='button' class='flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto'>" +
+                "Export as" +
+                "<svg class='-me-0.5 ms-1.5 h-4 w-4' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'>" +
+                    "<path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m19 9-7 7-7-7' />" +
+                "</svg>" +
+            "</button>" +
+            "<div id='exportDropdown' class='z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700' data-popper-placement='bottom'>" +
+                "<ul class='p-2 text-sm font-medium text-left text-gray-500 dark:text-gray-400' aria-labelledby='exportDropdownButton'>" +
+                    "<li>" +
+                        "<button id='export-csv' class='inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'>" +
+                            "<svg class='me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' viewBox='0 0 24 24'>" +
+                                "<path fill-rule='evenodd' d='M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm1.018 8.828a2.34 2.34 0 0 0-2.373 2.13v.008a2.32 2.32 0 0 0 2.06 2.497l.535.059a.993.993 0 0 0 .136.006.272.272 0 0 1 .263.367l-.008.02a.377.377 0 0 1-.018.044.49.49 0 0 1-.078.02 1.689 1.689 0 0 1-.297.021h-1.13a1 1 0 1 0 0 2h1.13c.417 0 .892-.05 1.324-.279.47-.248.78-.648.953-1.134a2.272 2.272 0 0 0-2.115-3.06l-.478-.052a.32.32 0 0 1-.285-.341.34.34 0 0 1 .344-.306l.94.02a1 1 0 1 0 .043-2l-.943-.02h-.003Zm7.933 1.482a1 1 0 1 0-1.902-.62l-.57 1.747-.522-1.726a1 1 0 0 0-1.914.578l1.443 4.773a1 1 0 0 0 1.908.021l1.557-4.773Zm-13.762.88a.647.647 0 0 1 .458-.19h1.018a1 1 0 1 0 0-2H6.647A2.647 2.647 0 0 0 4 13.647v1.706A2.647 2.647 0 0 0 6.647 18h1.018a1 1 0 1 0 0-2H6.647A.647.647 0 0 1 6 15.353v-1.706c0-.172.068-.336.19-.457Z' clip-rule='evenodd'/>" +
+                            "</svg>" +
+                            "<span>Export CSV</span>" +
+                        "</button>" +
+                    "</li>" +
+                    "<li>" +
+                        "<button id='export-json' class='inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'>" +
+                            "<svg class='me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' viewBox='0 0 24 24'>" +
+                                "<path fill-rule='evenodd' d='M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7Zm-.293 9.293a1 1 0 0 1 0 1.414L9.414 14l1.293 1.293a1 1 0 0 1-1.414 1.414l-2-2a1 1 0 0 1 0-1.414l2-2a1 1 0 0 1 1.414 0Zm2.586 1.414a1 1 0 0 1 1.414-1.414l2 2a1 1 0 0 1 0 1.414l-2 2a1 1 0 0 1-1.414-1.414L14.586 14l-1.293-1.293Z' clip-rule='evenodd'/>" +
+                            "</svg>" +
+                            "<span>Export JSON</span>" +
+                        "</button>" +
+                    "</li>" +
+                    "<li>" +
+                        "<button id='export-txt' class='inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'>" +
+                            "<svg class='me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' viewBox='0 0 24 24'>" +
+                                "<path fill-rule='evenodd' d='M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7ZM8 16a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1-5a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Z' clip-rule='evenodd'/>" +
+                            "</svg>" +
+                            "<span>Export TXT</span>" +
+                        "</button>" +
+                    "</li>" +
+                    "<li>" +
+                        "<button id='export-sql' class='inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'>" +
+                            "<svg class='me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' viewBox='0 0 24 24'>" +
+                                "<path d='M12 7.205c4.418 0 8-1.165 8-2.602C20 3.165 16.418 2 12 2S4 3.165 4 4.603c0 1.437 3.582 2.602 8 2.602ZM12 22c4.963 0 8-1.686 8-2.603v-4.404c-.052.032-.112.06-.165.09a7.75 7.75 0 0 1-.745.387c-.193.088-.394.173-.6.253-.063.024-.124.05-.189.073a18.934 18.934 0 0 1-6.3.998c-2.135.027-4.26-.31-6.3-.998-.065-.024-.126-.05-.189-.073a10.143 10.143 0 0 1-.852-.373 7.75 7.75 0 0 1-.493-.267c-.053-.03-.113-.058-.165-.09v4.404C4 20.315 7.037 22 12 22Zm7.09-13.928a9.91 9.91 0 0 1-.6.253c-.063.025-.124.05-.189.074a18.935 18.935 0 0 1-6.3.998c-2.135.027-4.26-.31-6.3-.998-.065-.024-.126-.05-.189-.074a10.163 10.163 0 0 1-.852-.372 7.816 7.816 0 0 1-.493-.268c-.055-.03-.115-.058-.167-.09V12c0 .917 3.037 2.603 8 2.603s8-1.686 8-2.603V7.596c-.052.031-.112.059-.165.09a7.816 7.816 0 0 1-.745.386Z'/>" +
+                            "</svg>" +
+                            "<span>Export SQL</span>" +
+                        "</button>" +
+                    "</li>" +
+                "</ul>" +
+            "</div>" + "</div>" +
+                (options.searchable ?
+                    "<div class='" + options.classes.search + "'>" +
+                        "<input class='" + options.classes.input + "' placeholder='" + options.labels.placeholder + "' type='search' title='" + options.labels.searchTitle + "'" + (dom.id ? " aria-controls='" + dom.id + "'" : "") + ">" +
+                    "</div>" : ""
+                ) +
+            "</div>" +
+            "<div class='" + options.classes.container + "'" + (options.scrollY.length ? " style='height: " + options.scrollY + "; overflow-Y: auto;'" : "") + "></div>" +
+            "<div class='" + options.classes.bottom + "'>" +
+                (options.paging ?
+                    "<div class='" + options.classes.info + "'></div>" : ""
+                ) +
+                "<nav class='" + options.classes.pagination + "'></nav>" +
+            "</div>"
+        })
+        const $exportButton = document.getElementById("exportDropdownButton");
+        const $exportDropdownEl = document.getElementById("exportDropdown");
+        const dropdown = new Dropdown($exportDropdownEl, $exportButton);
+        console.log(dropdown)
+    
+        document.getElementById("export-csv").addEventListener("click", () => {
+            simpleDatatables.exportCSV(table, {
+                download: true,
+                lineDelimiter: "\n",
+                columnDelimiter: ";"
+            })
+        })
+        document.getElementById("export-sql").addEventListener("click", () => {
+            simpleDatatables.exportSQL(table, {
+                download: true,
+                tableName: "export_table"
+            })
+        })
+        document.getElementById("export-txt").addEventListener("click", () => {
+            simpleDatatables.exportTXT(table, {
+                download: true
+            })
+        })
+        document.getElementById("export-json").addEventListener("click", () => {
+            simpleDatatables.exportJSON(table, {
+                download: true,
+                space: 3
+            })
+        })
+    }
+    
+    </script>
+{% else %}
+{% include "main/components/resultNotFound.html" with message="No students yet. Register student to view them here." %}
+{% endif %}
+{% endblock main %}

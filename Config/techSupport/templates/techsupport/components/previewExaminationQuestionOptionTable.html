@@ -1,0 +1,129 @@
+{% include "main/components/spinner.html" %}
+{% include "main/components/tableRowCount.html" with count=options_to_display.object_list|length instances="Result" text_align="right" %}
+    <div class="relative px-4 overflow-x-auto shadow-md sm:rounded-lg table-height">
+        <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+            <thead class="text-xs uppercase bg-green-500 text-blackText dark:bg-green-500 dark:text-blackText">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        S/N
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        ID
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Question
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Option
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Is Correct
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for option in options_to_display %}
+                <tr class="text-xs font-bold bg-gray-100 border-b dark:bg-gray-100 dark:border-gray-700 hover:bg-gray-300 dark:hover:bg-gray-300">
+                    <td class="w-4 p-4">
+                        {{forloop.counter}}
+                    </td>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ option.id }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ option.question.content|safe|truncatewords:3 }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ option.content|safe|truncatewords:3 }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {% if option.is_correct == True %}
+                        <span class="font-bold text-myGreen">{{ option.is_correct }}</span>
+                        {% else %}
+                        <span class="font-bold text-myRed">{{ option.is_correct }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="flex flex-row gap-2 px-6 py-4">
+                        <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline">Edit</a>
+                        <!-- Modal toggle -->
+                        <button data-modal-target="default-modal-{{option.id}}-{{forloop.counter}}" data-modal-toggle="default-modal-{{option.id}}-{{forloop.counter}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" type="button">
+                            View
+                        </button>
+                        
+                        <!-- Main modal -->
+                        <div id="default-modal-{{option.id}}-{{forloop.counter}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative w-full max-w-2xl max-h-full p-4">
+                                <!-- Modal content -->
+                                <div class="relative rounded-lg shadow bg-boneWhiteBg dark:bg-boneWhiteBg">
+                                    <!-- Modal header -->
+                                    <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
+                                        <h3 class="text-xl font-extrabold text-blackText dark:text-blackText">
+                                            Option Preview
+                                        </h3>
+                                        <button type="button" class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal-{{option.id}}-{{forloop.counter}}">
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="p-4 space-y-4 md:p-5">
+                                        <div class="flex flex-row gap-2 text-sm">
+                                            <label for="" class="font-extrabold text-blackText">Option ID:</label>
+                                            <p>{{ option.id }}</p>
+                                        </div>
+                                        <div class="flex flex-row gap-2 text-sm">
+                                            <label for="" class="font-extrabold text-blackText">Exam:</label>
+                                            <p>{{ option.question.exam.getExamName }}</p>
+                                        </div>
+                                        <div class="flex flex-row gap-2 text-sm">
+                                            <label for="" class="font-extrabold text-blackText">Question:</label>
+                                            <p>{{ option.question.content|safe }}</p>
+                                        </div>
+                                        <div class="flex flex-row gap-2 text-sm">
+                                            <label for="" class="font-extrabold text-blackText">Option:</label>
+                                            <p>{{ option.content|safe }}</p>
+                                        </div>
+                                        <div class="flex flex-row gap-2 text-sm">
+                                            <label for="" class="font-extrabold text-blackText">Q.Image:</label>
+                                            {% if option.image %}
+                                            <img src="{{ option.image.url }}" alt="" class="w-28 h-28">
+                                            {% else %}
+                                            <p>No Image</p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex flex-row gap-2 text-sm">
+                                            <label for="" class="font-extrabold text-blackText">Is Correct:</label>
+                                            {% if option.is_correct == True %}
+                                            <span class="font-bold text-myGreen">{{ option.is_correct }}</span>
+                                            {% else %}
+                                            <span class="font-bold text-myRed">{{ option.is_correct }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <hr>
+                                        <div class="flex flex-row gap-2 text-sm">
+                                            <label for="" class="font-extrabold text-blackText">Created On:</label>
+                                            <p>{{ option.created_on }}</p>
+                                        </div>
+
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
+                                        <button data-modal-hide="default-modal-{{option.id}}-{{forloop.counter}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Pagination controls -->
+    {% include "main/components/paginator.html" with options_to_display=students table_id="preview-exam-option-table-section" %}

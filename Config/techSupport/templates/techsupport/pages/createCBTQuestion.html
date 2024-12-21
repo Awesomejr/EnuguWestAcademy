@@ -1,0 +1,118 @@
+{% extends "./cbt.html" %}
+{% block title %} Created CBT Question {% endblock title %}
+
+
+{% block cbtTabContent %}
+<section class="px-2 py-4 mb-4 space-y-4 bg-gray-100 md:px-4">
+    {% if cbt_category %}
+    <header class="space-y-4">
+        {% include "main/components/pageHeader.html" with title="CBT Questions" text_align="center" %}
+        {% include "main/components/pageHeader.html" with title=cbt_category.assigned_class.getClassName current_session=cbt_category.description text_align="center" %}
+        <br>
+        <hr>
+        <div class="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center">
+            {% include "main/components/view.html" with title="View_CBT" link="techsupport:previewCBTExamination" object_id=cbt_category.id %}
+            {% include "main/components/edit.html" with title="Add_CBT_Questions" link="techsupport:createCBTQuestion" object_id=cbt_category.id %}
+            {% include "main/components/edit.html" with title="Edit_CBT" link="techsupport:editCBTCategory" object_id=cbt_category.id %}
+            {% include "main/components/delete.html" with title="Delete_CBT" link="techsupport:deleteCBTCategory" object_id=cbt_category.id %}
+            {% include "main/components/view.html" with title="Publish_Results" link="techsupport:publishCBTResults" object_id=cbt_category.id %}
+        </div>
+        <hr>
+        <div class="flex flex-wrap items-center justify-between pb-4 space-y-4 flex-column sm:flex-row sm:space-y-0">
+            <div>
+                <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">Filter Results <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                </button>
+                
+                <!-- Dropdown menu -->
+                <div id="dropdownDelay" class="z-10 hidden bg-green-700 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-green-700">
+                    <ul class="py-2 text-sm text-boneWhite dark:text-boneWhite" aria-labelledby="dropdownDelayButton">
+                        <li>
+                            <a hx-get="{% url 'techsupport:createCBTQuestion' cbt_category.id %}?filter=200#" hx-target="#question-display-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">200 Results</a>
+                        </li>
+                        <li>
+                            <a hx-get="{% url 'techsupport:createCBTQuestion' cbt_category.id %}?filter=500#" hx-target="#question-display-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">500 Results</a>
+                        </li>
+                        <li>
+                            <a hx-get="{% url 'techsupport:createCBTQuestion' cbt_category.id %}?filter=750#" hx-target="#question-display-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">750 Results</a>
+                        </li>
+                        <li>
+                            <a hx-get="{% url 'techsupport:createCBTQuestion' cbt_category.id %}?filter=1000#" hx-target="#question-display-table-section" hx-swap="innerHTML" hx-indicator="#loading" class="block px-4 py-2 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">1000 Results</a>
+                        </li>
+                        <hr>
+                        <li>
+                            <a href="{% url 'techsupport:createCBTQuestion' cbt_category.id %}?filter=all#" class="block px-4 py-2 hover:bg-green-500 dark:hover:bg-green-600 dark:hover:text-white">All Results</a>
+                        </li>
+    
+                    </ul>
+                </div>
+            </div>
+            <form action="" method="get" class="relative flex flex-col gap-1 md:items-center md:flex-row">
+                <div class="relative flex flex-col w-full gap-1 md:flex-row">
+                    <select name="subject" id="subject">
+                        {% for subject in subject_names %}
+                        <option value="{{ subject }}">{{ subject }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- <input type="text" id="subject" name="subject" list="subject-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search cbt-subject..." required />
+                    <datalist id="subject-list">
+                        {% for subject in subject_names %}
+                        <option value="{{ subject }}"></option>
+                        {% endfor %}
+                    </datalist> -->
+                </div>
+                <div class="relative flex flex-col w-full gap-1 md:flex-row">
+                    <input type="text" id="topic" name="topic" list="topic-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search topic..." />
+                    <datalist id="topic-list">
+                        {% for topic in topics %}
+                        <option value="{{ topic.name }}">{{ topic }}</option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                {% include "main/components/searchButton.html" %}
+                <!-- <button type="submit" class="p-2.5 ms-2 text-sm font-medium text-white bg-green-700 rounded-lg border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 w-1/4">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </button> -->
+                <a href="{% url 'techsupport:createCBTQuestion' cbt_category.id %}" class="text-xs italic font-semibold text-center underline cursor-pointer underline-offset-2">View All</a>
+            </form>
+        </div>
+    </header>
+    {% include "techsupport/components/cbtQuestionsTable.html" %}
+    {% else %}
+    {% include "main/components/resultNotFound.html" %}
+    {% endif %}
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-create-cbt-question");
+        button.style.color = "white";
+    });
+
+
+    function initializeSelectAllCheckbox() {
+        const selectAllCheckbox = document.getElementById('checkbox-all');
+        const checkboxes = document.querySelectorAll('.checkbox-item');
+
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                checkboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+        }
+    }
+
+    // Reattach event listener after HTMX update
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        initializeSelectAllCheckbox();
+    });
+
+    // Initialize the Select All functionality on page load
+    initializeSelectAllCheckbox();
+</script>
+{% endblock cbtTabContent %}

@@ -1,0 +1,33 @@
+{% load static %}
+{% load option_filters %}
+<div class="flex flex-col gap-4 py-4 bg">
+    <div class="flex flex-col gap-1">
+        <h2 class="text-base font-extrabold underline text-blackText underline-offset-2">Question {{forloop.counter}} - {{ question.subject.name }}</h2>
+        <p class="text-sm">{{ question.content|safe }}</p>
+        <br>
+        {% if question.image %}
+        <a href="{{question.image.url}}" class="self-center w-full md:w-1/5">
+            <img src="{{question.image.url}}" alt="">
+        </a>
+        {% endif %}
+    </div>
+    <ul class="grid grid-cols-1 gap-4 my-2 md:grid-cols-2">
+        {% for option in question.options.all %}
+            {% if option.is_correct %}
+            <li class="text-sm">
+            <label for="option_{{ option.id }}" class="font-bold text-green-500 underline underline-offset-2"><strong>{{ option_labels|index:forloop.counter0 }}.</strong> {{ option.content|safe }}</label>
+            </li>
+            {% else %}
+            <li class="text-sm">
+            <label for="option_{{ option.id }}"><strong>{{ option_labels|index:forloop.counter0 }}.</strong> {{ option.content|safe }}</label>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <hr>
+    <div class="space-y-2">
+        <p class="text-sm"><strong class="underline underline-offset-2">Explanation: </strong>{{ question.explanation|safe }}</p>
+        <br>
+        <p class="text-sm"><strong class="underline underline-offset-2">Topic: </strong>{{ question.topic.name }}</p>
+    </div>
+</div>

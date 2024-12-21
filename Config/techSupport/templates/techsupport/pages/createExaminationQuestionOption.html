@@ -1,0 +1,52 @@
+{% extends "./examination.html" %}
+{% block title %} Add Options for Question: {{ question.text }} {% endblock title %}
+
+{% block examTabContent %}
+<form method="post" action="" enctype="multipart/form-data" class="flex flex-col gap-4 p-5 text-xs bg-gray-100 border border-b-0 border-gray-200 dark:border-gray-700">
+    {% csrf_token %}
+    <section class="flex flex-col w-full gap-2 md:flex-row">
+        <div class="flex flex-col justify-around w-full md:w-1/2 form-col-child">
+            <label for="question" class="font-bold ">Question <span class="text-red-600">*</span></label>
+            <input type="text" id="question" name="question" value="{{question|safe}}" list="question-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search branch name..." required />
+        </div>
+    </section>
+    <section class="grid w-full grid-cols-1 gap-6 mb-4 md:grid-cols-2">
+        {{ option_formset.management_form }}
+        {% for form in option_formset %}
+        {{ form.media }}
+        <div class="flex flex-col justify-around w-full mt-4 form-col-child">
+            <label for="o-text" class="font-bold">{{ form.content.label|title }} {{forloop.counter}} <span class="text-red-600">*</span></label>
+            <span class="helptext">{{ form.content.help_text }}</span>
+            <span class="errorlist">{{ form.content.errors }}</span>
+            <div class="min-h-24">
+                {{ form.content|safe }}
+            </div>
+            <div class="flex flex-row items-start gap-2">
+                <div class="flex flex-col justify-around w-1/2 form-col-child">
+                    <label for="is-correct" class="font-bold">{{ form.is_correct.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.is_correct.help_text }}</span>
+                    <span class="errorlist">{{ form.is_correct.errors }}</span>
+                    {{ form.is_correct }}
+                </div>
+                <div class="flex flex-col justify-around w-full form-col-child">
+                    <label for="optionImageInput" class="font-bold">{{ form.image.label }} <span class="text-red-600">*</span></label>
+                    <span class="helptext">{{ form.image.help_text }}</span>
+                    <span class="errorlist">{{ form.image.errors }}</span>
+                    {{ form.image }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    <div class="self-center w-1/2 my-4 mb-4 md:w-1/3">
+        {% include "main/components/saveButton.html" with title="Create Options" %}
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let button = document.querySelector("#nav-create-question-option");
+        button.style.color = "white";
+    });
+</script>
+{% endblock examTabContent %}
