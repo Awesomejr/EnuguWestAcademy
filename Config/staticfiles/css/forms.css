@@ -1,0 +1,86 @@
+.form-col-layout{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-row-layout{
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+}
+
+.form-style{
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0.75rem;
+
+    padding-inline: 2rem;
+    padding-block: 1rem;
+}
+
+.form-style input, 
+.form-style select{
+    border-radius: 0.50rem;
+    width: 100%;
+}
+
+.form-style-none{
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0;
+
+    padding-inline: 2rem;
+    padding-block: 1rem;
+}
+
+.form-style-none input, 
+.form-style-none select,
+.form-style-none div{
+    border-radius: 0;
+}
+
+
+.form-style label{
+    color: rgb(0, 0, 0);
+    /* width: 30%; */
+    font-weight: 600;
+    font-size: 0.875rem /* 14px */;
+    line-height: 1.25rem /* 20px */;
+}
+
+.form-image{
+    border: 1px solid; 
+    background-color: (0, 0, 0, .1); 
+    padding: 5px;
+
+    width: 100px;
+}
+
+
+.form-col-child{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 100%;
+}
+
+.form-row-child{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.helptext, .errorlist{
+    font-style: italic;
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0.5;
+}
+
+.errorlist{
+    color: red;
+}

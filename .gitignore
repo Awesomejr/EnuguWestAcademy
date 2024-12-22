@@ -14,7 +14,7 @@ env/
 Config/db.sqlite3/
 
 # Ignore sensitive settings
-*.env
+#*.env
 *.secret
 
 # Ignore Django migrations

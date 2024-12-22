@@ -1,0 +1,85 @@
+#unanswered { 
+    background-color: gray; 
+    color: #000; 
+}
+#current { 
+    background-color: yellow; 
+    color: white;
+}
+#skipped { 
+    background-color: red; 
+    color: white;
+}
+#answered { 
+    background-color: green; 
+    color: white;
+}
+
+#unanswered, #current, #skipped, #answered {
+    padding: 0.5rem;
+}
+
+.question-nav-btn {
+    margin: 5px;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 20%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+}
+
+.question-nav-btn:hover {
+    opacity: 0.8;
+}
+
+/* #question-navigation ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#question-navigation li {
+    margin: 0 10px;
+} */
+
+.answer-section {
+    display: none; /* Hidden by default */
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+/* Fullscreen style */
+body.fullscreen {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Timer styling */
+#timer {
+    font-size: 1em;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Status Indicators Styling */
+#question-status {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#question-status span {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 4px;
+    color: #000;
+    font-size: smaller;
+}
